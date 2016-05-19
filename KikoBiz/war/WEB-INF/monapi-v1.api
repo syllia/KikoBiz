@@ -1,0 +1,285 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://kikobiz-1307.appspot.com/_ah/api",
+  "name" : "monapi",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "discovery" : [ "PUBLIC" ],
+  "adapter" : {
+    "bns" : "https://kikobiz-1307.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "methods" : {
+    "monapi.offre.insert" : {
+      "path" : "offres",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.OffreController.save",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.offreController.listeOffres" : {
+      "path" : "offres",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.OffreController.listeOffres",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.categorieController.deleteById" : {
+      "path" : "categorie/{ancienId}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById",
+      "request" : {
+        "parameters" : {
+          "ancienId" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.categorieController.categoriesList" : {
+      "path" : "categories",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList",
+      "request" : {
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.categorie.insert" : {
+      "path" : "categories",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.save",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.categorieController.modifyID" : {
+      "path" : "categorie/{ancienId}/{nvId}",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID",
+      "request" : {
+        "parameters" : {
+          "ancienId" : {
+            "type" : "string",
+            "required" : true
+          },
+          "nvId" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Offre" : {
+        "id" : "Offre",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "sousCategorie" : {
+            "$ref" : "Key"
+          },
+          "typeAnnonce" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "dateFin" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "titreAnnonce" : {
+            "type" : "string"
+          },
+          "prix" : {
+            "type" : "integer"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "nbVues" : {
+            "type" : "integer"
+          },
+          "photos" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string"
+          },
+          "appId" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "complete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "OffreCollection" : {
+        "id" : "OffreCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Offre"
+            }
+          }
+        }
+      },
+      "Categorie" : {
+        "id" : "Categorie",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "CategorieCollection" : {
+        "id" : "CategorieCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Categorie"
+            }
+          }
+        }
+      }
+    },
+    "methods" : {
+      "bj.kiko.projects.kikobiz.Rest.OffreController.save" : {
+        "request" : {
+          "$ref" : "Offre"
+        },
+        "response" : {
+          "$ref" : "Offre"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.OffreController.listeOffres" : {
+        "response" : {
+          "$ref" : "OffreCollection"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById" : {
+        "response" : {
+          "$ref" : "Categorie"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList" : {
+        "response" : {
+          "$ref" : "CategorieCollection"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.save" : {
+        "request" : {
+          "$ref" : "Categorie"
+        },
+        "response" : {
+          "$ref" : "Categorie"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID" : {
+        "response" : {
+          "$ref" : "Categorie"
+        }
+      }
+    }
+  }
+}
