@@ -25,87 +25,21 @@
     "maxAge" : 0
   },
   "methods" : {
-    "monapi.souscategorie.insert" : {
-      "path" : "souscategories",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.save",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "monapi.sousCategorieController.deleteById" : {
-      "path" : "souscategories/{idCategorie}/{idSousCategorie}/",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById",
-      "request" : {
-        "parameters" : {
-          "idCategorie" : {
-            "type" : "string",
-            "required" : true
-          },
-          "idSousCategorie" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "monapi.sousCategorieController.modifyID" : {
-      "path" : "souscategories/{idCategorie}/{idSousCategorie}/{newName}",
+    "monapi.categorieController.modifyID" : {
+      "path" : "categorie/{ancienId}/{nvId}",
       "httpMethod" : "PUT",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID",
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID",
       "request" : {
         "parameters" : {
-          "idCategorie" : {
+          "ancienId" : {
             "type" : "string",
             "required" : true
           },
-          "idSousCategorie" : {
-            "type" : "int64",
-            "required" : true
-          },
-          "newName" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "monapi.sousCategorieController.souscategoriesList" : {
-      "path" : "souscategories/{idCategorie}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.SouscategoriesList",
-      "request" : {
-        "parameters" : {
-          "idCategorie" : {
+          "nvId" : {
             "type" : "string",
             "required" : true
           }
@@ -153,31 +87,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "monapi.categorieController.modifyID" : {
-      "path" : "categorie/{ancienId}/{nvId}",
-      "httpMethod" : "PUT",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID",
-      "request" : {
-        "parameters" : {
-          "ancienId" : {
-            "type" : "string",
-            "required" : true
-          },
-          "nvId" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "monapi.categorieController.categoriesList" : {
       "path" : "categories",
       "httpMethod" : "GET",
@@ -192,38 +101,110 @@
       "response" : {
         "body" : "autoTemplate(backendResponse)"
       }
+    },
+    "monapi.sousCategorieController.modifyID" : {
+      "path" : "souscategories/{idCategorie}/{idSousCategorie}/{newName}",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID",
+      "request" : {
+        "parameters" : {
+          "idCategorie" : {
+            "type" : "string",
+            "required" : true
+          },
+          "idSousCategorie" : {
+            "type" : "int64",
+            "required" : true
+          },
+          "newName" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.souscategorie.insert" : {
+      "path" : "souscategories",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.save",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.sousCategorieController.deleteById" : {
+      "path" : "souscategories/{idCategorie}/{idSousCategorie}/",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById",
+      "request" : {
+        "parameters" : {
+          "idCategorie" : {
+            "type" : "string",
+            "required" : true
+          },
+          "idSousCategorie" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.sousCategorieController.souscategoriesList" : {
+      "path" : "souscategories/{idCategorie}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.SouscategoriesList",
+      "request" : {
+        "parameters" : {
+          "idCategorie" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
     }
   },
   "descriptor" : {
     "schemas" : {
-      "SousCategorieApp" : {
-        "id" : "SousCategorieApp",
+      "Categorie" : {
+        "id" : "Categorie",
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string"
-          },
-          "categorie" : {
-            "type" : "string"
-          },
-          "mName" : {
-            "type" : "string"
-          }
-        }
-      },
-      "SousCategorie" : {
-        "id" : "SousCategorie",
-        "type" : "object",
-        "properties" : {
-          "mName" : {
             "type" : "string"
           },
           "parent" : {
             "$ref" : "Key"
-          },
-          "id" : {
-            "type" : "string",
-            "format" : "int64"
           }
         }
       },
@@ -255,30 +236,6 @@
           }
         }
       },
-      "SousCategorieCollection" : {
-        "id" : "SousCategorieCollection",
-        "type" : "object",
-        "properties" : {
-          "items" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "SousCategorie"
-            }
-          }
-        }
-      },
-      "Categorie" : {
-        "id" : "Categorie",
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string"
-          },
-          "parent" : {
-            "$ref" : "Key"
-          }
-        }
-      },
       "CategorieCollection" : {
         "id" : "CategorieCollection",
         "type" : "object",
@@ -290,30 +247,55 @@
             }
           }
         }
+      },
+      "SousCategorie" : {
+        "id" : "SousCategorie",
+        "type" : "object",
+        "properties" : {
+          "mName" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          }
+        }
+      },
+      "SousCategorieApp" : {
+        "id" : "SousCategorieApp",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "categorie" : {
+            "type" : "string"
+          },
+          "mName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SousCategorieCollection" : {
+        "id" : "SousCategorieCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "SousCategorie"
+            }
+          }
+        }
       }
     },
     "methods" : {
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.save" : {
-        "request" : {
-          "$ref" : "SousCategorieApp"
-        },
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID" : {
         "response" : {
-          "$ref" : "SousCategorie"
-        }
-      },
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById" : {
-        "response" : {
-          "$ref" : "SousCategorie"
-        }
-      },
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID" : {
-        "response" : {
-          "$ref" : "SousCategorie"
-        }
-      },
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.SouscategoriesList" : {
-        "response" : {
-          "$ref" : "SousCategorieCollection"
+          "$ref" : "Categorie"
         }
       },
       "bj.kiko.projects.kikobiz.Rest.CategorieController.save" : {
@@ -329,14 +311,32 @@
           "$ref" : "Categorie"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID" : {
-        "response" : {
-          "$ref" : "Categorie"
-        }
-      },
       "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList" : {
         "response" : {
           "$ref" : "CategorieCollection"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID" : {
+        "response" : {
+          "$ref" : "SousCategorie"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.save" : {
+        "request" : {
+          "$ref" : "SousCategorieApp"
+        },
+        "response" : {
+          "$ref" : "SousCategorie"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById" : {
+        "response" : {
+          "$ref" : "SousCategorie"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.SouscategoriesList" : {
+        "response" : {
+          "$ref" : "SousCategorieCollection"
         }
       }
     }
