@@ -7,7 +7,7 @@ import bj.kiko.projects.kikobiz.model.app.SousCategorieApp;
 import bj.kiko.projects.kikobiz.repositories.SousCategorieRepository;
 
 public class SousCategorieService {
-	public static List<SousCategorie> findAllByCategorie(String categorie) {
+	public static List<SousCategorieApp> findAllByCategorie(String categorie) {
 		return SousCategorieRepository.findAllByCategorie(categorie);
 	}
 	 public static SousCategorie save(SousCategorieApp sousCategorieApp) {

@@ -1,17 +1,22 @@
 package bj.kiko.projects.kikobiz.model.app;
 
 public class SousCategorieApp {
-	private String id;
+	private Long id;
 	private String categorie;
 	private String mName;
 
 	public SousCategorieApp() {
 
 	}
-
 	public SousCategorieApp(String categorie, String name) {
 		this.mName = name;
 		this.categorie = categorie;
+		}
+		
+	public SousCategorieApp(String categorie, String name,Long id) {
+		this.mName = name;
+		this.categorie = categorie;
+		this.id =id ;
 	}
 
 	public String getCategorie() {
@@ -22,11 +27,11 @@ public class SousCategorieApp {
 		this.categorie = categorie;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -2,6 +2,7 @@ package bj.kiko.projects.kikobiz.repositories;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -10,10 +11,15 @@ import bj.kiko.projects.kikobiz.model.app.SousCategorieApp;
 
 public class SousCategorieRepository {
 
-	public static List<SousCategorie> findAllByCategorie(String categorie) {
+	public static List<SousCategorieApp> findAllByCategorie(String categorie) {
 		List<SousCategorie> sousCategories = ofy().load().type(SousCategorie.class)
 				.ancestor(KeyFactory.createKey(categorie, categorie)).list();
-		return sousCategories;
+		List<SousCategorieApp> sousCategoriesApp= new ArrayList<>();
+		
+		for (SousCategorie sc : sousCategories){
+			sousCategoriesApp.add(new SousCategorieApp(sc.getParent().getKind(),sc.getmName(),sc.getId()));
+		}
+		return sousCategoriesApp;
 	}
 
 	public static SousCategorie save(SousCategorieApp SousCategorieApp) {

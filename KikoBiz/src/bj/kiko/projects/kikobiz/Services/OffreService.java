@@ -1,16 +1,29 @@
 package bj.kiko.projects.kikobiz.Services;
 
+
 import java.util.List;
 
-import bj.kiko.projects.kikobiz.model.Offre;
+import bj.kiko.projects.kikobiz.model.app.OfferApp;
 import bj.kiko.projects.kikobiz.repositories.OffreRepository;
 
 public class OffreService {
 	
-	public static List<Offre> findAll() {
-		return OffreRepository.findAll();
+	public static List<OfferApp> findAll(Long idSousCategorie) {
+		return OffreRepository.findAllByIdSousCategorie(idSousCategorie);
 	}
-	 public static void save(Offre offre) {
+	public static List<OfferApp> Filtrer(Long idSousCategorie,String filtre)  {
+		
+		if(filtre.equals("costAsc")){
+			return OffreRepository.FiltreOffreByCostAsc(idSousCategorie);
+		}
+		else if(filtre.equals("costDsc")){
+			return OffreRepository.FiltreOffreByCostDesc(idSousCategorie);
+		}
+		else{
+			return OffreRepository.FiltreOffreByDate(idSousCategorie);
+		}
+	}
+	 public static void save(OfferApp offre) {
 		OffreRepository.save(offre);
 	}
 }

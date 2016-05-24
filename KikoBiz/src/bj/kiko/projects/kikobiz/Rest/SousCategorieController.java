@@ -18,10 +18,9 @@ public class SousCategorieController {
 	}
 
 	@ApiMethod(path = "souscategories/{idCategorie}", httpMethod = ApiMethod.HttpMethod.GET)
-	public List<SousCategorie> SouscategoriesList(@Named("idCategorie") String iD) {
-		System.out.println(iD);
+	public List<SousCategorieApp> SouscategoriesList(@Named("idCategorie") String iD) {
 		// Récupère toute les Souscategories d'une categorie...
-		List<SousCategorie> souscategories = SousCategorieService.findAllByCategorie(iD);
+		List<SousCategorieApp> souscategories = SousCategorieService.findAllByCategorie(iD);
 		return souscategories;
 	}
 

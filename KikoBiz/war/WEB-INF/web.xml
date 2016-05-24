@@ -24,7 +24,7 @@
     <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
     <init-param>
         <param-name>services</param-name>
-        <param-value>bj.kiko.projects.kikobiz.Rest.CategorieController,bj.kiko.projects.kikobiz.Rest.SousCategorieController</param-value>
+        <param-value>bj.kiko.projects.kikobiz.Rest.CategorieController,bj.kiko.projects.kikobiz.Rest.OfferController,bj.kiko.projects.kikobiz.Rest.SousCategorieController</param-value>
     </init-param>
 </servlet>
 <servlet-mapping>
