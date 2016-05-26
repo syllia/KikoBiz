@@ -12,6 +12,8 @@ package bj.kiko.projects.kikobiz.Adapters;
         import android.widget.BaseExpandableListAdapter;
         import android.widget.TextView;
 
+        import org.json.JSONObject;
+
         import bj.kiko.projects.kikobiz.Model.Category;
         import bj.kiko.projects.kikobiz.R;
 
@@ -57,6 +59,10 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
         ArrayList<String> chList = categories.get(groupPosition).getSubCategories();
         return chList.size();
+    }
+    public void add(String catName, ArrayList<String> subCat){
+        Category outItem = new Category(catName, subCat);
+        this.categories.add(outItem);
     }
 
     @Override
