@@ -11,19 +11,19 @@ public class OffreService {
 	public static List<OfferApp> findAll(Long idSousCategorie) {
 		return OffreRepository.findAllByIdSousCategorie(idSousCategorie);
 	}
-	public static List<OfferApp> Filtrer(Long idSousCategorie,String filtre)  {
+	/*public static List<OfferApp> Filtrer(Long idSousCategorie,String filtre)  {
 		
 		if(filtre.equals("costAsc")){
-			return OffreRepository.FiltreOffreByCostAsc(idSousCategorie);
+			//return OffreRepository.FiltreOffreByCostAsc(idSousCategorie);
 		}
 		else if(filtre.equals("costDsc")){
-			return OffreRepository.FiltreOffreByCostDesc(idSousCategorie);
+			//return OffreRepository.FiltreOffreByCostDesc(idSousCategorie);
 		}
 		else{
-			return OffreRepository.FiltreOffreByDate(idSousCategorie);
+			//return OffreRepository.FiltreOffreByDate(idSousCategorie);
 		}
-	}
-	 public static void save(OfferApp offre) {
-		OffreRepository.save(offre);
+	}*/
+	 public static OfferApp save(OfferApp offre) {
+		return OffreRepository.save(offre);
 	}
 }

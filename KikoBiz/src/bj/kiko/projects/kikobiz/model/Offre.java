@@ -17,7 +17,8 @@ import com.googlecode.objectify.annotation.Parent;
 @Cache()
 public class Offre {
 	@Id Long id;
-	@Parent Key subCategoryId;
+	@Parent Key mesOffres;
+	@Index Long subCategoryId;
 	String typeOffre;
 	@Index Date startDate;
 	@Index Date endDate;
@@ -28,13 +29,16 @@ public class Offre {
 	List<String> pictures;
 	@Index int realPriority;
 	@Index int startPriority;
+	@Index int user;
 
 	public Offre(){
 
 	}
-	public Offre(Long subCategoryId,String typeOffre,
+	public Offre(int user,Long subCategoryId,String typeOffre,
 			String title,int cost,String description,int nbViews,List<String> pictures){
-		this.subCategoryId=KeyFactory.createKey("sousCategorie", subCategoryId);
+		this.user=user;
+		this.subCategoryId=subCategoryId;
+		this.mesOffres=KeyFactory.createKey("offre", "offres");
 		this.typeOffre=typeOffre;
 		this.startDate=new Date();
 		try {
@@ -61,10 +65,17 @@ public class Offre {
 	public Long getId() {
 		return id;
 	}
-	public Long getSubCategoryId() {
-		return subCategoryId.getId();
+	
+	public Key getMesSousCategorie() {
+		return mesOffres;
 	}
-	public void setSubCategoryId(Key subCategoryId) {
+	public void setMesSousCategorie(Key mesSousCategorie) {
+		this.mesOffres = mesSousCategorie;
+	}
+	public Long getSubCategoryId() {
+		return subCategoryId;
+	}
+	public void setSubCategoryId(Long subCategoryId) {
 		this.subCategoryId = subCategoryId;
 	}
 	public String getTypeOffre() {
@@ -87,6 +98,12 @@ public class Offre {
 	}
 	public String getTitle() {
 		return title;
+	}
+	public int getUser() {
+		return user;
+	}
+	public void setUser(int user) {
+		this.user = user;
 	}
 	public void setTitle(String title) {
 		this.title = title;

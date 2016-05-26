@@ -25,8 +25,7 @@ public class SousCategorieController {
 	}
 
 	@ApiMethod(name = "souscategorie.insert", path = "souscategories", httpMethod = ApiMethod.HttpMethod.POST)
-	public SousCategorie save(SousCategorieApp sousCategorie) {
-		System.out.println(sousCategorie.getCategorie());
+	public SousCategorieApp save(SousCategorieApp sousCategorie) {
 		return SousCategorieService.save(sousCategorie);
 	}
 

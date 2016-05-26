@@ -22,14 +22,20 @@ public class SousCategorieRepository {
 		return sousCategoriesApp;
 	}
 
-	public static SousCategorie save(SousCategorieApp SousCategorieApp) {
+	public static SousCategorieApp save(SousCategorieApp SousCategorieApp) {
 
 		SousCategorie sC = new SousCategorie(SousCategorieApp.getCategorie(), SousCategorieApp.getmName());
 
 		ofy().save().entity(sC).now();
-		return ofy().load().type(SousCategorie.class)
+		SousCategorie sc=  ofy().load().type(SousCategorie.class)
 				.parent(KeyFactory.createKey(SousCategorieApp.getCategorie(), SousCategorieApp.getCategorie()))
 				.id(sC.getId()).now();
+		if (sc!=null) {
+			return new SousCategorieApp(sc.getParent().getKind(),sc.getmName(),sc.getId());
+		}else
+		{
+			return null;
+		}
 	}
 
 	public static SousCategorie modifyById(String idCategorie, long idSousCategorie, String newNameSousCategorie) {

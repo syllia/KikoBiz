@@ -10,8 +10,8 @@ public class SousCategorieService {
 	public static List<SousCategorieApp> findAllByCategorie(String categorie) {
 		return SousCategorieRepository.findAllByCategorie(categorie);
 	}
-	 public static SousCategorie save(SousCategorieApp sousCategorieApp) {
-		 System.out.println(sousCategorieApp.getmName());
+	 public static SousCategorieApp save(SousCategorieApp sousCategorieApp) {
+	
 		return SousCategorieRepository.save(sousCategorieApp);
 	}
 	 public static SousCategorie modifyById(String idCategorie,long idSousCategorie,String newName){

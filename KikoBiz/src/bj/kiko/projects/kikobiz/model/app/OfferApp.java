@@ -15,21 +15,29 @@ public class OfferApp {
 	private int cost;
 	private String description;
 	private int nbViews;
+	private int user;
 	private List<String> pictures;
+	
 	public OfferApp(){
 
 	}
-	public OfferApp(Long subCategoryId,String typeOffre,String startDate,
+	public OfferApp(int user,Long subCategoryId,String typeOffre,
 			String title,int cost,String description,int nbViews,List<String> pictures){
 		this.subCategoryId=subCategoryId;
 		this.typeOffre=typeOffre;
-		this.startDate=startDate;
 		this.title=title;
 		this.cost=cost;
 		this.description=description;
 		this.nbViews=nbViews;
 		this.pictures=pictures;
+		this.user=user;
 
+	}
+	public int getUser() {
+		return user;
+	}
+	public void setUser(int user) {
+		this.user = user;
 	}
 	public Long getId() {
 		return id;
