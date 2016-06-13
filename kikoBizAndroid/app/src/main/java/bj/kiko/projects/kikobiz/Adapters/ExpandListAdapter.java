@@ -5,7 +5,10 @@ package bj.kiko.projects.kikobiz.Adapters;
  */
 
         import java.util.ArrayList;
+        import java.util.HashMap;
+
         import android.content.Context;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -15,6 +18,7 @@ package bj.kiko.projects.kikobiz.Adapters;
         import org.json.JSONObject;
 
         import bj.kiko.projects.kikobiz.Model.Category;
+        import bj.kiko.projects.kikobiz.Model.SubCategory;
         import bj.kiko.projects.kikobiz.R;
 
 public class ExpandListAdapter extends BaseExpandableListAdapter {
@@ -29,27 +33,29 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int catPositon, int subPosition) {
-        ArrayList<String> chList = categories.get(catPositon).getSubCategories();
+    public String getChild(int catPositon, int subPosition) {
+        ArrayList<String> chList = categories.get(catPositon).getSubCategoriesList();
         return chList.get(subPosition);
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+    public long getChildId(int groupPosition, int childPosition)
+    {
+        return categories.get(groupPosition).getSubCategories().get(childPosition).getId();
+        //return childPosition;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        String child = (String) getChild(groupPosition, childPosition);
+        String child = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context
                     .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.subcategory_item, null);
         }
-
+        //Log.d("TEST SYLLIA: ", child);
         TextView tv = (TextView) convertView.findViewById(R.id.subcategory_name);
         tv.setText(child);
         return convertView;
@@ -57,10 +63,10 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        ArrayList<String> chList = categories.get(groupPosition).getSubCategories();
+        ArrayList<SubCategory> chList = categories.get(groupPosition).getSubCategories();
         return chList.size();
     }
-    public void add(String catName, ArrayList<String> subCat){
+    public void add(String catName, ArrayList<SubCategory> subCat){
         Category outItem = new Category(catName, subCat);
         this.categories.add(outItem);
     }

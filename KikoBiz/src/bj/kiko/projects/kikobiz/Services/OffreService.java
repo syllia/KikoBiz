@@ -11,6 +11,10 @@ public class OffreService {
 	public static List<OfferApp> findAll(Long idSousCategorie) {
 		return OffreRepository.findAllByIdSousCategorie(idSousCategorie);
 	}
+	
+	public static OfferApp findById(Long idOffre) {
+		return OffreRepository.findOfferById(idOffre);
+	}
 	/*public static List<OfferApp> Filtrer(Long idSousCategorie,String filtre)  {
 		
 		if(filtre.equals("costAsc")){

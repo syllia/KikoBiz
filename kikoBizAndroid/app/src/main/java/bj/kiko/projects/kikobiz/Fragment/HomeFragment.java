@@ -20,6 +20,7 @@ public class HomeFragment extends Fragment {
     }
 
     Button consult;
+    Button fav;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +35,16 @@ public class HomeFragment extends Fragment {
                 CategoriesFragment test = new CategoriesFragment();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragmentContainer, test).addToBackStack("categories").commit();
+            }
+        });
+
+        fav = (Button) view.findViewById(R.id.fav);
+        fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FavOffersFragment test = new FavOffersFragment();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragmentContainer, test).addToBackStack("fav").commit();
             }
         });
 

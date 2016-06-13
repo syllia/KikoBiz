@@ -30,6 +30,27 @@ public class OffreRepository {
 		}
 		return offersApp;
 	}
+	
+	public static OfferApp findOfferById(Long idOffre) {
+
+		Offre o = ofy().load().type(Offre.class).parent(KeyFactory.createKey("offre", "offres")).id(idOffre).now();
+	//OfferApp offersApp = new OfferApp();
+	
+	if(o != null){
+			
+			OfferApp oa = new OfferApp(o.getUser(), o.getSubCategoryId(), o.getTypeOffre(), o.getTitle(), o.getCost(),
+					o.getDescription(), o.getNbViews(), o.getPictures());
+			oa.setStartDate(o.getStartDate().toString());
+			oa.setId(o.getId());
+			return oa;
+	}
+	else{
+		return null;
+	}
+		
+	}
+	
+	
 
 	public static OfferApp save(OfferApp oA) {
 		Offre o = new Offre(oA.getUser(), oA.getSubCategoryId(), oA.getTypeOffre(), oA.getTitle(), oA.getCost(),

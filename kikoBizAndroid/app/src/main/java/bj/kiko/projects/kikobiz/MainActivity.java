@@ -1,5 +1,6 @@
 package bj.kiko.projects.kikobiz;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,14 +16,50 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import bj.kiko.projects.kikobiz.Fragment.CategoriesFragment;
+import bj.kiko.projects.kikobiz.Fragment.DescriptionFragment;
+import bj.kiko.projects.kikobiz.Fragment.FavOffersFragment;
 import bj.kiko.projects.kikobiz.Fragment.HomeFragment;
+import bj.kiko.projects.kikobiz.Fragment.OffersFragment;
+import bj.kiko.projects.kikobiz.Model.Offer;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CategoriesFragment.OnSubCategorySelectedListener,
+        FavOffersFragment.OnOfferFavSelectedListener, OffersFragment.OnOfferSelectedListener{
 
     private FragmentManager fm = getSupportFragmentManager();
 
+    public void onOfferSelected(Offer pOffer){
+        DescriptionFragment test = new DescriptionFragment();
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+        Bundle args = new Bundle();
+        args.putParcelable("Offre", pOffer);
+        test.setArguments(args);
+        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
+
+    }
+
+    public void onFavSelected(Offer pOffre){
+        DescriptionFragment test = new DescriptionFragment();
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+        Bundle args = new Bundle();
+        args.putParcelable("Offre", pOffre);
+        test.setArguments(args);
+        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
+
+    }
+
+    public void onItemSelected(long position) {
+
+        OffersFragment test = new OffersFragment();
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+
+        Bundle args = new Bundle();
+        args.putLong("id", position);
+        test.setArguments(args);
+        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

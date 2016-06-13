@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class Offer implements Parcelable{
 
     public static final int NB_HOURS_BEFORE_PRIORITY_CHECK = 24;
 
-    private int offerId;
+    private long offerId;
     private double cost;
     private String startDate;
     private String endDate;
@@ -49,21 +50,22 @@ public class Offer implements Parcelable{
 
     }
 
+    //http://www.infos-mobiles.com/wp-content/uploads/2016/04/apple.png
     public Offer(JSONObject inObject){
         if(inObject != null){
             try {
-                this.offerId = inObject.getInt("mId");
-                this.cost = inObject.getDouble("prix");
-                this.startDate = inObject.getString("début");
-                this.endDate = inObject.getString("fin");
+                this.offerId = inObject.getLong("id");
+                this.cost = inObject.getDouble("cost");
+                this.startDate = inObject.getString("startDate");
+                //this.endDate = inObject.getString("fin");
                 //this.country = inObject.getString("mEntreprise");
-                this.name = inObject.getString("name");
-                this.nbViews = inObject.getInt("vues");
-                //this.pictures = inObject.getJSONArray("mCp");
-                this.priority = new Priority(inObject.getInt("real"), inObject.getInt("start"));
-                this.description = inObject.getString("desc");
-                this.userId = inObject.getInt("uid");
-                this.subCategoryId = inObject.getInt("subCId");
+                this.name = inObject.getString("title");
+                this.nbViews = inObject.getInt("nbViews");
+                //this.pictures = inObject.getJSONArray("pictures");
+                this.pictures = new ArrayList<>();
+                this.description = inObject.getString("description");
+                this.userId = inObject.getInt("user");
+                this.subCategoryId = inObject.getInt("subCategoryId");
 
 
             } catch (JSONException e) {
@@ -81,7 +83,7 @@ public class Offer implements Parcelable{
         this.cost = cost;
     }
 
-    public int getOfferId() {
+    public long getOfferId() {
         return offerId;
     }
 
@@ -221,7 +223,7 @@ public class Offer implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.offerId);
+        dest.writeLong(this.offerId);
         dest.writeDouble(this.cost);
         dest.writeString(this.startDate);
         dest.writeString(this.endDate);
@@ -233,4 +235,5 @@ public class Offer implements Parcelable{
         dest.writeInt(this.subCategoryId);
 
     }
+
 }

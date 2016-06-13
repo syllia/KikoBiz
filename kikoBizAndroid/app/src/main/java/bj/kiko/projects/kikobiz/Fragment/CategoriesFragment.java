@@ -1,6 +1,7 @@
 package bj.kiko.projects.kikobiz.Fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,10 +16,11 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import bj.kiko.projects.kikobiz.Adapters.ExpandListAdapter;
 import bj.kiko.projects.kikobiz.Model.Category;
+import bj.kiko.projects.kikobiz.Model.SubCategory;
 import bj.kiko.projects.kikobiz.R;
 import bj.kiko.projects.kikobiz.Util.ASyncURLRequest;
 import bj.kiko.projects.kikobiz.Util.HttpCustomRequest;
@@ -32,9 +34,29 @@ public class CategoriesFragment extends Fragment {
     private ExpandListAdapter ExpAdapter;
     private ExpandableListView ExpandList;
     private ArrayList<Category> list;
+    OnSubCategorySelectedListener mCallback;
     public CategoriesFragment() {
         // Required empty public constructor
     }
+
+    public interface OnSubCategorySelectedListener {
+        public void onItemSelected(long position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnSubCategorySelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
 
 
     @Override
@@ -47,6 +69,13 @@ public class CategoriesFragment extends Fragment {
         ExpAdapter = new ExpandListAdapter(this.getContext(), list);
         ExpandList.setAdapter(ExpAdapter);
         loadCategories();
+        ExpandList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                mCallback.onItemSelected(ExpAdapter.getChildId(groupPosition, childPosition));
+                return false;
+            }
+        });
         return  view;
     }
 
@@ -73,7 +102,7 @@ public class CategoriesFragment extends Fragment {
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
                         Log.d("carretail", "OBJECT "+obj);
                         String category = obj.getString("id");
-                        ArrayList<String> res = loadSubCategories(category);
+                        ArrayList<SubCategory> res = loadSubCategories(category);
 
                         ExpAdapter.add(category, res);
                     }
@@ -92,7 +121,7 @@ public class CategoriesFragment extends Fragment {
 
     }
 
-    private ArrayList<String> loadSubCategories(String category){
+    private ArrayList<SubCategory> loadSubCategories(String category){
         String query = category;
         try {
              query = URLEncoder.encode(category, "utf-8");
@@ -101,7 +130,7 @@ public class CategoriesFragment extends Fragment {
         }
 
         String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "souscategories/"+query);
-        final ArrayList<String> result = new ArrayList<String>();
+        final ArrayList<SubCategory> result = new ArrayList<SubCategory>();
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){
             @Override
@@ -123,7 +152,8 @@ public class CategoriesFragment extends Fragment {
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
                         Log.d("carretail", "OBJECT "+obj);
                         String category = obj.getString("mName");
-                        result.add(category);
+                        Long id = obj.getLong("id");
+                        result.add(new SubCategory(id, category));
                     }
                     ExpAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {

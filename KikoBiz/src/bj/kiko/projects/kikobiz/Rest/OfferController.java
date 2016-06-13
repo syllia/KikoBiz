@@ -26,6 +26,13 @@ public class OfferController {
 		List<OfferApp> offres = OffreService.findAll(idSousCategorie);
 		return offres;
 	}
+	
+	@ApiMethod(path = "offres/id/{idOffre}", httpMethod = ApiMethod.HttpMethod.GET)
+	public OfferApp OfferFromId(@Named("idOffre") Long idOffre)  {
+		// Récupère toute les offres d'une sousCategorie...
+		OfferApp offre = OffreService.findById(idOffre);
+		return offre;
+	}
 	/*@ApiMethod(path = "offres/{idSousCategorie}/{type}", httpMethod = ApiMethod.HttpMethod.GET)
 	public List<OfferApp> OderOfferList(@Named("idSousCategorie") Long idSousCategorie,@Named("type") String type) {
 		// Récupère toute les offres d'une sousCategorie...

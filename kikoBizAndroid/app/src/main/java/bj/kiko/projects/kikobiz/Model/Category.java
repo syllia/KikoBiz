@@ -1,6 +1,7 @@
 package bj.kiko.projects.kikobiz.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -8,18 +9,21 @@ import java.util.List;
  */
 public class Category {
     private String category;
-    private ArrayList<String> subCategories;
+    private ArrayList<SubCategory> subCategories;
 
     public Category() {
         category = "";
-        this.subCategories = new ArrayList<String>();
+        this.subCategories = new ArrayList<SubCategory>();
     }
 
-    public Category(String category, ArrayList<String> subCategories) {
+    public Category(String category, ArrayList<SubCategory> subCategories) {
         this.category = category;
         this.subCategories = subCategories;
     }
 
+    public long getId(int position){
+        return this.subCategories.get(position).getId();
+    }
     public String getCategory() {
         return category;
     }
@@ -28,11 +32,19 @@ public class Category {
         this.category = category;
     }
 
-    public ArrayList<String> getSubCategories() {
+    public ArrayList<SubCategory> getSubCategories() {
         return subCategories;
     }
 
-    public void setSubCategories(ArrayList<String> subCategories) {
+    public void setSubCategories(ArrayList<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public ArrayList<String> getSubCategoriesList(){
+        ArrayList<String> valuesList = new ArrayList<String>();
+        for(int i = 0; i < this.subCategories.size(); i++){
+            valuesList.add(this.subCategories.get(i).getName());
+        }
+        return valuesList;
     }
 }
