@@ -40,11 +40,6 @@ public class OffersFragment extends Fragment {
 
         public void onOfferSelected(Offer pOffre);
     }
-
-    /**
-     * Callback the activity to activate the GPS
-     */
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

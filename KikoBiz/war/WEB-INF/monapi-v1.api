@@ -41,15 +41,21 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "monapi.categorieController.categoriesList" : {
-      "path" : "categories",
-      "httpMethod" : "GET",
+    "monapi.categorieController.deleteById" : {
+      "path" : "categorie/{ancienId}",
+      "httpMethod" : "DELETE",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList",
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById",
       "request" : {
+        "parameters" : {
+          "ancienId" : {
+            "type" : "string",
+            "required" : true
+          }
+        },
         "body" : "empty"
       },
       "response" : {
@@ -81,21 +87,15 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "monapi.categorieController.deleteById" : {
-      "path" : "categorie/{ancienId}",
-      "httpMethod" : "DELETE",
+    "monapi.categorieController.categoriesList" : {
+      "path" : "categories",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById",
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList",
       "request" : {
-        "parameters" : {
-          "ancienId" : {
-            "type" : "string",
-            "required" : true
-          }
-        },
         "body" : "empty"
       },
       "response" : {
@@ -113,6 +113,31 @@
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.sousCategorieController.deleteById" : {
+      "path" : "souscategories/{idCategorie}/{idSousCategorie}/",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById",
+      "request" : {
+        "parameters" : {
+          "idCategorie" : {
+            "type" : "string",
+            "required" : true
+          },
+          "idSousCategorie" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -138,31 +163,6 @@
           },
           "newName" : {
             "type" : "string",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "monapi.sousCategorieController.deleteById" : {
-      "path" : "souscategories/{idCategorie}/{idSousCategorie}/",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById",
-      "request" : {
-        "parameters" : {
-          "idCategorie" : {
-            "type" : "string",
-            "required" : true
-          },
-          "idSousCategorie" : {
-            "type" : "int64",
             "required" : true
           }
         },
@@ -209,27 +209,6 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "monapi.offerController.offerList" : {
-      "path" : "offres/{idSousCategorie}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.OfferController.OfferList",
-      "request" : {
-        "parameters" : {
-          "idSousCategorie" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "monapi.offerController.offerFromId" : {
       "path" : "offres/id/{idOffre}",
       "httpMethod" : "GET",
@@ -241,6 +220,27 @@
       "request" : {
         "parameters" : {
           "idOffre" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "monapi.offerController.offerList" : {
+      "path" : "offres/{idSousCategorie}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "bj.kiko.projects.kikobiz.Rest.OfferController.OfferList",
+      "request" : {
+        "parameters" : {
+          "idSousCategorie" : {
             "type" : "int64",
             "required" : true
           }
@@ -329,12 +329,12 @@
           "mName" : {
             "type" : "string"
           },
-          "parent" : {
-            "$ref" : "Key"
-          },
           "id" : {
             "type" : "string",
             "format" : "int64"
+          },
+          "parent" : {
+            "$ref" : "Key"
           }
         }
       },
@@ -413,9 +413,9 @@
           "$ref" : "Categorie"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList" : {
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById" : {
         "response" : {
-          "$ref" : "CategorieCollection"
+          "$ref" : "Categorie"
         }
       },
       "bj.kiko.projects.kikobiz.Rest.CategorieController.modifyID" : {
@@ -423,9 +423,9 @@
           "$ref" : "Categorie"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.CategorieController.deleteById" : {
+      "bj.kiko.projects.kikobiz.Rest.CategorieController.categoriesList" : {
         "response" : {
-          "$ref" : "Categorie"
+          "$ref" : "CategorieCollection"
         }
       },
       "bj.kiko.projects.kikobiz.Rest.SousCategorieController.save" : {
@@ -436,12 +436,12 @@
           "$ref" : "SousCategorieApp"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID" : {
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById" : {
         "response" : {
           "$ref" : "SousCategorie"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.deleteById" : {
+      "bj.kiko.projects.kikobiz.Rest.SousCategorieController.modifyID" : {
         "response" : {
           "$ref" : "SousCategorie"
         }
@@ -459,14 +459,14 @@
           "$ref" : "OfferApp"
         }
       },
-      "bj.kiko.projects.kikobiz.Rest.OfferController.OfferList" : {
-        "response" : {
-          "$ref" : "OfferAppCollection"
-        }
-      },
       "bj.kiko.projects.kikobiz.Rest.OfferController.OfferFromId" : {
         "response" : {
           "$ref" : "OfferApp"
+        }
+      },
+      "bj.kiko.projects.kikobiz.Rest.OfferController.OfferList" : {
+        "response" : {
+          "$ref" : "OfferAppCollection"
         }
       }
     }

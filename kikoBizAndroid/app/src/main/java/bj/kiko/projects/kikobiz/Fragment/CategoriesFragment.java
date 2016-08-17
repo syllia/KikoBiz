@@ -39,6 +39,8 @@ public class CategoriesFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //interface pour envoyer un message à l'activité en cas de click dans la list (interface implementee dans l'activité)
+    //callBack dans le onCreate
     public interface OnSubCategorySelectedListener {
         public void onItemSelected(long position);
     }
@@ -80,6 +82,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void loadCategories(){
+        //Load les categories et les sous categories pour la liste deroulante
         String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "categories/");
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){

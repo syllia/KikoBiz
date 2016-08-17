@@ -40,7 +40,7 @@ public class DescriptionFragment extends Fragment {
         final Offer offerToDescribe = getArguments().getParcelable("Offre");
         desc = (TextView)rootView.findViewById(R.id.descTextView);
         String description = "title "+ offerToDescribe.getName() +
-                "\n id: "+ offerToDescribe.getOfferId();
+                "\n id: "+ offerToDescribe.getOfferId() + "\n cost: " + offerToDescribe.getCost() ;
 
         desc.setText(description);
 

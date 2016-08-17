@@ -9,14 +9,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="null"
         android:id="@+id/offerTitle"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/offer_img"
         android:layout_below="@+id/offerTitle"
         android:layout_alignParentLeft="true"
