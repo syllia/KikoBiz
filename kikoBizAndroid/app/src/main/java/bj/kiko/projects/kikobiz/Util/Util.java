@@ -37,17 +37,18 @@ public class Util {
 	}
 
 	public static boolean verifierSiFragmentActif (MainActivity activity,String nomFragment){
-
-
 		FragmentManager manager = activity.getSupportFragmentManager();
+			if(manager.getBackStackEntryCount() == 0){return false;}
 
-		return manager.popBackStackImmediate (nomFragment, 0);
-
+			if(nomFragment == manager.getBackStackEntryAt(manager.getBackStackEntryCount()-1).getName()){
+				return true;
+			}else{
+				return false;
+			}
 		}
 	public static void lancerFragment(MainActivity activity,String nomFragment){
 
 		if (!verifierSiFragmentActif(activity,nomFragment)){
-Log.d("Dd","ddddd");
 			if (nomFragment.equals(activity.getResources().getString(R.string.FragmentCategorieName)) ){
 				CategoriesFragment test = new CategoriesFragment();
 				FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();

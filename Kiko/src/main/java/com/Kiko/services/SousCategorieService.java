@@ -23,7 +23,7 @@ public class SousCategorieService {
 	public SousCategorie findById(int id) {
 		return sousCategorieRepository.getOne(id);
 	}
-	/*public SousCategorie findByIdCategorie(int idCategorie) {
-		return sousCategorieRepository.findByidCategorie();
-	}*/
+	public List<SousCategorie> findAllByIdCategorie(int idCategorie) {
+		return  sousCategorieRepository.findByIdCategorie(idCategorie);
+	}
 }

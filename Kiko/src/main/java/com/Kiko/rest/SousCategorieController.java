@@ -20,7 +20,7 @@ public class SousCategorieController {
 @Autowired private SousCategorieService sousCategorieService;
 
 	
-	@RequestMapping(value="/sousCategories", method = RequestMethod.GET)
+	@RequestMapping(value="/souscategories", method = RequestMethod.GET)
 	public ResponseEntity<List<SousCategorie>> findAll(){
 		
 		List<SousCategorie> sousCategories =  sousCategorieService.findAll();
@@ -28,20 +28,20 @@ public class SousCategorieController {
 	}
 	
 
-	@RequestMapping(value="/sousCategories/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/souscategories/{id}", method = RequestMethod.GET)
 	public ResponseEntity<SousCategorie> getById(@PathVariable int id){
 		
 		SousCategorie sousCategorie =  sousCategorieService.findById(id);
 		
 		return new ResponseEntity<SousCategorie>(sousCategorie, HttpStatus.OK);
 	}
-	/*@RequestMapping(value="/sousCategorieByCategorie/{id}", method = RequestMethod.GET)
-	public ResponseEntity<SousCategorie> getByIdCategorie(@PathVariable int id){
+	@RequestMapping(value="/souscategoriebycategorie/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<SousCategorie>> getByIdCategorie(@PathVariable int id){
 		
-		SousCategorie sousCategorie =  sousCategorieService.findByIdCategorie(id);
+		List<SousCategorie> sousCategorie =  sousCategorieService.findAllByIdCategorie(id);
 		
-		return new ResponseEntity<SousCategorie>(sousCategorie, HttpStatus.OK);
-	}*/
+		return new ResponseEntity<List<SousCategorie>>(sousCategorie, HttpStatus.OK);
+	}
 
 
 }
