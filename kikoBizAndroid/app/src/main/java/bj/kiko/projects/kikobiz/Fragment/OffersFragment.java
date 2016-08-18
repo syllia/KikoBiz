@@ -100,8 +100,8 @@ public class OffersFragment extends Fragment {
                     JSONObject inData = new JSONObject(s);
 
 
-                    JSONArray lJsonArrayPromo = inData.getJSONArray("items");
-                    //JSONArray lJsonArrayPromo = new JSONArray(s);
+                    //JSONArray lJsonArrayPromo = inData.getJSONArray("items");
+                    JSONArray lJsonArrayPromo = new JSONArray(s);
                     for (int i=0;i<lJsonArrayPromo.length();i++){
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
                         Log.d("carretail", "OBJECT "+obj);

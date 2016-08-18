@@ -28,7 +28,7 @@
 
     <!-- Rest Requests URL -->
     <string name="getCategories">categories/</string>
-    <string name="getSubCategories">sousCategories/</string>
+    <string name="getSubCategories">souscategoriebycategorie/</string>
 
 
     <!-- JSON Identifiers -->
