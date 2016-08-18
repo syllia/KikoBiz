@@ -6,8 +6,10 @@
     <string name="Favoris">Favoris</string>
     <string name="Communication">Communication</string>
     <string name="Signaler_un_problème">Signaler un problème</string>
-    <string name="Paramètre">Paramètre</string>
+    <string name="Paramètres">Paramètres</string>
     <string name="Suggestions">Suggestions</string>
+    <string name="APIBase">http://10.0.2.2:8080/</string>
+    <!-- Fragments names -->
     <string name="FragmentCategorieName">Sélectionner une categorie</string>
     <string name="FragmentDescriptionName">Description</string>
     <string name="FragmentFavOffresName">Favoris</string>
@@ -22,4 +24,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Rest Requests URL -->
+    <string name="getCategories">categories/</string>
+    <string name="getSubCategories">sousCategories/</string>
+
+
+    <!-- JSON Identifiers -->
+    <string name="id">id</string>
+    <string name="categoryName">name</string>
+    <string name="offer">offre</string>
+    <string name="jsonArrayName">items</string>
+    <string name="categoryID">id</string>
+    <string name="categoryIDforSub">idCategorie</string>
+
+    <!-- Log -->
+    <string name="logLabel">"LOG"</string>
+    <string name= "nullValueReturned"> "the value returned is null"</string>
+    <string name="onPostExecute">"onPostExecute json error : "</string>
+
 </resources>

@@ -30,7 +30,7 @@ import bj.kiko.projects.kikobiz.Util.Util;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CategoriesFragment.OnSubCategorySelectedListener,
-        FavOffersFragment.OnOfferFavSelectedListener, OffersFragment.OnOfferSelectedListener{
+        FavOffersFragment.OnOfferSelected, OffersFragment.OnOfferSelectedListener{
 
 
     @Override
@@ -52,35 +52,26 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-    public void onOfferSelected(Offer pOffer){
+    public void onOfferSelected(Offer pOffer, String fragmentName){
         DescriptionFragment test = new DescriptionFragment();
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
         Bundle args = new Bundle();
-        args.putParcelable("Offre", pOffer);
+        args.putParcelable(getResources().getString(R.string.offer), pOffer);
         test.setArguments(args);
-        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
+        ft.replace(R.id.fragmentContainer, test).addToBackStack(fragmentName).commit();
 
     }
 
-    public void onFavSelected(Offer pOffre){
-        DescriptionFragment test = new DescriptionFragment();
-        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-        Bundle args = new Bundle();
-        args.putParcelable("Offre", pOffre);
-        test.setArguments(args);
-        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
 
-    }
-
-    public void onItemSelected(long position) {
+    public void onItemSelected(long position, String fragmentName) {
 
         OffersFragment test = new OffersFragment();
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 
         Bundle args = new Bundle();
-        args.putLong("id", position);
+        args.putLong(getString(R.string.id), position);
         test.setArguments(args);
-        ft.replace(R.id.fragmentContainer, test).addToBackStack(null).commit();
+        ft.replace(R.id.fragmentContainer, test).addToBackStack(fragmentName).commit();
     }
 
 

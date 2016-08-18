@@ -42,7 +42,7 @@ public class CategoriesFragment extends Fragment {
     //interface pour envoyer un message à l'activité en cas de click dans la list (interface implementee dans l'activité)
     //callBack dans le onCreate
     public interface OnSubCategorySelectedListener {
-        public void onItemSelected(long position);
+        public void onItemSelected(long position, String fragmentName);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CategoriesFragment extends Fragment {
         ExpandList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                mCallback.onItemSelected(ExpAdapter.getChildId(groupPosition, childPosition));
+                mCallback.onItemSelected(ExpAdapter.getChildId(groupPosition, childPosition), getString(R.string.FragmentCategorieName));
                 return false;
             }
         });
@@ -84,31 +84,30 @@ public class CategoriesFragment extends Fragment {
 
     private void loadCategories(){
         //Load les categories et les sous categories pour la liste deroulante
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "categories/");
+        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), getString(R.string.getCategories));
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){
             @Override
             protected void onPostExecute(String s){
                 if(s==null){
-                    Log.d("carretail", "the value returned is null");
+                    Log.d(getString(R.string.logLabel), getString(R.string.nullValueReturned));
                     return;
                 }
 
                 try {
 
 
-                    JSONObject inData = new JSONObject(s);
+                    //JSONObject inData = new JSONObject(s);
 
 
-                    JSONArray lJsonArrayPromo = inData.getJSONArray("items");
-                    //JSONArray lJsonArrayPromo = new JSONArray(s);
+                    //JSONArray lJsonArrayPromo = inData.getJSONArray(getString(R.string.jsonArrayName));
+                    JSONArray lJsonArrayPromo = new JSONArray(s);
                     for (int i=0;i<lJsonArrayPromo.length();i++){
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-                        Log.d("carretail", "OBJECT "+obj);
-                        String category = obj.getString("id");
+                        String category = obj.getString(getString(R.string.id));
                         ArrayList<SubCategory> res = loadSubCategories(category);
 
-                        ExpAdapter.add(category, res);
+                        ExpAdapter.add(obj.getString(getString(R.string.categoryName)), res);
                     }
                     ExpAdapter.notifyDataSetChanged();
 
@@ -116,7 +115,7 @@ public class CategoriesFragment extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("carretail", "onPostExecute json error : " + e);
+                    Log.d(getString(R.string.logLabel), getString(R.string.onPostExecute) + e);
                 }
             }
         };
@@ -133,30 +132,29 @@ public class CategoriesFragment extends Fragment {
             e.printStackTrace();
         }
 
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "souscategories/"+query);
+        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), getString(R.string.getSubCategories));
         final ArrayList<SubCategory> result = new ArrayList<SubCategory>();
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){
             @Override
             protected void onPostExecute(String s){
                 if(s==null){
-                    Log.d("carretail", "the value returned is null");
+                    Log.d(getString(R.string.logLabel), getString(R.string.nullValueReturned));
                     return;
                 }
 
                 try {
 
 
-                    JSONObject inData = new JSONObject(s);
+                    //JSONObject inData = new JSONObject(s);
 
 
-                    JSONArray lJsonArrayPromo = inData.getJSONArray("items");
-                    //JSONArray lJsonArrayPromo = new JSONArray(s);
+                    //JSONArray lJsonArrayPromo = inData.getJSONArray(getString(R.string.jsonArrayName));
+                    JSONArray lJsonArrayPromo = new JSONArray(s);
                     for (int i=0;i<lJsonArrayPromo.length();i++){
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-                        Log.d("carretail", "OBJECT "+obj);
-                        String category = obj.getString("mName");
-                        Long id = obj.getLong("id");
+                        String category = obj.getString("name");
+                        Long id = obj.getLong(getString(R.string.categoryIDforSub));
                         result.add(new SubCategory(id, category));
                     }
                     ExpAdapter.notifyDataSetChanged();

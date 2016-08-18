@@ -38,7 +38,7 @@ public class OffersFragment extends Fragment {
 
     public interface OnOfferSelectedListener {
 
-        public void onOfferSelected(Offer pOffre);
+        public void onOfferSelected(Offer pOffre, String fragmentName);
     }
     @Override
     public void onAttach(Context context) {
@@ -57,7 +57,7 @@ public class OffersFragment extends Fragment {
                              Bundle savedInstanceState) {
         getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentCategorieName));
         View rootView = inflater.inflate(R.layout.fragment_offers, container, false);
-        id = getArguments().getLong("id");
+        id = getArguments().getLong(getResources().getString(R.string.id));
         // Inflate the layout for this fragment
         offerList = (ListView) rootView.findViewById(R.id.offer_list);
         list = new ArrayList<Offer>();
@@ -70,7 +70,7 @@ public class OffersFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                offerCallback.onOfferSelected(offersListAdapter.getItem(arg2));
+                offerCallback.onOfferSelected(offersListAdapter.getItem(arg2), getActivity().getResources().getString(R.string.FragmentOffresName));
 
             }
         });

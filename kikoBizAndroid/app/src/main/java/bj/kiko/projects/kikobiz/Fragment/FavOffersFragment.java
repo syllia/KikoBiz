@@ -33,12 +33,12 @@ import bj.kiko.projects.kikobiz.Util.Util;
 public class FavOffersFragment extends Fragment {
     private OffersListAdapter mOffreAdapter;
     private ListView mListView;
-    private OnOfferFavSelectedListener offerFavCallback;
+    private OnOfferSelected offerFavCallback;
     private TextView emptyText;
 
-    public interface OnOfferFavSelectedListener {
+    public interface OnOfferSelected {
 
-        public void onFavSelected(Offer pOffre);
+        public void onOfferSelected(Offer pOffre, String fragmentName);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class FavOffersFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            offerFavCallback = (OnOfferFavSelectedListener) context;
+            offerFavCallback = (OnOfferSelected) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnHeadlineSelectedListener");
@@ -71,7 +71,6 @@ public class FavOffersFragment extends Fragment {
         List<String> secteurList = lc.getFavId();
 
         for (int i = 0; i < secteurList.size(); ++i) { //Depilement de tout les fragments
-            Log.d("TEST LIST FAV: ", secteurList.get(i));
             loadOffreList(secteurList.get(i));
         }
 
@@ -80,7 +79,7 @@ public class FavOffersFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                offerFavCallback.onFavSelected(mOffreAdapter.getItem(arg2));
+                offerFavCallback.onOfferSelected(mOffreAdapter.getItem(arg2), getActivity().getResources().getString(R.string.FragmentFavOffresName));
 
             }
         });
