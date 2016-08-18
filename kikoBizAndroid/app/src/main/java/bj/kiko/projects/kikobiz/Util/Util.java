@@ -24,7 +24,7 @@ import bj.kiko.projects.kikobiz.R;
 
 public class Util {
 	public static String getFormatedAPIURL(Context inContext,String inMethod,Map<String, String> inParams){
-		String API_BASE = "http://10.0.2.2:8888/_ah/api/monapi/v1/";
+		String API_BASE = inContext.getResources().getString(R.string.APIBase);
 		//String API_format = inContext.getResources().getString(R.string.API_FORMAT);
 		if(inParams==null){
 			return API_BASE+inMethod;
@@ -37,17 +37,18 @@ public class Util {
 	}
 
 	public static boolean verifierSiFragmentActif (MainActivity activity,String nomFragment){
-
-
 		FragmentManager manager = activity.getSupportFragmentManager();
+			if(manager.getBackStackEntryCount() == 0){return false;}
 
-		return manager.popBackStackImmediate (nomFragment, 0);
-
+			if(nomFragment == manager.getBackStackEntryAt(manager.getBackStackEntryCount()-1).getName()){
+				return true;
+			}else{
+				return false;
+			}
 		}
 	public static void lancerFragment(MainActivity activity,String nomFragment){
 
 		if (!verifierSiFragmentActif(activity,nomFragment)){
-Log.d("Dd","ddddd");
 			if (nomFragment.equals(activity.getResources().getString(R.string.FragmentCategorieName)) ){
 				CategoriesFragment test = new CategoriesFragment();
 				FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();

@@ -104,8 +104,8 @@ public class CategoriesFragment extends Fragment {
                     JSONArray lJsonArrayPromo = new JSONArray(s);
                     for (int i=0;i<lJsonArrayPromo.length();i++){
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-                        String category = obj.getString(getString(R.string.id));
-                        ArrayList<SubCategory> res = loadSubCategories(category);
+                        int category = obj.getInt(getString(R.string.id));
+                        ArrayList<SubCategory> res = loadSubCategories(String.valueOf(category));
 
                         ExpAdapter.add(obj.getString(getString(R.string.categoryName)), res);
                     }
@@ -132,7 +132,7 @@ public class CategoriesFragment extends Fragment {
             e.printStackTrace();
         }
 
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), getString(R.string.getSubCategories));
+        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), getString(R.string.getSubCategories)+ query);
         final ArrayList<SubCategory> result = new ArrayList<SubCategory>();
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){
