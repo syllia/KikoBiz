@@ -1,10 +1,24 @@
 <resources>
-    <string name="app_name">kikoBiz</string>
+    <string name="app_name">Kiko</string>
+    <string name="Accueil">Accueil</string>
+    <string name="Déposez_votre_annonce">Déposez votre annonce</string>
+    <string name="Rechercher_une_annonce">Rechercher une annonce</string>
+    <string name="Favoris">Favoris</string>
+    <string name="Communication">Communication</string>
+    <string name="Signaler_un_problème">Signaler un problème</string>
+    <string name="Paramètre">Paramètre</string>
+    <string name="Suggestions">Suggestions</string>
+    <string name="FragmentCategorieName">Sélectionner une categorie</string>
+    <string name="FragmentDescriptionName">Description</string>
+    <string name="FragmentFavOffresName">Favoris</string>
+    <string name="FragmentOffresName">Rechercher une offre</string>
+    <string name="FragmentHomeName">Acceuil</string>
+    <string name="FragmentParametresName">Paramètres</string>
+    <string name="FragmentPost">Déposez une annonce</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

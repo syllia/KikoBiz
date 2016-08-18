@@ -5,36 +5,38 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_24dp"
-            android:title="Accueil" />
+            android:title="@string/Accueil" />
         <item
             android:id="@+id/nav_post"
             android:icon="@drawable/ic_camera_alt_24dp"
-            android:title="Déposez votre annonce" />
+            android:title="@string/Déposez_votre_annonce" />
         <item
             android:id="@+id/nav_recherche"
             android:icon="@drawable/ic_find_in_page_24dp"
-            android:title="Rechercher une annonce" />
+            android:title="@string/Rechercher_une_annonce" />
         <item
             android:id="@+id/nav_favoris"
             android:icon="@drawable/ic_menu_favorite_24dp"
-            android:title="Favoris" />
+            android:title="@string/Favoris" />
         <item
             android:id="@+id/nav_parametre"
             android:icon="@drawable/ic_settings_24dp"
-            android:title="Paramètre"/>
+            android:title="@string/Paramètre"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/Communication">
         <menu>
             <item
                 android:id="@+id/nav_probleme"
                 android:icon="@drawable/ic_email_24dp"
-                android:title="Signaler un problème" />
+                android:title="@string/Signaler_un_problème" />
             <item
                 android:id="@+id/nav_mail"
                 android:icon="@drawable/ic_email_24dp"
-                android:title="Suggestions" />
+                android:title="@string/Suggestions" />
+
         </menu>
+
     </item>
 
 </menu>

@@ -55,6 +55,7 @@ public class OffersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentCategorieName));
         View rootView = inflater.inflate(R.layout.fragment_offers, container, false);
         id = getArguments().getLong("id");
         // Inflate the layout for this fragment

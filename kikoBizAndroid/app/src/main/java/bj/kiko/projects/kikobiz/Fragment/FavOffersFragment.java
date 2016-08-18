@@ -60,7 +60,7 @@ public class FavOffersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle("Favoris");
+        getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentFavOffresName));
         View rootView = inflater.inflate(R.layout.fragment_fav_offers, container, false);
         mOffreAdapter = new OffersListAdapter(this.getActivity(), new ArrayList<Offer>());
         mListView = (ListView) rootView.findViewById(R.id.offer_list_fav);

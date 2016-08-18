@@ -30,7 +30,7 @@ public class DescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        getActivity().setTitle("Description");
+        getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentCategorieName));
 
         lclSaveReqForFav = new LocalSavedPref(getContext());
         listOfSelectedOffer = new ArrayList<String>(lclSaveReqForFav.getFavId());

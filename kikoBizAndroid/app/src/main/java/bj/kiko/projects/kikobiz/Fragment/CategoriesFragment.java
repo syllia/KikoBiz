@@ -65,6 +65,7 @@ public class CategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentCategorieName));
         View view =  inflater.inflate(R.layout.fragment_categories, container, false);
         ExpandList = (ExpandableListView) view.findViewById(R.id.exp_list);
         list = new ArrayList<Category>();
