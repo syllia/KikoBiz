@@ -35,6 +35,10 @@ public class RepositoryFiller {
 		offer.setIdSousCategorie(1);
 		offer.setOfferId(10);
 		offerRepository.save(offer);
+		Offre offer1 = new Offre();
+		offer1.setIdSousCategorie(2);
+		offer1.setOfferId(12);
+		offerRepository.save(offer1);
 		
 	}
 

@@ -22,6 +22,8 @@ public class Offre {
     private int idSousCategorie;
     private int number;
     public Offre() {
+    	this.startDate=LocalDateTime.now();
+		this.endDate=startDate.plusMonths(OffrePropreties.limitMonth);
 	}
 
 	public Offre(int id, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number) {
