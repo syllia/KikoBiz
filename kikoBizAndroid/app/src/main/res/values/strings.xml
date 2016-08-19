@@ -13,7 +13,7 @@
     <string name="FragmentCategorieName">Sélectionner une categorie</string>
     <string name="FragmentDescriptionName">Description</string>
     <string name="FragmentFavOffresName">Favoris</string>
-    <string name="FragmentOffresName">Rechercher une offre</string>
+    <string name="FragmentOffresName">Rechercher une annonce</string>
     <string name="FragmentHomeName">Acceuil</string>
     <string name="FragmentParametresName">Paramètres</string>
     <string name="FragmentPost">Déposez une annonce</string>
@@ -41,7 +41,8 @@
 
     <!-- Log -->
     <string name="logLabel">"LOG"</string>
-    <string name= "nullValueReturned"> "the value returned is null"</string>
+    <string name="nullValueReturned"> "the value returned is null"</string>
     <string name="onPostExecute">"onPostExecute json error : "</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
 </resources>

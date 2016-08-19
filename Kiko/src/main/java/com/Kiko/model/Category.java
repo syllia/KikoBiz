@@ -7,17 +7,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class Categorie {
+public class Category {
 
 	private String name;
 	@Id
 
 	private int id;
 
-	public Categorie() {
+	public Category() {
 	}
 
-	public Categorie(int id, String p_name) {
+	public Category(int id, String p_name) {
 		this.name = p_name;
 		this.id = id;
 	}

@@ -10,26 +10,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Kiko.model.Categorie;
-import com.Kiko.services.CategorieService;
+import com.Kiko.model.Category;
+import com.Kiko.services.CategoryService;
 
 @RestController
-public class CategorieController {
+public class CategoryController {
 	@Autowired
-	private CategorieService categorieService;
+	private CategoryService categoryService;
 
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
-	public ResponseEntity<List<Categorie>> findAll() {
+	public ResponseEntity<List<Category>> findAll() {
 
-		List<Categorie> categories = categorieService.findAll();
-		return new ResponseEntity<List<Categorie>>(categories, HttpStatus.OK);
+		List<Category> categories = categoryService.findAll();
+		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Categorie> getById(@PathVariable int id) {
+	public ResponseEntity<Category> getById(@PathVariable int id) {
 
-		Categorie categorie = categorieService.findById(id);
+		Category category = categoryService.findById(id);
 
-		return new ResponseEntity<Categorie>(categorie, HttpStatus.OK);
+		return new ResponseEntity<Category>(category, HttpStatus.OK);
 	}
 }

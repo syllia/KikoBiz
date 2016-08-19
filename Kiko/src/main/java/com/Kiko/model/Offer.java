@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.Kiko.model.utils.OffrePropreties;
+import com.Kiko.model.utils.OfferPropreties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","endDate" })
-public class Offre {
+public class Offer {
 	@Id
 	private int offerId;
     private long cost;
@@ -21,17 +21,17 @@ public class Offre {
     private String description;
     private int idSousCategorie;
     private int number;
-    public Offre() {
+    public Offer() {
     	this.startDate=LocalDateTime.now();
-		this.endDate=startDate.plusMonths(OffrePropreties.limitMonth);
+		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
 	}
 
-	public Offre(int id, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number) {
+	public Offer(int id, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number) {
 		this.name = p_name;
 		this.offerId = id;
 		this.cost=cost;
 		this.startDate=LocalDateTime.now();
-		this.endDate=startDate.plusMonths(OffrePropreties.limitMonth);
+		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
 		this.nbViews=nbViews;
 		this.description=description;
 		this.idSousCategorie=idSousCategorie;

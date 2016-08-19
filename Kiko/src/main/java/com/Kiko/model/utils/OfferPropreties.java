@@ -1,6 +1,6 @@
 package com.Kiko.model.utils;
 
-public class OffrePropreties {
+public class OfferPropreties {
 	public static long limitMonth= 6;
 	
 

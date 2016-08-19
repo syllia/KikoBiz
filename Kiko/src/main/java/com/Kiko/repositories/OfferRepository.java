@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Kiko.model.Offre;
+import com.Kiko.model.Offer;
 
 @Repository
-public interface OfferRepository extends JpaRepository<Offre, Integer>{
-	List<Offre> findByOrderByStartDateAsc();
-	List<Offre> findByIdSousCategorieOrderByStartDateAsc(int idSousCategorie);
+public interface OfferRepository extends JpaRepository<Offer, Integer>{
+	List<Offer> findByOrderByStartDateAsc();
+	List<Offer> findByIdSousCategorieOrderByStartDateAsc(int idSousCategorie);
 	
 }

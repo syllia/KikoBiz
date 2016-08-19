@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Kiko.model.Offre;
+import com.Kiko.model.Offer;
 import com.Kiko.repositories.OfferRepository;
 @Service
 public class OfferService {
@@ -16,18 +16,18 @@ public class OfferService {
 		this.offerRepository = offerRepository;
 	}
 
-	public List<Offre> findAll() {
+	public List<Offer> findAll() {
 		return offerRepository.findByOrderByStartDateAsc();
 	}
 
-	public Offre findById(int id) {
+	public Offer findById(int id) {
 		return offerRepository.getOne(id);
 	}
-	public List<Offre> findByIdSousCategorieOrderByStartDateAsc(int id) {
+	public List<Offer> findByIdSousCategorieOrderByStartDateAsc(int id) {
 		return offerRepository.findByIdSousCategorieOrderByStartDateAsc(id);
 	}
-	public Offre save(Offre offre) {
-		return offerRepository.saveAndFlush(offre);
+	public Offer save(Offer offer) {
+		return offerRepository.saveAndFlush(offer);
 	}
 
 }

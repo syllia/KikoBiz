@@ -5,67 +5,67 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.Kiko.model.Categorie;
-import com.Kiko.model.Offre;
-import com.Kiko.model.SousCategorie;
-import com.Kiko.repositories.CategorieRepository;
+import com.Kiko.model.Category;
+import com.Kiko.model.Offer;
+import com.Kiko.model.SubCategory;
+import com.Kiko.repositories.CategoryRepository;
 import com.Kiko.repositories.OfferRepository;
-import com.Kiko.repositories.SousCategorieRepository;
+import com.Kiko.repositories.SubCategoryRepository;
 
 @Component
 public class RepositoryFiller {
 	@Autowired
-	private CategorieRepository categorieRepository;
+	private CategoryRepository categoryRepository;
 	@Autowired
-	private SousCategorieRepository sousCategorieRepository;
+	private SubCategoryRepository subCategoryRepository;
 	@Autowired
 	private OfferRepository offerRepository;
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
-			fillCategrorieRepository(categorieRepository);
-			fillSousCategorieRepository(sousCategorieRepository);
+			fillCategrorieRepository(categoryRepository);
+			fillSousCategorieRepository(subCategoryRepository);
 			fillOfferRepository(offerRepository);
 		};
 	}
 
 	private void fillOfferRepository(OfferRepository offerRepository) {
-		Offre offer = new Offre();
+		Offer offer = new Offer();
 		offer.setCost(10);
 		offer.setIdSousCategorie(1);
 		offer.setOfferId(10);
 		offerRepository.save(offer);
-		Offre offer1 = new Offre();
+		Offer offer1 = new Offer();
 		offer1.setIdSousCategorie(2);
 		offer1.setOfferId(12);
 		offerRepository.save(offer1);
 		
 	}
 
-	private void fillSousCategorieRepository(SousCategorieRepository sousCategorieRepository) {
-		sousCategorieRepository.save(new SousCategorie(1, 1, "Téléphones"));
-		sousCategorieRepository.save(new SousCategorie(2, 1, "Ordinateur portables"));
-		sousCategorieRepository.save(new SousCategorie(3, 1, "Ordinateur de bureau"));
-		sousCategorieRepository.save(new SousCategorie(4, 2, "Voitures et camions"));
-		sousCategorieRepository.save(new SousCategorie(5, 2, "Motos"));
-		sousCategorieRepository.save(new SousCategorie(6, 2, "Vélos"));
-		sousCategorieRepository.save(new SousCategorie(7, 3, "Lits,matelas"));
-		sousCategorieRepository.save(new SousCategorie(8, 3, "Chaises,fauteuils"));
-		sousCategorieRepository.save(new SousCategorie(9, 3, "Tables basses"));
+	private void fillSousCategorieRepository(SubCategoryRepository subCategoryRepository) {
+		subCategoryRepository.save(new SubCategory(1, 1, "Téléphones"));
+		subCategoryRepository.save(new SubCategory(2, 1, "Ordinateur portables"));
+		subCategoryRepository.save(new SubCategory(3, 1, "Ordinateur de bureau"));
+		subCategoryRepository.save(new SubCategory(4, 2, "Voitures et camions"));
+		subCategoryRepository.save(new SubCategory(5, 2, "Motos"));
+		subCategoryRepository.save(new SubCategory(6, 2, "Vélos"));
+		subCategoryRepository.save(new SubCategory(7, 3, "Lits,matelas"));
+		subCategoryRepository.save(new SubCategory(8, 3, "Chaises,fauteuils"));
+		subCategoryRepository.save(new SubCategory(9, 3, "Tables basses"));
 		
 
 	}
 
-	private void fillCategrorieRepository(CategorieRepository categorieRepository) {
-		categorieRepository.save(new Categorie(1, "Informatique et multimedia"));
-		categorieRepository.save(new Categorie(2, "Autos et véhicules"));
-		categorieRepository.save(new Categorie(3, "Meubles et décoration"));
-		categorieRepository.save(new Categorie(4, "Livres"));
-		categorieRepository.save(new Categorie(5, "Animaux"));
-		categorieRepository.save(new Categorie(6, "Électroménager et vaisselles"));
-		categorieRepository.save(new Categorie(7, "Immobilier"));
-		categorieRepository.save(new Categorie(8, "Habillement et Bien-être"));
-		categorieRepository.save(new Categorie(9, "Objets gratuits"));
+	private void fillCategrorieRepository(CategoryRepository categoryRepository) {
+		categoryRepository.save(new Category(1, "Informatique et multimedia"));
+		categoryRepository.save(new Category(2, "Autos et véhicules"));
+		categoryRepository.save(new Category(3, "Meubles et décoration"));
+		categoryRepository.save(new Category(4, "Livres"));
+		categoryRepository.save(new Category(5, "Animaux"));
+		categoryRepository.save(new Category(6, "Électroménager et vaisselles"));
+		categoryRepository.save(new Category(7, "Immobilier"));
+		categoryRepository.save(new Category(8, "Habillement et Bien-être"));
+		categoryRepository.save(new Category(9, "Objets gratuits"));
 		
 
 	}
