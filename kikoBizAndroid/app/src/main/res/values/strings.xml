@@ -43,6 +43,7 @@
     <string name="logLabel">"LOG"</string>
     <string name="nullValueReturned"> "the value returned is null"</string>
     <string name="onPostExecute">"onPostExecute json error : "</string>
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_Main_activity">MainActivity</string>
+
 
 </resources>
