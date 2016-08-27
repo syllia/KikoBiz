@@ -1,4 +1,4 @@
-package com.Kiko;
+package com.Kiko.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

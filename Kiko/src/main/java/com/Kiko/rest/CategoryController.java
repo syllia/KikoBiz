@@ -24,12 +24,4 @@ public class CategoryController {
 		List<Category> categories = categoryService.findAll();
 		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/categories/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Category> getById(@PathVariable int id) {
-
-		Category category = categoryService.findById(id);
-
-		return new ResponseEntity<Category>(category, HttpStatus.OK);
-	}
 }

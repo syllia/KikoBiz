@@ -1,14 +1,25 @@
 package com.Kiko.filler;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.Kiko.model.Category;
+import com.Kiko.model.ImageOffer;
 import com.Kiko.model.Offer;
 import com.Kiko.model.SubCategory;
 import com.Kiko.repositories.CategoryRepository;
+import com.Kiko.repositories.ImageOfferRepository;
 import com.Kiko.repositories.OfferRepository;
 import com.Kiko.repositories.SubCategoryRepository;
 
@@ -20,13 +31,28 @@ public class RepositoryFiller {
 	private SubCategoryRepository subCategoryRepository;
 	@Autowired
 	private OfferRepository offerRepository;
+	@Autowired
+	private ImageOfferRepository imageOfferRepository;
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
 			fillCategrorieRepository(categoryRepository);
 			fillSousCategorieRepository(subCategoryRepository);
 			fillOfferRepository(offerRepository);
+			fillImageOfferRepository(imageOfferRepository);
 		};
+	}
+
+	private void fillImageOfferRepository(ImageOfferRepository imageOfferRepository) throws IOException {
+		String workingDir = System.getProperty("user.dir");
+		
+		ImageOffer i1=new ImageOffer();
+		i1.setIdImageOffer(1);
+		i1.setIdOffer(10);
+		i1.setByteArray(extractBytes(workingDir 
+				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
+		imageOfferRepository.save(i1);
+		
 	}
 
 	private void fillOfferRepository(OfferRepository offerRepository) {
@@ -69,4 +95,15 @@ public class RepositoryFiller {
 		
 
 	}
+	public byte[] extractBytes (String ImageName) throws IOException {
+		 // open image
+		 File imgPath = new File(ImageName);
+		 BufferedImage bufferedImage = ImageIO.read(imgPath);
+
+		 // get DataBufferBytes from Raster
+		 WritableRaster raster = bufferedImage .getRaster();
+		 DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
+
+		 return ( data.getData() );
+		}
 }

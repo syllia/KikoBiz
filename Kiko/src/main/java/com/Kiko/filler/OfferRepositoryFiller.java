@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.Kiko.repositories.OfferRepository;
 
-public class OfferFiller {
+public class OfferRepositoryFiller {
 	@Autowired
-	public  OfferFiller(OfferRepository offerRepository) {
+	public  OfferRepositoryFiller(OfferRepository offerRepository) {
 	}
 }
