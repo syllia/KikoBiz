@@ -18,10 +18,9 @@ public class ImageOfferController {
 	@Autowired
 	private ImageOfferService imageOfferService;
 
-	@RequestMapping(value = "/images/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<ImageOffer>> findAll(@PathVariable int idOffer) {
-
-		List<ImageOffer> images = imageOfferService.findByIdOffer(idOffer);
+	@RequestMapping(value = "/imagesparoffre/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<ImageOffer>> findAll(@PathVariable int id) {
+		List<ImageOffer> images = imageOfferService.findByIdOffer(id);
 		return new ResponseEntity<List<ImageOffer>>(images, HttpStatus.OK);
 	}
 }
