@@ -47,7 +47,6 @@ public class RepositoryFiller {
 		String workingDir = System.getProperty("user.dir");
 		
 		ImageOffer i1=new ImageOffer();
-		i1.setIdImageOffer(1);
 		i1.setIdOffer(10);
 		i1.setByteArray(extractBytes(workingDir 
 				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
@@ -59,25 +58,24 @@ public class RepositoryFiller {
 		Offer offer = new Offer();
 		offer.setCost(10);
 		offer.setIdSousCategorie(1);
-		offer.setOfferId(10);
 		offerRepository.save(offer);
 		Offer offer1 = new Offer();
-		offer1.setIdSousCategorie(2);
-		offer1.setOfferId(12);
+		offer1.setIdSousCategorie(1);
+		offer1.setCost(5);
 		offerRepository.save(offer1);
 		
 	}
 
 	private void fillSousCategorieRepository(SubCategoryRepository subCategoryRepository) {
-		subCategoryRepository.save(new SubCategory(1, 1, "Téléphones"));
-		subCategoryRepository.save(new SubCategory(2, 1, "Ordinateur portables"));
-		subCategoryRepository.save(new SubCategory(3, 1, "Ordinateur de bureau"));
-		subCategoryRepository.save(new SubCategory(4, 2, "Voitures et camions"));
-		subCategoryRepository.save(new SubCategory(5, 2, "Motos"));
-		subCategoryRepository.save(new SubCategory(6, 2, "Vélos"));
-		subCategoryRepository.save(new SubCategory(7, 3, "Lits,matelas"));
-		subCategoryRepository.save(new SubCategory(8, 3, "Chaises,fauteuils"));
-		subCategoryRepository.save(new SubCategory(9, 3, "Tables basses"));
+		subCategoryRepository.save(new SubCategory( 1, "Téléphones"));
+		subCategoryRepository.save(new SubCategory( 1, "Ordinateur portables"));
+		subCategoryRepository.save(new SubCategory( 1, "Ordinateur de bureau"));
+		subCategoryRepository.save(new SubCategory(2, "Voitures et camions"));
+		subCategoryRepository.save(new SubCategory( 2, "Motos"));
+		subCategoryRepository.save(new SubCategory( 2, "Vélos"));
+		subCategoryRepository.save(new SubCategory( 3, "Lits,matelas"));
+		subCategoryRepository.save(new SubCategory( 3, "Chaises,fauteuils"));
+		subCategoryRepository.save(new SubCategory(3, "Tables basses"));
 		
 
 	}

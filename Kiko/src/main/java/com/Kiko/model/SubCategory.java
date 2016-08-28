@@ -1,6 +1,9 @@
 package com.Kiko.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -9,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class SubCategory {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
 	private int idSousCategorie;
 	private int idCategorie;
 	private String name;
@@ -17,9 +22,8 @@ public class SubCategory {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SubCategory(int idSousCategorie,int idCategorie,String name) {
+	public SubCategory(int idCategorie,String name) {
 		this.name = name;
-		this.idSousCategorie=idSousCategorie;
 		this.idCategorie=idCategorie;
 	}
 	
@@ -27,9 +31,6 @@ public class SubCategory {
 		return idSousCategorie;
 	}
 
-	public void setIdSousCategorie(int idSousCategorie) {
-		this.idSousCategorie = idSousCategorie;
-	}
 
 	public int getIdCategorie() {
 		return idCategorie;

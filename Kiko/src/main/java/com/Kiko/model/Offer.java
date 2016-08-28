@@ -2,7 +2,10 @@ package com.Kiko.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","endDate" })
 public class Offer {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
 	private int offerId;
 	private int UserId;
     
@@ -38,8 +43,7 @@ public class Offer {
 		//exampleDescription
 	}
 
-	public Offer(int userId,int id, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number,String examDescript) {
-		this.offerId = id;
+	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number,String examDescript) {
 		this.UserId=userId;
 		this.idSousCategorie=idSousCategorie;
 		this.name = p_name;
@@ -56,9 +60,6 @@ public class Offer {
 	}
 	public int getOfferId() {
 		return offerId;
-	}
-	public void setOfferId(int offerId) {
-		this.offerId = offerId;
 	}
 	public long getCost() {
 		return cost;

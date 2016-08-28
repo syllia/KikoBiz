@@ -2,6 +2,8 @@ package com.Kiko.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
@@ -10,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 public class ImageOffer {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
 	private int idImageOffer;
 	private int idOffer;
 	@Lob
@@ -37,9 +41,6 @@ public class ImageOffer {
 	}
 	public int getIdImageOffer() {
 		return idImageOffer;
-	}
-	public void setIdImageOffer(int idImageOffer) {
-		this.idImageOffer = idImageOffer;
 	}
 	
 	

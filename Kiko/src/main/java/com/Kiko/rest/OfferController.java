@@ -32,7 +32,7 @@ public class OfferController {
 		
 		return new ResponseEntity<Offer>(Offer, HttpStatus.OK);
 	}
-	@RequestMapping(value="/offresbysouscategorie/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/offresparsouscategorie/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Offer>> getByIdSousCategorie(@PathVariable int id){
 		
 		List<Offer> Offer =  offerService.findByIdSousCategorieOrderByStartDateAsc(id);
