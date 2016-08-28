@@ -25,7 +25,7 @@ public class Offer {
     
     private int idSousCategorie;
     private String name;
-    private List<Integer> contacts;
+    private int contact;
     private long nbViews;
     private long cost;
     
@@ -44,11 +44,11 @@ public class Offer {
 		this.exampleDescription="examDescript";
 	}
 
-	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,List<Integer>contact) {
+	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,int contact) {
 		this.UserId=userId;
 		this.idSousCategorie=idSousCategorie;
 		this.name = p_name;
-		this.contacts =contact;
+		this.contact =contact;
 		this.nbViews=nbViews;
 		this.cost=cost;
 		
@@ -96,7 +96,6 @@ public class Offer {
 	public void setExampleDescription(String exampleDescription) {
 		this.exampleDescription = exampleDescription;
 	}
-
 	
 	public String getName() {
 		return name;
@@ -123,12 +122,12 @@ public class Offer {
 		this.idSousCategorie = idSousCategorie;
 	}
 
-	public List<Integer> getContacts() {
-		return contacts;
+	public int getContacts() {
+		return contact;
 	}
 
-	public void setContacts(List<Integer> contacts) {
-		this.contacts = contacts;
+	public void setContacts(int contact) {
+		this.contact = contact;
 	}
 	
 
