@@ -1,6 +1,7 @@
 package com.Kiko.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class Offer {
     
     private int idSousCategorie;
     private String name;
-    private int number;
+    private List<Integer> contacts;
     private long nbViews;
     private long cost;
     
@@ -40,14 +41,14 @@ public class Offer {
     public Offer() {
     	this.startDate=LocalDate.now();
 		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
-		//exampleDescription
+		this.exampleDescription="examDescript";
 	}
 
-	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,int number,String examDescript) {
+	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,List<Integer>contact) {
 		this.UserId=userId;
 		this.idSousCategorie=idSousCategorie;
 		this.name = p_name;
-		this.number=number;
+		this.contacts =contact;
 		this.nbViews=nbViews;
 		this.cost=cost;
 		
@@ -56,7 +57,7 @@ public class Offer {
 		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
 		
 		this.description=description;
-		//this.exampleDescription=examDescript;
+		this.exampleDescription="examDescript";
 	}
 	public int getOfferId() {
 		return offerId;
@@ -96,14 +97,7 @@ public class Offer {
 		this.exampleDescription = exampleDescription;
 	}
 
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -128,11 +122,14 @@ public class Offer {
 	public void setIdSousCategorie(int idSousCategorie) {
 		this.idSousCategorie = idSousCategorie;
 	}
-	public int getNumero() {
-		return number;
+
+	public List<Integer> getContacts() {
+		return contacts;
 	}
-	public void setNumero(int numero) {
-		this.number = numero;
+
+	public void setContacts(List<Integer> contacts) {
+		this.contacts = contacts;
 	}
+	
 
 }
