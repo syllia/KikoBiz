@@ -47,10 +47,16 @@ public class RepositoryFiller {
 		String workingDir = System.getProperty("user.dir");
 		
 		ImageOffer i1=new ImageOffer();
-		i1.setIdOffer(10);
+		i1.setIdOffer(1);
 		i1.setByteArray(extractBytes(workingDir 
 				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
 		imageOfferRepository.save(i1);
+		
+		ImageOffer i2=new ImageOffer();
+		i2.setIdOffer(2);
+		i2.setByteArray(extractBytes(workingDir 
+				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
+		imageOfferRepository.save(i2);
 		
 	}
 
