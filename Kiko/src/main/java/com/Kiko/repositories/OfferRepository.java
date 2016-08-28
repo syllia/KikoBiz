@@ -10,6 +10,6 @@ import com.Kiko.model.Offer;
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, Integer>{
 	List<Offer> findByOrderByStartDateAsc();
-	List<Offer> findByOrderByStartDateDsc();
+	//List<Offer> findByOrderByStartDateDsc();
 	List<Offer> findByIdSousCategorieOrderByStartDateAsc(int idSousCategorie);
 }

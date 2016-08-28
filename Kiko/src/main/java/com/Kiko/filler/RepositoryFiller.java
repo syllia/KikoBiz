@@ -83,15 +83,15 @@ public class RepositoryFiller {
 	}
 
 	private void fillCategrorieRepository(CategoryRepository categoryRepository) {
-		categoryRepository.save(new Category(1, "Informatique et multimedia"));
-		categoryRepository.save(new Category(2, "Autos et véhicules"));
-		categoryRepository.save(new Category(3, "Meubles et décoration"));
-		categoryRepository.save(new Category(4, "Livres"));
+		categoryRepository.save(new Category("Informatique et multimedia"));
+		categoryRepository.save(new Category("Autos et véhicules"));
+		categoryRepository.save(new Category("Meubles et décoration"));
+		/*categoryRepository.save(new Category(4, "Livres"));
 		categoryRepository.save(new Category(5, "Animaux"));
 		categoryRepository.save(new Category(6, "Électroménager et vaisselles"));
 		categoryRepository.save(new Category(7, "Immobilier"));
 		categoryRepository.save(new Category(8, "Habillement et Bien-être"));
-		categoryRepository.save(new Category(9, "Objets gratuits"));
+		categoryRepository.save(new Category(9, "Objets gratuits"));*/
 		
 
 	}

@@ -1,6 +1,9 @@
 package com.Kiko.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,16 +13,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Category {
 
 	private String name;
+	
 	@Id
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", updatable = false, nullable = false)
 	private int id;
 
 	public Category() {
 	}
 
-	public Category(int id, String p_name) {
+	public Category(String p_name) {
 		this.name = p_name;
-		this.id = id;
 	}
 
 	public String getName() {
