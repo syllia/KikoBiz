@@ -22,24 +22,13 @@ public class SubCategoryController {
 	
 	@RequestMapping(value="/souscategories", method = RequestMethod.GET)
 	public ResponseEntity<List<SubCategory>> findAll(){
-		
 		List<SubCategory> subCategories =  subCategoryService.findAll();
 		return new ResponseEntity<List<SubCategory>>(subCategories, HttpStatus.OK);
 	}
 	
-
-	@RequestMapping(value="/souscategories/{id}", method = RequestMethod.GET)
-	public ResponseEntity<SubCategory> getById(@PathVariable int id){
-		
-		SubCategory subCategory =  subCategoryService.findById(id);
-		
-		return new ResponseEntity<SubCategory>(subCategory, HttpStatus.OK);
-	}
-	@RequestMapping(value="/souscategoriebycategorie/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/souscategoriesparcategorie/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<SubCategory>> getByIdCategorie(@PathVariable int id){
-		
 		List<SubCategory> subCategory =  subCategoryService.findAllByIdCategorie(id);
-		
 		return new ResponseEntity<List<SubCategory>>(subCategory, HttpStatus.OK);
 	}
 
