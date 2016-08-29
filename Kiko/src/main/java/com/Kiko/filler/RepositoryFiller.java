@@ -17,10 +17,12 @@ import org.springframework.stereotype.Component;
 
 import com.Kiko.model.Category;
 import com.Kiko.model.City;
+import com.Kiko.model.Country;
 import com.Kiko.model.ImageOffer;
 import com.Kiko.model.Offer;
 import com.Kiko.model.SessionIdentifierGenerator;
 import com.Kiko.model.SubCategory;
+import com.Kiko.model.User;
 import com.Kiko.repositories.CategoryRepository;
 import com.Kiko.repositories.CityRepository;
 import com.Kiko.repositories.CountryRepository;
@@ -61,19 +63,18 @@ public class RepositoryFiller {
 	private void fillCityRepository(CityRepository cityRepository) {
 		cityRepository.save(new City(229,"Calavi"));
 		cityRepository.save(new City(229,"Cotonou"));
-		cityRepository.save(new City(229,"Cotonou"));
 		cityRepository.save(new City(229,"Porto"));
 		cityRepository.save(new City(229,"Parakou"));
 		
 	}
 
 	private void fillCountryRepository(CountryRepository countryRepository) {
-		// TODO Auto-generated method stub
+		countryRepository.save(new Country(229,"Bénin"));
 		
 	}
 
 	private void fillUserRepository(UserRepository userRepository) {
-		// TODO Auto-generated method stub
+		userRepository.save(new User(418));
 		
 	}
 
