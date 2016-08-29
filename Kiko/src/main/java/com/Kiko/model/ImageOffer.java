@@ -8,16 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 public class ImageOffer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
+	@JsonProperty("id")
 	private int idImageOffer;
 	private int idOffer;
 	@Lob
-	@Column(length=10000)
+	@Column(length=2000)
+	@JsonProperty("byteArray")
 	private byte[] byteArray ;
 	
 	public ImageOffer() {

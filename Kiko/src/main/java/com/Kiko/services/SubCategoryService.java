@@ -19,10 +19,6 @@ public class SubCategoryService {
 	public List<SubCategory> findAll() {
 		return subCategoryRepository.findAll();
 	}
-
-	public SubCategory findById(int id) {
-		return subCategoryRepository.getOne(id);
-	}
 	public List<SubCategory> findAllByIdCategorie(int idCategorie) {
 		return  subCategoryRepository.findByIdCategorie(idCategorie);
 	}

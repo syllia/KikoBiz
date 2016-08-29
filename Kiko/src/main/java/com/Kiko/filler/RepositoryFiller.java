@@ -17,11 +17,15 @@ import org.springframework.stereotype.Component;
 import com.Kiko.model.Category;
 import com.Kiko.model.ImageOffer;
 import com.Kiko.model.Offer;
+import com.Kiko.model.SessionIdentifierGenerator;
 import com.Kiko.model.SubCategory;
 import com.Kiko.repositories.CategoryRepository;
+import com.Kiko.repositories.CityRepository;
+import com.Kiko.repositories.CountryRepository;
 import com.Kiko.repositories.ImageOfferRepository;
 import com.Kiko.repositories.OfferRepository;
 import com.Kiko.repositories.SubCategoryRepository;
+import com.Kiko.repositories.UserRepository;
 
 @Component
 public class RepositoryFiller {
@@ -33,6 +37,12 @@ public class RepositoryFiller {
 	private OfferRepository offerRepository;
 	@Autowired
 	private ImageOfferRepository imageOfferRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private CountryRepository countryRepository;
+	@Autowired
+	private CityRepository cityRepository;
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
@@ -40,7 +50,25 @@ public class RepositoryFiller {
 			fillSousCategorieRepository(subCategoryRepository);
 			fillOfferRepository(offerRepository);
 			fillImageOfferRepository(imageOfferRepository);
+			fillUserRepository(userRepository);
+			fillCountryRepository(countryRepository);
+			fillCityRepository(cityRepository);
 		};
+	}
+
+	private void fillCityRepository(CityRepository cityRepository2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void fillCountryRepository(CountryRepository countryRepository2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void fillUserRepository(UserRepository userRepository2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void fillImageOfferRepository(ImageOfferRepository imageOfferRepository) throws IOException {
@@ -69,7 +97,6 @@ public class RepositoryFiller {
 		offer1.setIdSousCategorie(1);
 		offer1.setCost(5);
 		offerRepository.save(offer1);
-		
 	}
 
 	private void fillSousCategorieRepository(SubCategoryRepository subCategoryRepository) {
