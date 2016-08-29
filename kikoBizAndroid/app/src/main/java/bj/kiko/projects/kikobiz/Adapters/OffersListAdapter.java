@@ -46,8 +46,12 @@ private Bitmap bmp;
             //String encoded = obj.getString("byteArray");
             String test = Util.getExampleString();
             byte[] decoded = Base64.decode(obj.getString("byteArray"), Base64.DEFAULT);
-            this.bmp = Util.byteToImage(decoded);
-            Log.d("carretail Image ", "OBJECT " + decoded);
+            //String str = "Hello";
+            String encoded = Base64.encodeToString("Hello".getBytes(), Base64.DEFAULT);
+            byte[] decoded0 = encoded.getBytes();
+
+            //this.bmp = Util.byteToImage(decoded0);
+            Log.d("carretail Image ", "OBJECT " + encoded );
         }
      catch (JSONException e) {
         e.printStackTrace();
@@ -123,7 +127,7 @@ static class ViewHolder {
         holder.title.setText(mOffreList.get(arg0).getName());
         holder.cost.setText(String.valueOf(mOffreList.get(arg0).getCost() + " FCFA"));
 
-        holder.img.setImageBitmap(bmp);
+        //holder.img.setImageBitmap(bmp);
 
 
         /*holder.entreprise.setText("Entreprise: "+ mOffreList.get(arg0).getmEntreprise());
