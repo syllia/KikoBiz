@@ -84,7 +84,7 @@ public class OffersFragment extends Fragment {
     }
 
     private void loadOffers(){
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "offres/"+ id);
+        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "offresparsouscategorie/"+ id);
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest(){
             @Override
@@ -97,16 +97,53 @@ public class OffersFragment extends Fragment {
                 try {
 
                     Log.d("TEST SYO", s);
-                    JSONObject inData = new JSONObject(s);
+                    //JSONObject inData = new JSONObject(s);
 
 
                     //JSONArray lJsonArrayPromo = inData.getJSONArray("items");
                     JSONArray lJsonArrayPromo = new JSONArray(s);
                     for (int i=0;i<lJsonArrayPromo.length();i++){
                         JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-                        Log.d("carretail", "OBJECT "+obj);
-                        //String category = obj.getString("id");
-                        offersListAdapter.addOffre(obj);
+
+                        loadImages();
+                        offersListAdapter.addOffre(getContext(), obj);
+
+                    }
+                    offersListAdapter.notifyDataSetChanged();
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("carretail", "onPostExecute json error : " + e);
+                }
+            }
+        };
+
+        loadRequest.execute(request);
+
+    }
+
+    private void loadImages(){
+        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "imagesparoffre/"+ id);
+        HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
+        ASyncURLRequest loadRequest = new ASyncURLRequest(){
+            @Override
+            protected void onPostExecute(String s){
+                if(s==null){
+                    Log.d("carretail", "the value returned is null");
+                    return;
+                }
+
+                try {
+
+
+                    //JSONArray lJsonArrayPromo = inData.getJSONArray("items");
+                    JSONArray lJsonArrayPromo = new JSONArray(s);
+                    for (int i=0;i<lJsonArrayPromo.length();i++){
+                        JSONObject obj = lJsonArrayPromo.getJSONObject(i);
+                        //Log.d("carretail Image ", "OBJECT "+obj.get("byteArray"));
+                        offersListAdapter.addImage(obj);
 
                     }
                     offersListAdapter.notifyDataSetChanged();

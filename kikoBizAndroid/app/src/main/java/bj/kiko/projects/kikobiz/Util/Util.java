@@ -5,6 +5,8 @@ import android.app.Fragment;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -46,6 +48,18 @@ public class Util {
 				return false;
 			}
 		}
+
+	public static String getExampleString(){
+		String test = "";
+		return test;
+	}
+
+	public static Bitmap byteToImage(byte[] data){
+		//byte[] data = Base64.decodeBase64(dataStr);
+		Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+		return bmp;
+
+	}
 	public static void lancerFragment(MainActivity activity,String nomFragment){
 
 		if (!verifierSiFragmentActif(activity,nomFragment)){

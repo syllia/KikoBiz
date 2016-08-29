@@ -103,7 +103,7 @@ public class FavOffersFragment extends Fragment {
                 Log.d("carretail", "OBJECT ");
                 try {
                     JSONObject inData = new JSONObject(s);
-                    mOffreAdapter.addOffre(inData);
+                    mOffreAdapter.addOffre(getContext(), inData);
                     mOffreAdapter.notifyDataSetChanged();
 
 

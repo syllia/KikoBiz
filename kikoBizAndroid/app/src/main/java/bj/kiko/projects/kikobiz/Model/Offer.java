@@ -1,5 +1,7 @@
 package bj.kiko.projects.kikobiz.Model;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+import bj.kiko.projects.kikobiz.R;
+
 /**
  * Created by sylliamehou-loko on 16-05-14.
  */
@@ -19,7 +24,6 @@ import java.util.List;
 public class Offer implements Parcelable{
 
     public static final int NB_HOURS_BEFORE_PRIORITY_CHECK = 24;
-
     private long offerId;
     private double cost;
     private String startDate;
@@ -27,13 +31,14 @@ public class Offer implements Parcelable{
     private Country country;
     private String name;
     private int nbViews;
-    private List<String> pictures;
+    private String pictures;
     private String description;
     private int subCategoryId;
     private int userId;
     private Priority priority;
 
-    public Offer(String startDate, String endDate, String name, int nbViews, List<String> pictures, String description, int subCategoryId, int userId, Priority priority) {
+
+    public Offer(String startDate, String endDate, String name, int nbViews, String pictures, String description, int subCategoryId, int userId, Priority priority) {
         this.startDate = startDate;
         this.endDate = endDate;
         //this.country = country;
@@ -51,21 +56,22 @@ public class Offer implements Parcelable{
     }
 
     //http://www.infos-mobiles.com/wp-content/uploads/2016/04/apple.png
-    public Offer(JSONObject inObject){
+    public Offer(Context ctx, JSONObject inObject){
         if(inObject != null){
             try {
-                this.offerId = inObject.getLong("id");
-                this.cost = inObject.getDouble("cost");
-                this.startDate = inObject.getString("startDate");
+                this.offerId = inObject.getLong(ctx.getString(R.string.offerID));
+                this.cost = inObject.getDouble(ctx.getString(R.string.offerCost));
+                //this.startDate = inObject.getString("startDate");
                 //this.endDate = inObject.getString("fin");
                 //this.country = inObject.getString("mEntreprise");
-                this.name = inObject.getString("title");
-                this.nbViews = inObject.getInt("nbViews");
-                //this.pictures = inObject.getJSONArray("pictures");
-                this.pictures = new ArrayList<>();
-                this.description = inObject.getString("description");
-                this.userId = inObject.getInt("user");
-                this.subCategoryId = inObject.getInt("subCategoryId");
+                //inObject.get(ctx.getString(R.string.offerImages));
+                this.name = inObject.getString(ctx.getString(R.string.offerName));
+                this.nbViews = inObject.getInt(ctx.getString(R.string.offerNbViews));
+                //this.pictures = inObject.getString(ctx.getString(R.string.offerImages));
+                //this.pictures = new ArrayList<>();
+                this.description = inObject.getString(ctx.getString(R.string.offerDescription));
+                this.userId = inObject.getInt(ctx.getString(R.string.offerUserId));
+                this.subCategoryId = inObject.getInt(ctx.getString(R.string.offerIDSubCat));
 
 
             } catch (JSONException e) {
@@ -135,11 +141,11 @@ public class Offer implements Parcelable{
         this.nbViews = nbViews;
     }
 
-    public List<String> getPictures() {
+    public String getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<String> pictures) {
+    public void setPictures(String pictures) {
         this.pictures = pictures;
     }
 

@@ -1,6 +1,10 @@
 package bj.kiko.projects.kikobiz.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import bj.kiko.projects.kikobiz.Model.Offer;
 import bj.kiko.projects.kikobiz.R;
+import bj.kiko.projects.kikobiz.Util.Util;
 
 /**
  * Created by sylliamehou-loko on 16-05-30.
@@ -23,20 +31,34 @@ public class OffersListAdapter extends ArrayAdapter<Offer> {
 
 private ArrayList<Offer> mOffreList;
 private Activity mActivity;
-
-public OffersListAdapter(Activity inActivity, ArrayList<Offer> inList){
+private Bitmap bmp;
+    public OffersListAdapter(Activity inActivity, ArrayList<Offer> inList){
         super(inActivity, R.layout.offer_cell, inList);
         this.mActivity = inActivity;
         mOffreList =inList;
 
+        //mImageList
+
         }
+    public void addImage(JSONObject obj){
+        try {
+             //data = (obj.get("byteArray"));
+            //String encoded = obj.getString("byteArray");
+            String test = Util.getExampleString();
+            byte[] decoded = Base64.decode(obj.get("byteArray").toString(), Base64.DEFAULT);
+            this.bmp = Util.byteToImage(decoded);
+            Log.d("carretail Image ", "OBJECT " + decoded);
+        }
+     catch (JSONException e) {
+        e.printStackTrace();
+        Log.d("carretail", "onPostExecute json error : " + e);
+    }
 
-public void addOffre(JSONObject inJson){
-        Offer outItem = new Offer(inJson);
-    Log.d( "addOffre: ", outItem.toString());
+    }
+
+public void addOffre(Context ctx, JSONObject inJson){
+        Offer outItem = new Offer(ctx, inJson);
         mOffreList.add(outItem);
-
-
         }
 
 public ArrayList<Offer> getOffreList(){
@@ -69,6 +91,9 @@ public long getItemId(int arg0) {
 static class ViewHolder {
     public TextView title;
     public ImageView img;
+    public TextView cost;
+    public TextView city;
+    public TextView duration;
 
 }
 
@@ -84,6 +109,9 @@ static class ViewHolder {
 
             viewHolder.title = (TextView) childView.findViewById(R.id.offerTitle);
             viewHolder.img = (ImageView) childView.findViewById(R.id.offer_img);
+            viewHolder.cost = (TextView) childView.findViewById(R.id.offerCost);
+            viewHolder.city = (TextView) childView.findViewById(R.id.offerCity);
+            viewHolder.duration = (TextView) childView.findViewById(R.id.offerDuration);
             /*viewHolder.niveau = (TextView) childView.findViewById(R.id.niveauTextView);
             viewHolder.poste = (TextView)childView.findViewById(R.id.postTextView);*/
 
@@ -93,8 +121,11 @@ static class ViewHolder {
         String url = "http://www.infos-mobiles.com/wp-content/uploads/2016/04/apple.png";
         ViewHolder holder = (ViewHolder) childView.getTag();
         holder.title.setText(mOffreList.get(arg0).getName());
-        Picasso.with(this.getContext()).load(url).resize(100, 100)
-                .into(holder.img);
+        holder.cost.setText(String.valueOf(mOffreList.get(arg0).getCost() + " FCFA"));
+
+        holder.img.setImageBitmap(bmp);
+
+
         /*holder.entreprise.setText("Entreprise: "+ mOffreList.get(arg0).getmEntreprise());
         holder.poste.setText(mOffreList.get(arg0).getmPoste());
         holder.niveau.setText(mOffreList.get(arg0).getmNiveauEtudes());*/
