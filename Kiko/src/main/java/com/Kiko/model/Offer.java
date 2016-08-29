@@ -13,30 +13,44 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.Kiko.model.utils.OfferPropreties;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","endDate" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 public class Offer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
+	@JsonProperty("offerId")
 	private int offerId;
-	private int UserId;
-    
+	@JsonProperty("userId")
+	private int userId;
+	@JsonProperty("idSousCategorie")
     private int idSousCategorie;
+	@JsonProperty("name")
     private String name;
+	@JsonProperty("contact")
     private int contact;
+	@JsonProperty("nbViews")
     private long nbViews;
+	@JsonProperty("cost")
     private long cost;
     
     @DateTimeFormat
+    @JsonProperty("startDate")
     private LocalDate startDate;
     @DateTimeFormat
+    @JsonProperty("endDate")
     private LocalDate endDate;
-    
+    @JsonProperty("exampleDescription")
     private String exampleDescription;
+    @JsonProperty("description")
     private String description;
    
+    @JsonProperty("country")
+    private String country;
+    @JsonProperty("city")
+    private String city;
     
     public Offer() {
     	this.startDate=LocalDate.now();
@@ -44,8 +58,8 @@ public class Offer {
 		this.exampleDescription="examDescript";
 	}
 
-	public Offer(int userId, String p_name,long cost,long nbViews,String description,int idSousCategorie,int contact) {
-		this.UserId=userId;
+	public Offer(int userId,String country,String city, String p_name,long cost,long nbViews,String description,int idSousCategorie,int contact) {
+		this.userId=userId;
 		this.idSousCategorie=idSousCategorie;
 		this.name = p_name;
 		this.contact =contact;
@@ -53,11 +67,14 @@ public class Offer {
 		this.cost=cost;
 		
 		
+		
 		this.startDate=LocalDate.now();
 		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
 		
 		this.description=description;
 		this.exampleDescription="examDescript";
+		this.country=country;
+		this.city=city;
 	}
 	public int getOfferId() {
 		return offerId;
@@ -72,11 +89,11 @@ public class Offer {
 		return startDate;
 	}
 	public int getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(int userId) {
-		UserId = userId;
+		userId = userId;
 	}
 
 	public void setStartDate(LocalDate startDate) {

@@ -8,24 +8,27 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 public class ImageOffer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
+	@JsonProperty("id")
 	private int idImageOffer;
 	private int idOffer;
 	@Lob
-	@Column(length=10000)
-	private byte[] byteArray ;
+	@Column(length=2000)
+	@JsonProperty("byteArray")
+	private String imgOffer ;
 	
 	public ImageOffer() {
 		// TODO Auto-generated constructor stub
 	}
-	public ImageOffer(int idOffer,byte[]byteArray) {
+	public ImageOffer(int idOffer,String imgOffer) {
 		this.idOffer=idOffer;
-		this.byteArray=byteArray;
+		this.imgOffer=imgOffer;
 	}
 	public int getIdOffer() {
 		return idOffer;
@@ -33,11 +36,11 @@ public class ImageOffer {
 	public void setIdOffer(int idOffer) {
 		this.idOffer = idOffer;
 	}
-	public byte[] getByteArray() {
-		return byteArray;
+	public String getImgOffer() {
+		return this.imgOffer;
 	}
-	public void setByteArray(byte[] byteArray) {
-		this.byteArray = byteArray;
+	public void setByteArray(String imgOffer) {
+		this.imgOffer = imgOffer;
 	}
 	public int getIdImageOffer() {
 		return idImageOffer;

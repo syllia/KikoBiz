@@ -11,37 +11,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class SubCategory {
+public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
-	@JsonProperty("idSousCategorie")
-	private int idSousCategorie;
-	@JsonProperty("idCategorie")
-	private int idCategorie;
+	@JsonProperty("idCity")
+	private int idCity;
+	@JsonProperty("idCountry")
+	private int idCountry;
 	@JsonProperty("name")
 	private String name;
-	
-	public SubCategory() {
+	public City() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SubCategory(int idCategorie,String name) {
+	public City(int idCountry,String name) {
 		this.name = name;
-		this.idCategorie=idCategorie;
-	}
-	
-	public int getIdSousCategorie() {
-		return idSousCategorie;
+		this.idCountry=idCountry;
 	}
 
-
-	public int getIdCategorie() {
-		return idCategorie;
+	public int getIdCity() {
+		return idCity;
 	}
 
-	public void setIdCategorie(int idCategorie) {
-		this.idCategorie = idCategorie;
+	public void setIdCity(int idCity) {
+		this.idCity = idCity;
+	}
+
+	public int getIdCountry() {
+		return idCountry;
+	}
+
+	public void setIdCountry(int idCountry) {
+		this.idCountry = idCountry;
 	}
 
 	public String getName() {
@@ -51,8 +53,6 @@ public class SubCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	
-
 	
 }
