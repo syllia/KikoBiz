@@ -45,7 +45,7 @@ private Bitmap bmp;
              //data = (obj.get("byteArray"));
             //String encoded = obj.getString("byteArray");
             String test = Util.getExampleString();
-            byte[] decoded = Base64.decode(obj.get("byteArray").toString(), Base64.DEFAULT);
+            byte[] decoded = Base64.decode(obj.getString("byteArray"), Base64.DEFAULT);
             this.bmp = Util.byteToImage(decoded);
             Log.d("carretail Image ", "OBJECT " + decoded);
         }

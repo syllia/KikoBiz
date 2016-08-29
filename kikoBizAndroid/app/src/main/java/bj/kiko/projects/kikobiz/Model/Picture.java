@@ -11,13 +11,13 @@ import org.json.JSONObject;
 public class Picture {
     private int idImageOffer;
     private int idOffer;
-    private Base64 name;
+    private String name;
 
     public Picture(JSONObject inObject) {
         try {
             this.idImageOffer = inObject.getInt("ww");
             this.idOffer = inObject.getInt("");
-            //this.name = inObject.get("byteArray");
+            this.name = inObject.getString("byteArray");
         } catch (JSONException e) {
             e.printStackTrace();
         }
