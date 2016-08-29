@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import com.Kiko.model.Category;
+import com.Kiko.model.City;
 import com.Kiko.model.ImageOffer;
 import com.Kiko.model.Offer;
 import com.Kiko.model.SessionIdentifierGenerator;
@@ -56,17 +57,21 @@ public class RepositoryFiller {
 		};
 	}
 
-	private void fillCityRepository(CityRepository cityRepository2) {
+	private void fillCityRepository(CityRepository cityRepository) {
+		cityRepository.save(new City(229,"Calavi"));
+		cityRepository.save(new City(229,"Cotonou"));
+		cityRepository.save(new City(229,"Cotonou"));
+		cityRepository.save(new City(229,"Porto"));
+		cityRepository.save(new City(229,"Parakou"));
+		
+	}
+
+	private void fillCountryRepository(CountryRepository countryRepository) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void fillCountryRepository(CountryRepository countryRepository2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void fillUserRepository(UserRepository userRepository2) {
+	private void fillUserRepository(UserRepository userRepository) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -117,12 +122,12 @@ public class RepositoryFiller {
 		categoryRepository.save(new Category("Informatique et multimedia"));
 		categoryRepository.save(new Category("Autos et véhicules"));
 		categoryRepository.save(new Category("Meubles et décoration"));
-		/*categoryRepository.save(new Category(4, "Livres"));
-		categoryRepository.save(new Category(5, "Animaux"));
-		categoryRepository.save(new Category(6, "Électroménager et vaisselles"));
-		categoryRepository.save(new Category(7, "Immobilier"));
-		categoryRepository.save(new Category(8, "Habillement et Bien-être"));
-		categoryRepository.save(new Category(9, "Objets gratuits"));*/
+		categoryRepository.save(new Category("Livres"));
+		categoryRepository.save(new Category("Animaux"));
+		categoryRepository.save(new Category("Électroménager et vaisselles"));
+		categoryRepository.save(new Category("Immobilier"));
+		categoryRepository.save(new Category("Habillement et Bien-être"));
+		categoryRepository.save(new Category("Objets gratuits"));
 		
 
 	}
