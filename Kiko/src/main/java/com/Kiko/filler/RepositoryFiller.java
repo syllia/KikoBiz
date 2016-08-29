@@ -6,6 +6,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
@@ -81,14 +82,16 @@ public class RepositoryFiller {
 		
 		ImageOffer i1=new ImageOffer();
 		i1.setIdOffer(1);
-		i1.setByteArray(extractBytes(workingDir 
+	
+	
+		String encoded = Base64.getEncoder().encodeToString(extractBytes(workingDir 
 				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
+		i1.setByteArray(encoded);
 		imageOfferRepository.save(i1);
 		
 		ImageOffer i2=new ImageOffer();
 		i2.setIdOffer(2);
-		i2.setByteArray(extractBytes(workingDir 
-				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
+		i2.setByteArray(encoded);
 		imageOfferRepository.save(i2);
 		
 	}
