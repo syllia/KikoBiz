@@ -15,8 +15,8 @@ public class ImageOfferService {
 		this.imageOfferRepository = imageOfferRepository;
 	}
 	
-	public List<ImageOffer> findByIdOffer(int idOffer) {
-		return imageOfferRepository.findByIdOffer(idOffer);
+	public byte[] getOne(int id) {
+		return imageOfferRepository.getOne(id).getImgOffer();
 	}
 	public List<ImageOffer> save(List<ImageOffer> listeImageOffers) {
 		return imageOfferRepository.save(listeImageOffers);

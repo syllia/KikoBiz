@@ -5,6 +5,11 @@ import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,21 +29,21 @@ import bj.kiko.projects.kikobiz.R;
 public class Offer implements Parcelable{
 
     public static final int NB_HOURS_BEFORE_PRIORITY_CHECK = 24;
-    private long offerId;
-    private double cost;
+    private int offerId;
+    private long cost;
     private String startDate;
     private String endDate;
     private Country country;
     private String name;
     private int nbViews;
-    private String pictures;
+    private List<Integer>pictures;
     private String description;
     private int subCategoryId;
     private int userId;
     private Priority priority;
 
 
-    public Offer(String startDate, String endDate, String name, int nbViews, String pictures, String description, int subCategoryId, int userId, Priority priority) {
+    public Offer(String startDate, String endDate, String name, int nbViews, List<Integer> pictures, String description, int subCategoryId, int userId, Priority priority) {
         this.startDate = startDate;
         this.endDate = endDate;
         //this.country = country;
@@ -56,25 +61,32 @@ public class Offer implements Parcelable{
     }
 
     //http://www.infos-mobiles.com/wp-content/uploads/2016/04/apple.png
-    public Offer(Context ctx, JSONObject inObject){
+    public Offer(Context ctx, JsonObject inObject){
         if(inObject != null){
             try {
-                this.offerId = inObject.getLong(ctx.getString(R.string.offerID));
-                this.cost = inObject.getDouble(ctx.getString(R.string.offerCost));
+                this.offerId = inObject.get("offerId").getAsInt();
+                this.cost = inObject.get("cost").getAsLong();
                 //this.startDate = inObject.getString("startDate");
                 //this.endDate = inObject.getString("fin");
                 //this.country = inObject.getString("mEntreprise");
                 //inObject.get(ctx.getString(R.string.offerImages));
-                this.name = inObject.getString(ctx.getString(R.string.offerName));
-                this.nbViews = inObject.getInt(ctx.getString(R.string.offerNbViews));
+                this.name = inObject.get("name").getAsString();
+                this.nbViews = inObject.get("nbViews").getAsInt();
+
                 //this.pictures = inObject.getString(ctx.getString(R.string.offerImages));
-                //this.pictures = new ArrayList<>();
-                this.description = inObject.getString(ctx.getString(R.string.offerDescription));
-                this.userId = inObject.getInt(ctx.getString(R.string.offerUserId));
-                this.subCategoryId = inObject.getInt(ctx.getString(R.string.offerIDSubCat));
+                JsonArray j = inObject.get("photos").getAsJsonArray();
+                this.pictures=new ArrayList<>();
+                for (int i = 0; i < j.size(); i++) {
+                    int a= j.get(i).getAsInt();
+
+                    this.pictures.add(a);
+                }
+                this.description = inObject.get("description").getAsString();
+                this.userId = inObject.get("userId").getAsInt();
+                this.subCategoryId = inObject.get("idSousCategorie").getAsInt();
 
 
-            } catch (JSONException e) {
+            } catch (JsonIOException e) {
                 e.printStackTrace();
             }
 
@@ -85,7 +97,7 @@ public class Offer implements Parcelable{
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(long cost) {
         this.cost = cost;
     }
 
@@ -141,11 +153,11 @@ public class Offer implements Parcelable{
         this.nbViews = nbViews;
     }
 
-    public String getPictures() {
+    public List<Integer> getPictures() {
         return pictures;
     }
 
-    public void setPictures(String pictures) {
+    public void setPictures(List<Integer> pictures) {
         this.pictures = pictures;
     }
 
@@ -197,7 +209,7 @@ public class Offer implements Parcelable{
 
         if (source.dataSize() > 0) {
             this.offerId = source.readInt();
-            this.cost = source.readDouble();
+            this.cost = source.readLong();
             this.startDate = source.readString();
             this.endDate = source.readString();
             this.name = source.readString();

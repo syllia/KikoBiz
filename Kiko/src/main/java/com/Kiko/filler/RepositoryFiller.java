@@ -6,6 +6,10 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 
 import javax.imageio.ImageIO;
@@ -82,29 +86,34 @@ public class RepositoryFiller {
 		String workingDir = System.getProperty("user.dir");
 		
 		ImageOffer i1=new ImageOffer();
-		i1.setIdOffer(1);
 	
 	
 		String encoded = Base64.getEncoder().encodeToString(extractBytes(workingDir 
 				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
-		i1.setByteArray(encoded);
+		Path path = Paths.get(workingDir 
+				+ "/src/main/java/com/Kiko/filler/$_27.JPG");
+		byte[] data=Files.readAllBytes(path);
+		i1.setByteArray(data);
 		imageOfferRepository.save(i1);
 		
 		ImageOffer i2=new ImageOffer();
-		i2.setIdOffer(2);
-		i2.setByteArray(encoded);
+		i2.setByteArray(data);
 		imageOfferRepository.save(i2);
 		
 	}
 
 	private void fillOfferRepository(OfferRepository offerRepository) {
-		Offer offer = new Offer();
-		offer.setCost(10);
+		Offer offer = new Offer(418,"ccc","city","p_name",10,10,"descriptionssss",1,438989989);
+		
+		
 		offer.setIdSousCategorie(1);
+		offer.setPhotos( Arrays.asList(1,2));
+		
 		offerRepository.save(offer);
-		Offer offer1 = new Offer();
+		Offer offer1 = new Offer(418,"ccc","city","p_name",10,10,"descriptionssss",1,438989989);
 		offer1.setIdSousCategorie(1);
 		offer1.setCost(5);
+		offer1.setPhotos( Arrays.asList(1,2));
 		offerRepository.save(offer1);
 	}
 

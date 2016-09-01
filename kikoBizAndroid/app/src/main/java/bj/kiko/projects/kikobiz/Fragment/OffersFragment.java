@@ -12,6 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,12 +62,13 @@ public class OffersFragment extends Fragment {
                              Bundle savedInstanceState) {
         getActivity().setTitle(getActivity().getResources().getString(R.string.FragmentOffresName));
         View rootView = inflater.inflate(R.layout.fragment_offers, container, false);
-        id = getArguments().getLong(getResources().getString(R.string.id));
+        id = getArguments().getLong("id");
         // Inflate the layout for this fragment
         offerList = (ListView) rootView.findViewById(R.id.offer_list);
         list = new ArrayList<Offer>();
         offersListAdapter = new OffersListAdapter(this.getActivity(), list);
         offerList.setAdapter(offersListAdapter);
+       // loadImages();
         loadOffers();
 
         offerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -74,90 +80,46 @@ public class OffersFragment extends Fragment {
 
             }
         });
-        //Picasso.with(this.getContext()).load(url)
-               // .placeholder(R.drawable.any_drawable)
-                //.error(R.drawable.anydrawable).into(R.id.offer_img);
-        //test = (TextView)rootView.findViewById(R.id.OfferTest);
-        //test.setText(String.valueOf(id));
-
         return rootView;
     }
 
+
     private void loadOffers(){
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "offresparsouscategorie/"+ id);
-        HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
-        ASyncURLRequest loadRequest = new ASyncURLRequest(){
-            @Override
-            protected void onPostExecute(String s){
-                if(s==null){
-                    Log.d("carretail", "the value returned is null");
-                    return;
-                }
+        Ion.with(this)
+                .load(Util.getFormatedAPIURL(this.getContext(), "offresparsouscategorie/" + id))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonArray result) {
+                                Log.d("debil", result.toString());
+                                for (int i = 0; i < result.size(); i++) {
+                                    JsonObject obj = result.get(i).getAsJsonObject();
+                                    offersListAdapter.addOffre(getContext(), obj);
+                                    JsonArray j = obj.get("photos").getAsJsonArray();
+                                    int principal=1;
 
-                try {
+                                    int o = j.get(0).getAsInt();
+                                    principal =o;
+                                    loadImages(principal);
 
-                    Log.d("TEST SYO", s);
-                    //JSONObject inData = new JSONObject(s);
-
-
-                    //JSONArray lJsonArrayPromo = inData.getJSONArray("items");
-                    JSONArray lJsonArrayPromo = new JSONArray(s);
-                    for (int i=0;i<lJsonArrayPromo.length();i++){
-                        JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-
-                        loadImages();
-                        offersListAdapter.addOffre(getContext(), obj);
-
-                    }
-                    offersListAdapter.notifyDataSetChanged();
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d("carretail", "onPostExecute json error : " + e);
-                }
-            }
-        };
-
-        loadRequest.execute(request);
-
+                                }
+                                offersListAdapter.notifyDataSetChanged();
+                            }
+                        });
     }
 
-    private void loadImages(){
-        String urlToLoad= Util.getFormatedAPIURL(this.getContext(), "imagesparoffre/"+ id);
-        HttpCustomRequest request = new HttpCustomRequest(this.getContext(),urlToLoad);
-        ASyncURLRequest loadRequest = new ASyncURLRequest(){
-            @Override
-            protected void onPostExecute(String s){
-                if(s==null){
-                    Log.d("carretail", "the value returned is null");
-                    return;
-                }
-
-                try {
-
-
-                    //JSONArray lJsonArrayPromo = inData.getJSONArray("items");
-                    JSONArray lJsonArrayPromo = new JSONArray(s);
-                    for (int i=0;i<lJsonArrayPromo.length();i++){
-                        JSONObject obj = lJsonArrayPromo.getJSONObject(i);
-                        //Log.d("carretail Image ", "OBJECT "+obj.get("byteArray"));
-                        offersListAdapter.addImage(obj);
-
+    private void loadImages(int photoId){
+        Ion.with(this)
+                .load(Util.getFormatedAPIURL(this.getContext(), "imagesparoffre/"+ photoId))
+                .asByteArray()
+                .setCallback(new FutureCallback<byte[]>() {
+                    @Override
+                    public void onCompleted(Exception e, byte[] result) {
+                        offersListAdapter.addImage(result);
+                        Log.d("ddd", result.toString());
+                        offersListAdapter.notifyDataSetChanged();
                     }
-                    offersListAdapter.notifyDataSetChanged();
 
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d("carretail", "onPostExecute json error : " + e);
-                }
-            }
-        };
-
-        loadRequest.execute(request);
-
+                });
     }
 }

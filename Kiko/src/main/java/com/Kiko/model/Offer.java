@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -52,6 +54,9 @@ public class Offer {
     @JsonProperty("city")
     private String city;
     
+    @ElementCollection
+    private List<Integer> photos;
+    
     public Offer() {
     	this.startDate=LocalDate.now();
 		this.endDate=startDate.plusMonths(OfferPropreties.limitMonth);
@@ -76,6 +81,39 @@ public class Offer {
 		this.country=country;
 		this.city=city;
 	}
+	
+	public int getContact() {
+		return contact;
+	}
+
+	public void setContact(int contact) {
+		this.contact = contact;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public List<Integer> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<Integer> photos) {
+		this.photos = photos;
+	}
+
 	public int getOfferId() {
 		return offerId;
 	}

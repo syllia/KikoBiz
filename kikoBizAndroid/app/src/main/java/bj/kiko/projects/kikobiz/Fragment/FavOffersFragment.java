@@ -71,7 +71,7 @@ public class FavOffersFragment extends Fragment {
         List<String> secteurList = lc.getFavId();
 
         for (int i = 0; i < secteurList.size(); ++i) { //Depilement de tout les fragments
-            loadOffreList(secteurList.get(i));
+          //  loadOffreList(secteurList.get(i));
         }
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,7 +87,7 @@ public class FavOffersFragment extends Fragment {
         return rootView;
     }
 
-    private void loadOffreList(String id) {
+    /*private void loadOffreList(String id) {
         String urlToLoad = Util.getFormatedAPIURL(this.getContext(), "offres/id/" + id);
         HttpCustomRequest request = new HttpCustomRequest(this.getContext(), urlToLoad);
         ASyncURLRequest loadRequest = new ASyncURLRequest() {
@@ -115,6 +115,6 @@ public class FavOffersFragment extends Fragment {
         };
         loadRequest.execute(request);
     }
-
+*/
 
 }

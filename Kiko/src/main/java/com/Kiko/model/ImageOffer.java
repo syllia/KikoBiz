@@ -17,29 +17,23 @@ public class ImageOffer {
 	@Column(name = "id", updatable = false, nullable = false)
 	@JsonProperty("id")
 	private int idImageOffer;
-	private int idOffer;
+	
 	@Lob
-	@Column(length=2000)
+	
 	@JsonProperty("byteArray")
-	private String imgOffer ;
+	private byte[] imgOffer ;
 	
 	public ImageOffer() {
 		// TODO Auto-generated constructor stub
 	}
-	public ImageOffer(int idOffer,String imgOffer) {
-		this.idOffer=idOffer;
+	public ImageOffer(byte[] imgOffer) {
 		this.imgOffer=imgOffer;
 	}
-	public int getIdOffer() {
-		return idOffer;
-	}
-	public void setIdOffer(int idOffer) {
-		this.idOffer = idOffer;
-	}
-	public String getImgOffer() {
+	
+	public byte[] getImgOffer() {
 		return this.imgOffer;
 	}
-	public void setByteArray(String imgOffer) {
+	public void setByteArray(byte[] imgOffer) {
 		this.imgOffer = imgOffer;
 	}
 	public int getIdImageOffer() {

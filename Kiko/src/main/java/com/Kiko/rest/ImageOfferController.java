@@ -19,8 +19,8 @@ public class ImageOfferController {
 	private ImageOfferService imageOfferService;
 
 	@RequestMapping(value = "/imagesparoffre/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<ImageOffer>> findAll(@PathVariable int id) {
-		List<ImageOffer> images = imageOfferService.findByIdOffer(id);
-		return new ResponseEntity<List<ImageOffer>>(images, HttpStatus.OK);
+	public byte[] findOne(@PathVariable int id) {
+		return  imageOfferService.getOne(id);
+		
 	}
 }

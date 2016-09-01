@@ -3,6 +3,7 @@ package bj.kiko.projects.kikobiz.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import android.util.Log;
@@ -12,8 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,27 +43,23 @@ private Bitmap bmp;
         //mImageList
 
         }
-    public void addImage(JSONObject obj){
-        try {
+    public void addImage( byte[] b){
+
+
              //data = (obj.get("byteArray"));
             //String encoded = obj.getString("byteArray");
-            String test = Util.getExampleString();
-            byte[] decoded = Base64.decode(obj.getString("byteArray"), Base64.DEFAULT);
+          //  String test = Util.getExampleString();
+           // byte[] decoded = obj.get("byteArray")
             //String str = "Hello";
-            String encoded = Base64.encodeToString("Hello".getBytes(), Base64.DEFAULT);
-            byte[] decoded0 = encoded.getBytes();
+          //  String encoded = Base64.encodeToString("Hello".getBytes(), Base64.DEFAULT);
+           // byte[] decoded0 = encoded.getBytes();
+           bmp= BitmapFactory.decodeByteArray(b, 0, b.length);
 
-            //this.bmp = Util.byteToImage(decoded0);
-            Log.d("carretail Image ", "OBJECT " + encoded );
-        }
-     catch (JSONException e) {
-        e.printStackTrace();
-        Log.d("carretail", "onPostExecute json error : " + e);
-    }
+          //  Log.d("carretail Imageooooo ", "OBJECT " + decoded.toString() );
 
     }
 
-public void addOffre(Context ctx, JSONObject inJson){
+public void addOffre(Context ctx, JsonObject inJson){
         Offer outItem = new Offer(ctx, inJson);
         mOffreList.add(outItem);
         }
@@ -126,8 +125,8 @@ static class ViewHolder {
         ViewHolder holder = (ViewHolder) childView.getTag();
         holder.title.setText(mOffreList.get(arg0).getName());
         holder.cost.setText(String.valueOf(mOffreList.get(arg0).getCost() + " FCFA"));
-
-        //holder.img.setImageBitmap(bmp);
+        Log.d("carretaillllllggg  ", "OBJECT " + bmp);
+        holder.img.setImageBitmap(bmp);
 
 
         /*holder.entreprise.setText("Entreprise: "+ mOffreList.get(arg0).getmEntreprise());
