@@ -125,7 +125,7 @@ static class ViewHolder {
         ViewHolder holder = (ViewHolder) childView.getTag();
         holder.title.setText(mOffreList.get(arg0).getName());
         holder.cost.setText(String.valueOf(mOffreList.get(arg0).getCost() + " FCFA"));
-        Log.d("carretaillllllggg  ", "OBJECT " + bmp);
+
         holder.img.setImageBitmap(bmp);
 
 

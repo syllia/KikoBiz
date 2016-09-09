@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/cornered_cells"
+    android:padding="3dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Titre+Desc"
-
         android:id="@+id/offerTitle"
 
-        android:layout_marginTop="1dp"
-        android:layout_marginLeft="170dp" />
+        android:layout_toRightOf="@+id/offer_img"
+        android:layout_marginLeft="5dp" />
 
     <ImageView
         android:layout_width="150dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/offer_img"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="0dp" />
+
+        android:adjustViewBounds="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,10 +33,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="il y a 4j"
         android:id="@+id/offerDuration"
-        android:layout_alignTop="@+id/offerTitle"
+        android:layout_above="@+id/offerCost"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,10 +43,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Porto-Novo"
         android:id="@+id/offerCity"
-        android:layout_alignBottom="@+id/offer_img"
+        android:layout_below="@+id/offerCost"
         android:layout_alignLeft="@+id/offerCost"
-        android:layout_alignStart="@+id/offerCost"
-        />
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,5 +55,6 @@
         android:id="@+id/offerCost"
         android:layout_below="@+id/offerTitle"
         android:layout_alignLeft="@+id/offerTitle"
-        android:layout_alignStart="@+id/offerTitle" />
+        android:layout_alignStart="@+id/offerTitle"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>
