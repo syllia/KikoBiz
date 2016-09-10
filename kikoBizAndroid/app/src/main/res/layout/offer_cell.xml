@@ -5,12 +5,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/cornered_cells"
-    android:padding="3dp">
+    android:minHeight="135dp"
+    android:layout_margin="5dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:lines="2"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+
         android:text="Titre+Desc"
         android:id="@+id/offerTitle"
 
@@ -18,14 +23,13 @@
         android:layout_marginLeft="5dp" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:id="@+id/offer_img"
+        android:scaleType="centerCrop"
 
-        android:adjustViewBounds="true"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="false"
-        android:layout_marginLeft="5dp" />
+        android:layout_margin="5dp" />
+    <!--android:adjustViewBounds="true"-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,9 +37,10 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="il y a 4j"
         android:id="@+id/offerDuration"
-        android:layout_above="@+id/offerCost"
+        android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:layout_width="wrap_content"

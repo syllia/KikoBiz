@@ -123,7 +123,8 @@ static class ViewHolder {
         }
         String url = "http://www.infos-mobiles.com/wp-content/uploads/2016/04/apple.png";
         ViewHolder holder = (ViewHolder) childView.getTag();
-        holder.title.setText(mOffreList.get(arg0).getName());
+        //holder.title.setText(mOffreList.get(arg0).getName());
+        holder.title.setText("Camion tout usage! Nulle part ailleurs");
         holder.cost.setText(String.valueOf(mOffreList.get(arg0).getCost() + " FCFA"));
 
         holder.img.setImageBitmap(bmp);
