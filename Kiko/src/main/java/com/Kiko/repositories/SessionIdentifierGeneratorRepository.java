@@ -10,5 +10,5 @@ import com.Kiko.model.SessionIdentifierGenerator;
 
 @Repository
 public interface SessionIdentifierGeneratorRepository extends JpaRepository<SessionIdentifierGenerator, Integer> {
-	List<SessionIdentifierGenerator> findByUserId(int userId);
+	List<SessionIdentifierGenerator> findByUserId(String userId);
 }

@@ -23,16 +23,16 @@ public class SessionIdentifierGeneratorServices {
 		this.sessionIdentifierGeneratorRepository = sessionIdentifierGeneratorRepository;
 	}
 
-	public boolean save(int idUser) {
+	public String save(String idUser) {
 		List<SessionIdentifierGenerator> sessions = sessionIdentifierGeneratorRepository.findByUserId(idUser);
 		if (sessions.size() > 0) {
 			this.sessionIdentifierGeneratorRepository.delete(sessions);
 		}
 		sessionIdentifierGeneratorRepository.save(new SessionIdentifierGenerator(idUser));
-		return true;
+		return idUser;
 		//envoi de code
 	}
-	public User delete(int idUser,int code) {
+	public User delete(String idUser,int code) {
 		List<SessionIdentifierGenerator> sessions = sessionIdentifierGeneratorRepository.findByUserId(idUser);
 		
 		if (sessions.size() !=1) {
@@ -41,7 +41,7 @@ public class SessionIdentifierGeneratorServices {
 			if (sessions.get(0).getUserId()==idUser &sessions.get(0).getCode()==code){
 				this.sessionIdentifierGeneratorRepository.delete(sessions);
 					userRepository.save(new User(idUser));
-					return this.userRepository.getOne(idUser);
+					return this.userRepository.findByUserId(idUser);
 			}
 		}
 		return null;

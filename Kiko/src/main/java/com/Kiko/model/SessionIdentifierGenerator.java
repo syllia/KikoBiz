@@ -16,22 +16,22 @@ public class SessionIdentifierGenerator {
 	@Column(name = "id", updatable = false, nullable = false)
 	private int id;
 	private int code;
-	private int userId;
+	private String userId;
 	public SessionIdentifierGenerator(){
 		
 	}
-	public SessionIdentifierGenerator(int userId){
+	public SessionIdentifierGenerator(String userId){
 		Random rNo = new Random();
 		final int code = rNo.nextInt((99999 - 10000) + 1) + 10000;
 		this.code=12345;
 		this.userId=userId;
 	}
 	
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

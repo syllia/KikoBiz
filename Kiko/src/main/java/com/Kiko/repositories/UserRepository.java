@@ -7,5 +7,5 @@ import com.Kiko.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
-
+	User findByUserId(String userId);
 }
