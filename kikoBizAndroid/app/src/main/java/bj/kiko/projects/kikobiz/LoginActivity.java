@@ -107,11 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
                         Log.d("user", result.toString());
-                        int numero = result.get("user").getAsInt();
-                        lc.setNumero(Integer.toString(numero));
-                        Intent refresh = new Intent(getBaseContext(), MainActivity.class);
-                        refresh.putExtra("name", fragmentReload);
-                        startActivity(refresh);
+                        lc.setNumero(result.get("user").getAsString());
+                        //Intent refresh = new Intent(getBaseContext(), MainActivity.class);
+                        //refresh.putExtra("name", fragmentReload);
+                        //startActivity(refresh);
                         finish();
                     }
                 });

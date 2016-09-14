@@ -25,7 +25,7 @@ import bj.kiko.projects.kikobiz.Util.LocalSavedPref;
 
 public class ParametresFragment extends Fragment {
     private ArrayList<String> list;
-
+    private boolean allowRefresh;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +52,9 @@ public class ParametresFragment extends Fragment {
                                     long arg3) {
                 if (adapter.getItem(arg2).toString().equals("Ouvrir une session")) {
                     lc.setNumero("");
+                    allowRefresh = true;
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    intent.putExtra("name",getActivity().getResources().getString(R.string.FragmentParametresName));
+                    intent.putExtra("name", getActivity().getResources().getString(R.string.FragmentParametresName));
                     startActivity(intent);
                 } else if (adapter.getItem(arg2).toString().equals("Fermer la session")) {
                     lc.setNumero("");
@@ -63,6 +64,16 @@ public class ParametresFragment extends Fragment {
         });
 
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (allowRefresh)
+        {
+            allowRefresh = false;
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
+        }
     }
     private void reload(){
         FragmentTransaction ft = getFragmentManager().beginTransaction();

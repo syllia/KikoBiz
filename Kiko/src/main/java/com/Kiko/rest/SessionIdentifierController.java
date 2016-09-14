@@ -24,7 +24,7 @@ public class SessionIdentifierController {
 	
 	@RequestMapping(value="/login/{id}/{code}", method = RequestMethod.GET)
 	public ResponseEntity<User> valideCode(@PathVariable String id,@PathVariable int code){
-		User user =  sessionIdentifierGeneratorServices.delete(id, code);
+		User user =  sessionIdentifierGeneratorServices.login(id, code);
 		//if (user==null){return new ResponseEntity<User>(user, HttpStatus.NOT_ACCEPTABLE);}
 		return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
 	}
