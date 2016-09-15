@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -24,7 +23,6 @@ import com.Kiko.model.City;
 import com.Kiko.model.Country;
 import com.Kiko.model.ImageOffer;
 import com.Kiko.model.Offer;
-import com.Kiko.model.SessionIdentifierGenerator;
 import com.Kiko.model.SubCategory;
 import com.Kiko.model.User;
 import com.Kiko.repositories.CategoryRepository;
@@ -51,6 +49,7 @@ public class RepositoryFiller {
 	private CountryRepository countryRepository;
 	@Autowired
 	private CityRepository cityRepository;
+
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
@@ -65,69 +64,83 @@ public class RepositoryFiller {
 	}
 
 	private void fillCityRepository(CityRepository cityRepository) {
-		cityRepository.save(new City(229,"Calavi"));
-		cityRepository.save(new City(229,"Cotonou"));
-		cityRepository.save(new City(229,"Porto"));
-		cityRepository.save(new City(229,"Parakou"));
-		
+		cityRepository.save(new City(229, "Calavi"));
+		cityRepository.save(new City(229, "Cotonou"));
+		cityRepository.save(new City(229, "Porto"));
+		cityRepository.save(new City(229, "Parakou"));
+
 	}
 
 	private void fillCountryRepository(CountryRepository countryRepository) {
-		countryRepository.save(new Country(229,"Bénin"));
-		
+		countryRepository.save(new Country(229, "Bénin"));
+
 	}
 
 	private void fillUserRepository(UserRepository userRepository) {
 		userRepository.save(new User("418"));
-		
+
 	}
 
 	private void fillImageOfferRepository(ImageOfferRepository imageOfferRepository) throws IOException {
 		String workingDir = System.getProperty("user.dir");
-		
-		ImageOffer i1=new ImageOffer();
-	
-	
-		String encoded = Base64.getEncoder().encodeToString(extractBytes(workingDir 
-				+ "/src/main/java/com/Kiko/filler/iiii.jpg"));
-		Path path = Paths.get(workingDir 
-				+ "/src/main/java/com/Kiko/filler/$_27.JPG");
-		byte[] data=Files.readAllBytes(path);
+
+		ImageOffer i1 = new ImageOffer();
+
+		String encoded = Base64.getEncoder()
+				.encodeToString(extractBytes(workingDir + "/src/main/java/com/Kiko/filler/iiii.jpg"));
+		Path path = Paths.get(workingDir + "/src/main/java/com/Kiko/filler/iiii.jpg");
+		byte[] data = Files.readAllBytes(path);
 		i1.setByteArray(data);
 		imageOfferRepository.save(i1);
-		
-		ImageOffer i2=new ImageOffer();
+		path = Paths.get(workingDir + "/src/main/java/com/Kiko/filler/iiii.jpg");
+		data = Files.readAllBytes(path);
+		ImageOffer i2 = new ImageOffer();
 		i2.setByteArray(data);
 		imageOfferRepository.save(i2);
-		
+
 	}
 
 	private void fillOfferRepository(OfferRepository offerRepository) {
-		Offer offer = new Offer(418,"ccc","city","p_name",10,10,"descriptionssss",1,438989989);
-		
-		
+		Offer offer = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
 		offer.setIdSousCategorie(1);
-		offer.setPhotos( Arrays.asList(1,2));
-		
+		offer.setPhotos(Arrays.asList(2, 2));
 		offerRepository.save(offer);
-		Offer offer1 = new Offer(418,"ccc","city","p_name",10,10,"descriptionssss",1,438989989);
+		Offer offer1 = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
 		offer1.setIdSousCategorie(1);
 		offer1.setCost(5);
-		offer1.setPhotos( Arrays.asList(1,2));
+		offer1.setPhotos(Arrays.asList(2, 2));
+		offerRepository.save(offer1);
+		/// 2
+		Offer offer2 = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
+		offer.setIdSousCategorie(1);
+		offer.setPhotos(Arrays.asList(2, 2));
+		offerRepository.save(offer);
+		Offer offer3 = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
+		offer1.setIdSousCategorie(1);
+		offer1.setCost(5);
+		offer1.setPhotos(Arrays.asList(2, 2));
+		offerRepository.save(offer1);
+		Offer offer4 = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
+		offer.setIdSousCategorie(1);
+		offer.setPhotos(Arrays.asList(2, 2));
+		offerRepository.save(offer);
+		Offer offer5 = new Offer(418, "ccc", "city", "p_name", 10, 10, "descriptionssss", 1, 438989989);
+		offer1.setIdSousCategorie(1);
+		offer1.setCost(5);
+		offer1.setPhotos(Arrays.asList(2, 2));
 		offerRepository.save(offer1);
 	}
 
 	private void fillSousCategorieRepository(SubCategoryRepository subCategoryRepository) {
-		subCategoryRepository.save(new SubCategory( 1, "Téléphones"));
-		subCategoryRepository.save(new SubCategory( 1, "Ordinateur portables"));
-		subCategoryRepository.save(new SubCategory( 1, "Ordinateur de bureau"));
+		subCategoryRepository.save(new SubCategory(1, "Téléphones"));
+		subCategoryRepository.save(new SubCategory(1, "Ordinateur portables"));
+		subCategoryRepository.save(new SubCategory(1, "Ordinateur de bureau"));
 		subCategoryRepository.save(new SubCategory(2, "Voitures et camions"));
-		subCategoryRepository.save(new SubCategory( 2, "Motos"));
-		subCategoryRepository.save(new SubCategory( 2, "Vélos"));
-		subCategoryRepository.save(new SubCategory( 3, "Lits,matelas"));
-		subCategoryRepository.save(new SubCategory( 3, "Chaises,fauteuils"));
+		subCategoryRepository.save(new SubCategory(2, "Motos"));
+		subCategoryRepository.save(new SubCategory(2, "Vélos"));
+		subCategoryRepository.save(new SubCategory(3, "Lits,matelas"));
+		subCategoryRepository.save(new SubCategory(3, "Chaises,fauteuils"));
 		subCategoryRepository.save(new SubCategory(3, "Tables basses"));
-		
 
 	}
 
@@ -141,18 +154,18 @@ public class RepositoryFiller {
 		categoryRepository.save(new Category("Immobilier"));
 		categoryRepository.save(new Category("Habillement et Bien-être"));
 		categoryRepository.save(new Category("Objets gratuits"));
-		
 
 	}
-	public byte[] extractBytes (String ImageName) throws IOException {
-		 // open image
-		 File imgPath = new File(ImageName);
-		 BufferedImage bufferedImage = ImageIO.read(imgPath);
 
-		 // get DataBufferBytes from Raster
-		 WritableRaster raster = bufferedImage .getRaster();
-		 DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
+	public byte[] extractBytes(String ImageName) throws IOException {
+		// open image
+		File imgPath = new File(ImageName);
+		BufferedImage bufferedImage = ImageIO.read(imgPath);
 
-		 return ( data.getData() );
-		}
+		// get DataBufferBytes from Raster
+		WritableRaster raster = bufferedImage.getRaster();
+		DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
+
+		return (data.getData());
+	}
 }

@@ -97,7 +97,7 @@ public class OffersFragment extends Fragment {
                                     JsonArray j = obj.get("photos").getAsJsonArray();
                                     int principal=1;
 
-                                    int o = j.get(0).getAsInt();
+                                    int o = j.get(1).getAsInt();
                                     principal =o;
                                     loadImages(principal);
 
