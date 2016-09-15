@@ -12,31 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Kiko.model.Offer;
 import com.Kiko.services.OfferService;
+
 @RestController
 public class OfferController {
-@Autowired private OfferService offerService;
 
-	
-	@RequestMapping(value="/offres", method = RequestMethod.GET)
-	public ResponseEntity<List<Offer>> findAll(){
-		
-		List<Offer> Offers =  offerService.findAll();
+	@Autowired
+	private OfferService offerService;
+
+	@RequestMapping(value = "/offres", method = RequestMethod.GET)
+	public ResponseEntity<List<Offer>> findAll() {
+
+		List<Offer> Offers = offerService.findAll();
 		return new ResponseEntity<List<Offer>>(Offers, HttpStatus.OK);
 	}
-	
 
-	@RequestMapping(value="/offres/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Offer> getById(@PathVariable int id){
-		
-		Offer Offer =  offerService.findById(id);
-		
+	@RequestMapping(value = "/offres/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Offer> getById(@PathVariable int id) {
+
+		Offer Offer = offerService.findById(id);
+
 		return new ResponseEntity<Offer>(Offer, HttpStatus.OK);
 	}
-	@RequestMapping(value="/offresparsouscategorie/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Offer>> getByIdSousCategorie(@PathVariable int id){
-		
-		List<Offer> Offer =  offerService.findByIdSousCategorieOrderByStartDateAsc(id);
-		
+
+	@RequestMapping(value = "/offresparsouscategorie/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Offer>> getByIdSousCategorie(@PathVariable int id) {
+
+		List<Offer> Offer = offerService.findByIdSousCategorieOrderByStartDateAsc(id);
+
 		return new ResponseEntity<List<Offer>>(Offer, HttpStatus.OK);
 	}
 
