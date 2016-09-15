@@ -41,7 +41,21 @@ public class LocalSavedPref {
         editor.putString("FavId", theFullTag);
         editor.commit();
     }
-
+    public String getNumero(){
+        String tmpStr;
+        if(!sharedPref.contains("numero")){
+            return "";
+        } else{
+            tmpStr = sharedPref.getString("numero","");
+            return  tmpStr;
+        }
+    }
+    public void setNumero(String numero) {
+        editor =  sharedPref.edit();
+        //editor.clear();
+        editor.putString("numero", numero);
+        editor.commit();
+    }
     private ArrayList<String> parseTagStringToVector(String tmpStr){
         //Parsing
         String[] tokens = tmpStr.split("-");

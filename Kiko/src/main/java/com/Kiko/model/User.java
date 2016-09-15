@@ -13,9 +13,9 @@ public class User {
 	@Id
 	@Column(name = "id", updatable = false, nullable = false)
 	@JsonProperty("user")
-	private int userId;
+	private String userId;
 	public User (){}
-	public User(int userId){
+	public User(String userId){
 		this.userId=userId;
 	}
 }

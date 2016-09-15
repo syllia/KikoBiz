@@ -78,7 +78,7 @@ public class RepositoryFiller {
 	}
 
 	private void fillUserRepository(UserRepository userRepository) {
-		userRepository.save(new User(418));
+		userRepository.save(new User("418"));
 		
 	}
 

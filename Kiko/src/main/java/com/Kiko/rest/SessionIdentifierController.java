@@ -18,13 +18,13 @@ public class SessionIdentifierController {
 	@Autowired private com.Kiko.services.UserService UserService;
 	
 	@RequestMapping(value="/generatecode/{id}", method = RequestMethod.GET)
-	public boolean save(@PathVariable int id){
+	public String save(@PathVariable String id){
 		return sessionIdentifierGeneratorServices.save(id);
 	}
 	
 	@RequestMapping(value="/login/{id}/{code}", method = RequestMethod.GET)
-	public ResponseEntity<User> valideCode(@PathVariable int id,@PathVariable int code){
-		User user =  sessionIdentifierGeneratorServices.delete(id, code);
+	public ResponseEntity<User> valideCode(@PathVariable String id,@PathVariable int code){
+		User user =  sessionIdentifierGeneratorServices.login(id, code);
 		//if (user==null){return new ResponseEntity<User>(user, HttpStatus.NOT_ACCEPTABLE);}
 		return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
 	}

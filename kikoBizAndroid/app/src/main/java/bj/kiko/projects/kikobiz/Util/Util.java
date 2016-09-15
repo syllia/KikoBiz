@@ -58,7 +58,6 @@ public class Util {
 		//byte[] data = Base64.decodeBase64(dataStr);
 		Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
 		return bmp;
-
 	}
 	public static void lancerFragment(MainActivity activity,String nomFragment){
 
@@ -72,16 +71,14 @@ public class Util {
 				FavOffersFragment test = new FavOffersFragment();
 				FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
 				ft.replace(R.id.fragmentContainer, test).addToBackStack(activity.getResources().getString(R.string.FragmentFavOffresName)).commit();
-
 			} else if (nomFragment.equals(activity.getResources().getString(R.string.FragmentParametresName))) {
 				FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
 				ParametresFragment test = new ParametresFragment();
 				ft.replace(R.id.fragmentContainer, test).addToBackStack(activity.getResources().getString(R.string.FragmentParametresName)).commit();
-
 			} else if (nomFragment.equals(activity.getResources().getString(R.string.FragmentPost))) {
-			FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-			PosterFragment test = new PosterFragment();
-			ft.replace(R.id.fragmentContainer, test).addToBackStack(activity.getResources().getString(R.string.FragmentPost)).commit();
+				FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+				PosterFragment test = new PosterFragment();
+				ft.replace(R.id.fragmentContainer, test).addToBackStack(activity.getResources().getString(R.string.FragmentPost)).commit();
 
 			} else if (nomFragment.equals(activity.getResources().getString(R.string.FragmentHomeName))) {
 				FragmentManager manager = activity.getSupportFragmentManager();
