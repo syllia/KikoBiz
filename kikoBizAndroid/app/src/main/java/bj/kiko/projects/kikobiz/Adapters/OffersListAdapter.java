@@ -45,17 +45,8 @@ private Bitmap bmp;
         }
     public void addImage( byte[] b){
 
-
-             //data = (obj.get("byteArray"));
-            //String encoded = obj.getString("byteArray");
-          //  String test = Util.getExampleString();
-           // byte[] decoded = obj.get("byteArray")
-            //String str = "Hello";
-          //  String encoded = Base64.encodeToString("Hello".getBytes(), Base64.DEFAULT);
-           // byte[] decoded0 = encoded.getBytes();
            bmp= BitmapFactory.decodeByteArray(b, 0, b.length);
 
-          //  Log.d("carretail Imageooooo ", "OBJECT " + decoded.toString() );
 
     }
 

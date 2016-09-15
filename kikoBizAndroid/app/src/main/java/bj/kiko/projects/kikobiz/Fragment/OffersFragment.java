@@ -91,7 +91,6 @@ public class OffersFragment extends Fragment {
                 .setCallback(new FutureCallback<JsonArray>() {
                             @Override
                             public void onCompleted(Exception e, JsonArray result) {
-                                Log.d("debil", result.toString());
                                 for (int i = 0; i < result.size(); i++) {
                                     JsonObject obj = result.get(i).getAsJsonObject();
                                     offersListAdapter.addOffre(getContext(), obj);
@@ -116,7 +115,6 @@ public class OffersFragment extends Fragment {
                     @Override
                     public void onCompleted(Exception e, byte[] result) {
                         offersListAdapter.addImage(result);
-                        Log.d("ddd", result.toString());
                         offersListAdapter.notifyDataSetChanged();
                     }
 
