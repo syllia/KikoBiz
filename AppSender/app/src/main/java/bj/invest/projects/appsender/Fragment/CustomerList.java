@@ -17,6 +17,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +29,12 @@ import bj.invest.projects.appsender.Adapters.SimpleListAdapter;
 import bj.invest.projects.appsender.Model.Customer;
 import bj.invest.projects.appsender.Model.Person;
 import bj.invest.projects.appsender.R;
+import bj.invest.projects.appsender.Util;
 
 
 public class CustomerList extends Fragment {
-    ArrayList<Person> dummyList = new ArrayList<>();
-    ArrayList<Person> ListToLoad = new ArrayList<>();
+    ArrayList<Customer> dummyList = new ArrayList<>();
+    ArrayList<Customer> ListToLoad = new ArrayList<>();
     ListView ListOfCustomers;
     SimpleListAdapter CustomerAdapter;
     SearchView searchField;
@@ -49,28 +55,31 @@ public class CustomerList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root =  inflater.inflate(R.layout.fragment_customer_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_customer_list, container, false);
         getActivity().setTitle("Liste des clients");
-        if (dummyList.isEmpty()){
-            GenerateDummyData();
+        loadList();
+        if (dummyList.isEmpty()) {
+        //    GenerateDummyData();
         }
 
         setHasOptionsMenu(true);
-        ListOfCustomers = (ListView)root.findViewById(R.id.customer_list);
-        CustomerAdapter =new SimpleListAdapter(this.getActivity(), ListToLoad);
+        ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
+        CustomerAdapter = new SimpleListAdapter(this.getActivity(), ListToLoad);
         ListOfCustomers.setAdapter(CustomerAdapter);
 
 
-        searchField = (SearchView)root.findViewById(R.id.searchViewCustomer);
+        searchField = (SearchView) root.findViewById(R.id.searchViewCustomer);
 
         searchField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 Log.i("on query: ", newText);
+                GenerateDummyData();
                 filter(dummyList, newText);
                 return true;
             }
@@ -100,32 +109,42 @@ public class CustomerList extends Fragment {
         }
     }
 
-    public void filter(List<Person> users, String query) {
+    public void filter(List<Customer> users, String query) {
         query = query.toLowerCase();
-        ListToLoad.clear();
+        CustomerAdapter.clear();
         //CustomerAdapter.notifyDataSetChanged();
-        for (Person u : users) {
+        for (Customer u : users) {
             final String text = u.getName().toLowerCase();
             final String text2 = u.getPhoneNumber();
             if (text.contains(query) || text2.contains(query)) {
-                ListToLoad.add(u);
+                CustomerAdapter.add(u);
 
             }
             CustomerAdapter.notifyDataSetChanged();
         }
     }
 
-    private void GenerateDummyData(){
-        dummyList.add(new Customer("Mathieu Kerekou", "2345678"));
-        dummyList.add(new Customer("Martin Luther King", "90970700"));
-        dummyList.add(new Customer("Michel Adovelandé", "00889098"));
-        dummyList.add(new Customer("Abdoulaye Bio Tchané", "89878687"));
-        dummyList.add(new Customer("Andrianjatovo Miary", "879770808"));
-        ListToLoad.add(new Customer("Mathieu Kerekou", "2345678"));
-        ListToLoad.add(new Customer("Martin Luther King", "90970700"));
-        ListToLoad.add(new Customer("Michel Adovelandé", "00889098"));
-        ListToLoad.add(new Customer("Abdoulaye Bio Tchané", "89878687"));
-        ListToLoad.add(new Customer("Andrianjatovo Miary", "879770808"));
+    private void loadList() {
+        Ion.with(this)
+                .load("GET", Util.getFormatedAPIURL(this.getContext(), "customers/"))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        for (int i = 0; i < result.size(); i++) {
+                            JsonObject obj = result.get(i).getAsJsonObject();
+                            CustomerAdapter.add(obj);
+                        }
+                        CustomerAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    private void GenerateDummyData() {
+        for (Customer customer : CustomerAdapter.getList()) {
+            dummyList.add(customer);
+        }
+
     }
 
 

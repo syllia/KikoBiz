@@ -1,6 +1,7 @@
 package bj.invest.projects.appsender.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -8,8 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 
+import bj.invest.projects.appsender.Model.Customer;
 import bj.invest.projects.appsender.Model.Person;
 import bj.invest.projects.appsender.R;
 
@@ -17,12 +21,12 @@ import bj.invest.projects.appsender.R;
  * Created by sylliamehou-loko on 16-09-19.
  */
 
-public class SimpleListAdapter extends ArrayAdapter<Person> {
+public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
-    private ArrayList<Person> Person;
+    private ArrayList<Customer> Person;
     private Activity mActivity;
 
-    public SimpleListAdapter(Activity inActivity, ArrayList<Person> inFiltreList){
+    public SimpleListAdapter(Activity inActivity, ArrayList<Customer> inFiltreList){
         super(inActivity, R.layout.fragment_customer_list, inFiltreList);
         this.mActivity = inActivity;
         Person =inFiltreList;
@@ -35,12 +39,12 @@ public class SimpleListAdapter extends ArrayAdapter<Person> {
     }
 
     @Override
-    public Person getItem(int arg0) {
+    public Customer getItem(int arg0) {
         // TODO Auto-generated method stub
         return Person.get(arg0);
     }
 
-    public ArrayList<Person> getList() {
+    public ArrayList<Customer> getList() {
         return Person;
     }
     @Override
@@ -48,6 +52,11 @@ public class SimpleListAdapter extends ArrayAdapter<Person> {
         // TODO Auto-generated method stub
         return arg0;
     }
+    public void add(JsonObject inJson){
+        Customer outItem = new Customer(inJson);
+        Person.add(outItem);
+    }
+
 
     class ViewHolder {
         public TextView PersonName;
