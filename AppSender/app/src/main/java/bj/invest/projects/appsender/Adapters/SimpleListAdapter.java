@@ -1,21 +1,23 @@
 package bj.invest.projects.appsender.Adapters;
 
 import android.app.Activity;
-import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
 import bj.invest.projects.appsender.Model.Customer;
-import bj.invest.projects.appsender.Model.Person;
 import bj.invest.projects.appsender.R;
+import bj.invest.projects.appsender.Util;
 
 /**
  * Created by sylliamehou-loko on 16-09-19.
@@ -23,29 +25,30 @@ import bj.invest.projects.appsender.R;
 
 public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
-    private ArrayList<Customer> Person;
+    private ArrayList<Customer> listOfCustomers;
     private Activity mActivity;
 
     public SimpleListAdapter(Activity inActivity, ArrayList<Customer> inFiltreList){
         super(inActivity, R.layout.fragment_customer_list, inFiltreList);
         this.mActivity = inActivity;
-        Person =inFiltreList;
+        listOfCustomers =inFiltreList;
     }
+
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return Person.size();
+        return listOfCustomers.size();
     }
 
     @Override
     public Customer getItem(int arg0) {
         // TODO Auto-generated method stub
-        return Person.get(arg0);
+        return listOfCustomers.get(arg0);
     }
 
     public ArrayList<Customer> getList() {
-        return Person;
+        return listOfCustomers;
     }
     @Override
     public long getItemId(int arg0) {
@@ -54,14 +57,15 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
     }
     public void add(JsonObject inJson){
         Customer outItem = new Customer(inJson);
-        Person.add(outItem);
+        listOfCustomers.add(outItem);
     }
 
 
     class ViewHolder {
         public TextView PersonName;
         public TextView PersonNumber;
-        public Button delete;
+        public Button delete = new Button(getContext());
+        public Customer currentCustomer;
 
     }
 
@@ -90,60 +94,24 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
             viewHolder.PersonNumber = (TextView) childView.findViewById(R.id.customerPhone);
             //viewHolder.switchBtn = (ToggleButton) childView.findViewById(R.id.filtre_switch);
             childView.setTag(viewHolder);
-        }
+            viewHolder.currentCustomer = listOfCustomers.get(arg0);
+            viewHolder.delete = (Button)childView.findViewById(R.id.delete_button);
+            viewHolder.delete.setTag(viewHolder.currentCustomer);
 
+
+
+
+        }
         ViewHolder holder = (ViewHolder) childView.getTag();
 
-        holder.PersonName.setText(Person.get(arg0).getName());
-        holder.PersonNumber.setText(Person.get(arg0).getPhoneNumber());
-        holder.delete = (Button)childView.findViewById(R.id.delete_button);
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Person.remove(arg0);
-            }
-        });
-        this.notifyDataSetChanged();
+        holder.PersonName.setText(listOfCustomers.get(arg0).getName());
+        holder.PersonNumber.setText(listOfCustomers.get(arg0).getPhoneNumber());
+
 
         return childView;
     //}
-}
-
- /*   public void addToListOfSelected(String aFiltre) {
-        if (!listOfSelectedFiltre.contains(aFiltre)) {
-            listOfSelectedFiltre.add(aFiltre);
-            mFiltreAdapter.notifyDataSetChanged();
-        }
     }
 
-    public void removeToListOfSelected(String aFiltre){
-        if(listOfSelectedFiltre.contains(aFiltre)){
-            listOfSelectedFiltre.remove(aFiltre);
-            mFiltreAdapter.notifyDataSetChanged();
-        }
-    }
 
-    public void add(JSONObject inJson){
-        Secteur outItem = new Secteur(inJson);
-        listOfFiltre.add(outItem.getmName());
-    }
-
-    public void saveReglage(){
-        Vector<String> vector = new Vector<String>(listOfSelectedFiltre);
-        //Recuperer tout les switch sur on
-        lclSaveReq.setTag(vector);
-    }
-
-    @Override
-    public void onStop(){
-        saveReglage();
-        super.onStop();
-    }
-
-    public void onBackPressed() {
-        saveReglage();
-        getFragmentManager().popBackStack();
-
-    }*/
 
 }

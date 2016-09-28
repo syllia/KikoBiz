@@ -43,7 +43,7 @@ public class Person {
             Id = inObject.get("id").getAsString();
             Name = inObject.get("name").getAsString();
             PhoneNumber = inObject.get("number").getAsString();
-            ShopId = inObject.get("ShopId").getAsInt();
+            ShopId = inObject.get("idShop").getAsInt();
         }catch(JsonIOException e){
             Log.d("Person JSON Constructor", "JSONException raised ");
         }

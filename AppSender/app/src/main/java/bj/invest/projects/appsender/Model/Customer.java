@@ -12,6 +12,6 @@ public class Customer extends Person{
         super(name, num);
     }
     public Customer(JsonObject inObject){
-        super();
+        super(inObject);
     }
 }

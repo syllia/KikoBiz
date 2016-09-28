@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import bj.invest.projects.appsender.R;
 
 
 public class AddCustomer extends Fragment {
 
+    Button validateNewCustomer;
     public AddCustomer() {
         // Required empty public constructor
     }

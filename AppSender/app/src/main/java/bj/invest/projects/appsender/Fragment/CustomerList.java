@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.util.Log;
@@ -66,8 +67,15 @@ public class CustomerList extends Fragment {
         ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
         CustomerAdapter = new SimpleListAdapter(this.getActivity(), ListToLoad);
         ListOfCustomers.setAdapter(CustomerAdapter);
-
-
+        /*delete = (Button)root.findViewById(R.id.delete_button);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Customer itemToRemove = (Customer) v.getTag();
+                CustomerAdapter.remove(itemToRemove);
+                dummyList.remove(itemToRemove);
+            }
+        });*/
         searchField = (SearchView) root.findViewById(R.id.searchViewCustomer);
 
         searchField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -85,7 +93,21 @@ public class CustomerList extends Fragment {
             }
 
         });
+
+
+        ListOfCustomers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
         return root;
+    }
+
+    public void removeCustomer(View v) {
+        Customer itemToRemove = (Customer) v.getTag();
+        CustomerAdapter.remove(itemToRemove);
+        dummyList.remove(itemToRemove);
     }
 
     @Override
@@ -131,11 +153,24 @@ public class CustomerList extends Fragment {
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        Log.d("onCompleted: ", result.toString());
                         for (int i = 0; i < result.size(); i++) {
                             JsonObject obj = result.get(i).getAsJsonObject();
                             CustomerAdapter.add(obj);
                         }
                         CustomerAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    private void deleteCustomer(String id){
+        Ion.with(this)
+                .load("DELETE", Util.getFormatedAPIURL(this.getContext(), "customers/"+id))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        loadList();
                     }
                 });
     }
