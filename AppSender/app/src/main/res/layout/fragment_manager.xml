@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="bj.invest.projects.appsender.Fragment.ManagerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/accounts_img"
+        android:layout_gravity="left|top"
+        android:background="@drawable/user_account"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView2"
+        android:layout_gravity="left|top"
+        android:background= "@drawable/ist_customers"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="30dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView3"
+        android:layout_gravity="left|top"
+        android:background="@drawable/send_message"
+        android:layout_alignBottom="@+id/accounts_img"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="30dp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/shop_icon"
+        android:layout_gravity="left|top"
+        android:background="@drawable/shop_icon"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView3"
+        android:layout_alignStart="@+id/imageView3" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Comptes"
+        android:id="@+id/accountsTextView"
+        android:layout_below="@+id/accounts_img"
+        android:layout_alignLeft="@+id/accounts_img"
+        android:layout_alignStart="@+id/accounts_img"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Promos"
+        android:id="@+id/promotionTextView"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/accountsTextView"
+        android:layout_alignLeft="@+id/imageView3"
+        android:layout_alignStart="@+id/imageView3" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clients"
+        android:id="@+id/customerListTextView"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_below="@+id/shop_icon"
+        android:layout_alignLeft="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Magasins"
+        android:id="@+id/shopTextView"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/customerListTextView"
+        android:layout_alignLeft="@+id/shop_icon"
+        android:layout_alignStart="@+id/shop_icon" />
+</RelativeLayout>

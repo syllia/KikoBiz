@@ -15,7 +15,8 @@ import bj.invest.projects.appsender.R;
 public class HomeFragment extends Fragment {
 
     Button ListOfCustomers;
-    ImageView imgList;
+
+    Button managerButton;
 
    // private OnFragmentInteractionListener mListener;
 
@@ -40,6 +41,17 @@ public class HomeFragment extends Fragment {
                 CustomerList test = new CustomerList();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragmentContainer, test).addToBackStack("formulaire").commit();
+            }
+        });
+
+        managerButton = (Button)rootView.findViewById(R.id.ManagerButton);
+        managerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ManagerFragment test = new ManagerFragment();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragmentContainer, test).addToBackStack("formulaire").commit();
+
             }
         });
         return rootView;
