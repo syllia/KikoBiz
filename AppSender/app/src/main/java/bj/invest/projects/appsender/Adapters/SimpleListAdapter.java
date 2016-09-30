@@ -27,13 +27,20 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
     private ArrayList<Customer> listOfCustomers;
     private Activity mActivity;
+    private ListAdapterListener mListener;
 
-    public SimpleListAdapter(Activity inActivity, ArrayList<Customer> inFiltreList){
+
+    public SimpleListAdapter(Activity inActivity, ArrayList<Customer> inFiltreList, ListAdapterListener listener){
         super(inActivity, R.layout.fragment_customer_list, inFiltreList);
         this.mActivity = inActivity;
         listOfCustomers =inFiltreList;
+        mListener = listener;
     }
 
+
+    public interface ListAdapterListener { // create an interface
+        void onClickAtOKButton(int position); // create callback function
+    }
 
     @Override
     public int getCount() {
@@ -97,7 +104,12 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
             viewHolder.currentCustomer = listOfCustomers.get(arg0);
             viewHolder.delete = (Button)childView.findViewById(R.id.delete_button);
             viewHolder.delete.setTag(viewHolder.currentCustomer);
-
+            viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onClickAtOKButton(arg0);
+                }
+            });
 
 
 

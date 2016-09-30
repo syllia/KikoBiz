@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -40,6 +41,7 @@ public class CustomerList extends Fragment {
     SimpleListAdapter CustomerAdapter;
     SearchView searchField;
 
+
     public CustomerList() {
         // Required empty public constructor
     }
@@ -59,23 +61,24 @@ public class CustomerList extends Fragment {
         View root = inflater.inflate(R.layout.fragment_customer_list, container, false);
         getActivity().setTitle("Liste des clients");
         loadList();
-        if (dummyList.isEmpty()) {
-        //    GenerateDummyData();
-        }
 
         setHasOptionsMenu(true);
         ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
-        CustomerAdapter = new SimpleListAdapter(this.getActivity(), ListToLoad);
-        ListOfCustomers.setAdapter(CustomerAdapter);
-        /*delete = (Button)root.findViewById(R.id.delete_button);
-        delete.setOnClickListener(new View.OnClickListener() {
+        CustomerAdapter = new SimpleListAdapter(this.getActivity(), ListToLoad, new SimpleListAdapter.ListAdapterListener() {
             @Override
-            public void onClick(View v) {
-                Customer itemToRemove = (Customer) v.getTag();
-                CustomerAdapter.remove(itemToRemove);
+            public void onClickAtOKButton(int position) {
+                Toast.makeText(getActivity(), "click ok button at " + position, Toast.LENGTH_SHORT).show();
+                Customer itemToRemove = dummyList.get(position);
+                deleteCustomer(itemToRemove.getId());
+                //CustomerAdapter.remove(itemToRemove);
+                //ListToLoad.remove(itemToRemove);
                 dummyList.remove(itemToRemove);
+
             }
-        });*/
+        });
+        ListOfCustomers.setAdapter(CustomerAdapter);
+        View childView = getActivity().getLayoutInflater().inflate(R.layout.customer_cell, null);
+
         searchField = (SearchView) root.findViewById(R.id.searchViewCustomer);
 
         searchField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -87,7 +90,6 @@ public class CustomerList extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 Log.i("on query: ", newText);
-                GenerateDummyData();
                 filter(dummyList, newText);
                 return true;
             }
@@ -104,11 +106,7 @@ public class CustomerList extends Fragment {
         return root;
     }
 
-    public void removeCustomer(View v) {
-        Customer itemToRemove = (Customer) v.getTag();
-        CustomerAdapter.remove(itemToRemove);
-        dummyList.remove(itemToRemove);
-    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -153,12 +151,16 @@ public class CustomerList extends Fragment {
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
-                        Log.d("onCompleted: ", result.toString());
-                        for (int i = 0; i < result.size(); i++) {
-                            JsonObject obj = result.get(i).getAsJsonObject();
-                            CustomerAdapter.add(obj);
-                        }
-                        CustomerAdapter.notifyDataSetChanged();
+                       if(result != null) {
+                           CustomerAdapter.clear();
+                           dummyList.clear();
+                           for (int i = 0; i < result.size(); i++) {
+                               JsonObject obj = result.get(i).getAsJsonObject();
+                               CustomerAdapter.add(obj);
+                               dummyList.add(new Customer(obj));
+                           }
+                           CustomerAdapter.notifyDataSetChanged();
+                       }
                     }
                 });
     }
@@ -170,17 +172,13 @@ public class CustomerList extends Fragment {
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        CustomerAdapter.clear();
+                        dummyList.clear();
                         loadList();
                     }
                 });
     }
 
-    private void GenerateDummyData() {
-        for (Customer customer : CustomerAdapter.getList()) {
-            dummyList.add(customer);
-        }
-
-    }
 
 
 }

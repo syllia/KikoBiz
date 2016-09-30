@@ -1,16 +1,9 @@
 package bj.invest.projects.appsender.Model;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by sylliamehou-loko on 16-09-20.
@@ -19,20 +12,20 @@ public class Person {
     private String Id;
     private String Name;
     private String PhoneNumber;
-    private Integer ShopId;
+    private String Store;
 
-    public Person(String id, String name, String phoneNumber, Integer shopId) {
+    public Person(String id, String name, String phoneNumber, String store) {
         Id = id;
         Name = name;
         PhoneNumber = phoneNumber;
-        ShopId = shopId;
+        Store = store;
     }
 
     public Person( String name, String phoneNumber) {
         Id = null;
         Name = name;
         PhoneNumber = phoneNumber;
-        ShopId = null;
+        Store = null;
     }
 
 
@@ -43,7 +36,7 @@ public class Person {
             Id = inObject.get("id").getAsString();
             Name = inObject.get("name").getAsString();
             PhoneNumber = inObject.get("number").getAsString();
-            ShopId = inObject.get("idShop").getAsInt();
+            Store = inObject.get("store").getAsString();
         }catch(JsonIOException e){
             Log.d("Person JSON Constructor", "JSONException raised ");
         }
@@ -74,11 +67,11 @@ public class Person {
         PhoneNumber = phoneNumber;
     }
 
-    public Integer getShopId() {
-        return ShopId;
+    public String getStore() {
+        return Store;
     }
 
-    public void setShopId(Integer shopId) {
-        ShopId = shopId;
+    public void setStore(String store) {
+        Store = store;
     }
 }
