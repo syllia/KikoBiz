@@ -18,8 +18,8 @@ public class ClickatellServices {
 	public static void sendMessage(String message, String numero) throws IOException, InterruptedException {
 
 		String messageSend = URLEncoder.encode(message, "Windows-1252");
-		String url = "http://api.clickatell.com/http/sendmsg?" + "user=j.adossou&password=investdrink12&api_id=3624427"
-				+ "&to=" + "14186094739" + "&text=" + "kkkkkk" + "&from=InvestDrink";
+		String url = "http://api.clickatell.com/http/sendmsg?user=j.adossou&password=investdrink12&api_id=3624427"
+				+ "&to=" + numero + "&text=" + messageSend + "&from=InvestDrink";
 		sendGET(url);
 	}
 
