@@ -24,7 +24,7 @@ public class Util {
         return Util.getFormatedAPIURL(inContext, inMethod,null);
     }
 
-    public static boolean verifierSiFragmentActif (MainActivity activity,String nomFragment){
+    public static boolean verifierSiFragmentActif (StoreActivity activity,String nomFragment){
         FragmentManager manager = activity.getSupportFragmentManager();
         if(manager.getBackStackEntryCount() == 0){return false;}
 

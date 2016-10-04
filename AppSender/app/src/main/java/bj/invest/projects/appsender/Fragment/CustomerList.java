@@ -1,12 +1,14 @@
 package bj.invest.projects.appsender.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,7 +31,6 @@ import java.util.List;
 
 import bj.invest.projects.appsender.Adapters.SimpleListAdapter;
 import bj.invest.projects.appsender.Model.Customer;
-import bj.invest.projects.appsender.Model.Person;
 import bj.invest.projects.appsender.R;
 import bj.invest.projects.appsender.Util;
 
@@ -39,7 +40,9 @@ public class CustomerList extends Fragment {
     ArrayList<Customer> ListToLoad = new ArrayList<>();
     ListView ListOfCustomers;
     SimpleListAdapter CustomerAdapter;
+    String store;
     SearchView searchField;
+    ProgressBar progressBarCustomer;
 
 
     public CustomerList() {
@@ -59,20 +62,28 @@ public class CustomerList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_customer_list, container, false);
-        getActivity().setTitle("Liste des clients");
+        store =getArguments().getString("id");
+
+        getActivity().setTitle(store);
+        progressBarCustomer = (ProgressBar)root.findViewById(R.id.progressbar_loading_customers);
         loadList();
+
 
         setHasOptionsMenu(true);
         ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
         CustomerAdapter = new SimpleListAdapter(this.getActivity(), ListToLoad, new SimpleListAdapter.ListAdapterListener() {
             @Override
-            public void onClickAtOKButton(int position) {
-                Toast.makeText(getActivity(), "click ok button at " + position, Toast.LENGTH_SHORT).show();
-                Customer itemToRemove = dummyList.get(position);
-                deleteCustomer(itemToRemove.getId());
-                //CustomerAdapter.remove(itemToRemove);
-                //ListToLoad.remove(itemToRemove);
-                dummyList.remove(itemToRemove);
+            public void onClickAtButton(int position, int type) {
+                if(type == 0){
+                    Customer itemToUpdate = dummyList.get(position);
+                    showAlertDialogUpdate(itemToUpdate);
+                }
+                else{
+                    Customer itemToRemove = dummyList.get(position);
+                   showAlertDialogDelete(itemToRemove);
+
+                }
+
 
             }
         });
@@ -80,7 +91,13 @@ public class CustomerList extends Fragment {
         View childView = getActivity().getLayoutInflater().inflate(R.layout.customer_cell, null);
 
         searchField = (SearchView) root.findViewById(R.id.searchViewCustomer);
-
+        searchField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchField.setIconified(false);
+                //searchField.setCol
+            }
+        });
         searchField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -145,12 +162,15 @@ public class CustomerList extends Fragment {
     }
 
     private void loadList() {
+        progressBarCustomer.setVisibility(View.VISIBLE);
         Ion.with(this)
-                .load("GET", Util.getFormatedAPIURL(this.getContext(), "customers/"))
+                .load("GET", Util.getFormatedAPIURL(this.getContext(), "/customers/bystores/"+ store.replace(" ","%20")))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        progressBarCustomer.setVisibility(View.GONE);
+
                        if(result != null) {
                            CustomerAdapter.clear();
                            dummyList.clear();
@@ -159,15 +179,98 @@ public class CustomerList extends Fragment {
                                CustomerAdapter.add(obj);
                                dummyList.add(new Customer(obj));
                            }
+
                            CustomerAdapter.notifyDataSetChanged();
                        }
+                       else{
+
+                           showAlertDialogResult("Connexion introuvable");}
                     }
                 });
+
+    }
+    void showAlertDialogResult(String s){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Problèmes de connexion");
+        builder.setCancelable(false);
+        builder.setMessage(s);
+        builder.setPositiveButton("Recommencer",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                loadList();
+            }
+        });
+        builder.setNegativeButton("Annuler",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               getActivity().onBackPressed();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void deleteCustomer(String id){
         Ion.with(this)
                 .load("DELETE", Util.getFormatedAPIURL(this.getContext(), "customers/"+id))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        CustomerAdapter.clear();
+                        dummyList.clear();
+                        loadList();
+                    }
+                });
+    }
+
+    void showAlertDialogDelete(final Customer itemToRemove){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Supprimer client");
+
+        builder.setMessage("Veuillez confirmer la suppresion du client: \n"+itemToRemove.getName()+"\n"+itemToRemove.getPhoneNumber());
+
+        builder.setPositiveButton("Supprimer",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCustomer(itemToRemove.getId());
+                dummyList.remove(itemToRemove);
+            }
+        });
+
+        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        builder.show();
+
+    }
+
+    void showAlertDialogUpdate(final Customer itemToUpdate){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Vente client");
+
+        builder.setMessage("Veuillez confirmer l'achat du client: \n"+itemToUpdate.getName()+"\n"+itemToUpdate.getPhoneNumber());
+
+        builder.setPositiveButton("Mettre à jour",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                updateBuyDate(itemToUpdate.getId());
+            }
+        });
+
+        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        builder.show();
+
+    }
+
+    private void updateBuyDate(String id){
+        Ion.with(this)
+                .load("PUT", Util.getFormatedAPIURL(this.getContext(), "customers/"+id))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override

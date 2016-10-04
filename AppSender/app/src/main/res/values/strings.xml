@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppSender</string>
+    <string name="app_name">Invest Drink</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,4 +8,5 @@
     <string name="APIBase">http://investdrink-info.cfapps.io/</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main_activity_test">MainActivityTest</string>
 </resources>

@@ -39,7 +39,7 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
 
     public interface ListAdapterListener { // create an interface
-        void onClickAtOKButton(int position); // create callback function
+        void onClickAtButton(int position, int buttonType); // create callback function
     }
 
     @Override
@@ -71,8 +71,12 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
     class ViewHolder {
         public TextView PersonName;
         public TextView PersonNumber;
-        public Button delete = new Button(getContext());
+        public Button delete;
         public Customer currentCustomer;
+        public Button update;
+        public TextView nbBills;
+        public TextView billLastDate;
+        public TextView status;
 
     }
 
@@ -99,15 +103,27 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
             viewHolder.PersonName = (TextView) childView.findViewById(R.id.customerName);
             viewHolder.PersonNumber = (TextView) childView.findViewById(R.id.customerPhone);
+            viewHolder.status = (TextView) childView.findViewById(R.id.statusTextView);
+            viewHolder.nbBills = (TextView) childView.findViewById(R.id.nbPurchaseTextView);
+            viewHolder.billLastDate = (TextView) childView.findViewById(R.id.lastDateTextView);
+
             //viewHolder.switchBtn = (ToggleButton) childView.findViewById(R.id.filtre_switch);
             childView.setTag(viewHolder);
             viewHolder.currentCustomer = listOfCustomers.get(arg0);
+
+            viewHolder.update = (Button)childView.findViewById(R.id.ok_button);
+            viewHolder.update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onClickAtButton(arg0, 0);
+                }
+            });
             viewHolder.delete = (Button)childView.findViewById(R.id.delete_button);
             viewHolder.delete.setTag(viewHolder.currentCustomer);
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onClickAtOKButton(arg0);
+                    mListener.onClickAtButton(arg0, 1);
                 }
             });
 
@@ -118,7 +134,9 @@ public class SimpleListAdapter extends ArrayAdapter<Customer> {
 
         holder.PersonName.setText(listOfCustomers.get(arg0).getName());
         holder.PersonNumber.setText(listOfCustomers.get(arg0).getPhoneNumber());
-
+        holder.billLastDate.setText(listOfCustomers.get(arg0).getLastBillDate());
+        holder.nbBills.setText(Integer.toString(listOfCustomers.get(arg0).getNumberBill()));
+        holder.status.setText(listOfCustomers.get(arg0).getInfo());
 
         return childView;
     //}

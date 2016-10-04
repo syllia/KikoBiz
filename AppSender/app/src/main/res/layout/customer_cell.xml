@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="null"
+        android:text="nom"
         android:id="@+id/customerName"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -18,31 +18,71 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="null"
+        android:text="numero"
         android:id="@+id/customerPhone"
-        android:layout_marginTop="15dp"
+        android:textStyle="bold"
         android:layout_below="@+id/customerName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:paddingLeft="3dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/ok_button"
+        android:text="update"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/update_button_background"
         android:id="@+id/ok_button"
-        android:layout_alignBottom="@+id/customerPhone"
-        android:layout_toLeftOf="@+id/delete_button"
-        android:layout_toStartOf="@+id/delete_button"
-        android:layout_marginRight="15dp"/>
+        android:layout_below="@+id/statusTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/delete_button"
-        android:background="@drawable/delete_button"
+        android:text="Supprimer"
+        android:textColor="#ff0000"
+        android:background="@drawable/delete_button_background"
         android:layout_alignTop="@+id/ok_button"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="lastDate"
+        android:id="@+id/lastDateTextView"
+        android:textStyle="italic"
+        android:layout_below="@+id/customerPhone"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="nb"
+        android:id="@+id/nbPurchaseTextView"
+        android:textStyle="italic"
+        android:layout_alignTop="@+id/lastDateTextView"
+        android:layout_alignLeft="@+id/delete_button"
+        android:layout_alignStart="@+id/delete_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Status"
+        android:id="@+id/statusTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lastDateTextView" />
 </RelativeLayout>

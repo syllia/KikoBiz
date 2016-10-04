@@ -4,13 +4,14 @@
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:icon="@drawable/ic_arrow_back_black_24dp"
+        android:orderInCategory="1000"
+        android:title="Back"
         app:showAsAction="never" />
     <item
         android:id="@+id/add_user"
         android:orderInCategory="200"
-        android:title="Search"
+        android:title="Add"
         android:icon="@drawable/add_user_icon"
         app:showAsAction="ifRoom"
         ></item>

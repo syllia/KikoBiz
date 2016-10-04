@@ -13,7 +13,9 @@ public class Person {
     private String Name;
     private String PhoneNumber;
     private String Store;
-
+    private int NumberBill;
+    private String LastBillDate;
+    private String Info;
     public Person(String id, String name, String phoneNumber, String store) {
         Id = id;
         Name = name;
@@ -37,6 +39,9 @@ public class Person {
             Name = inObject.get("name").getAsString();
             PhoneNumber = inObject.get("number").getAsString();
             Store = inObject.get("store").getAsString();
+            NumberBill = inObject.get("numberBill").getAsInt();
+            LastBillDate = inObject.get("LastBilDate").getAsString();
+            Info = inObject.get("info").getAsString();
         }catch(JsonIOException e){
             Log.d("Person JSON Constructor", "JSONException raised ");
         }
@@ -73,5 +78,29 @@ public class Person {
 
     public void setStore(String store) {
         Store = store;
+    }
+
+    public int getNumberBill() {
+        return NumberBill;
+    }
+
+    public void setNumberBill(int numberBill) {
+        NumberBill = numberBill;
+    }
+
+    public String getLastBillDate() {
+        return LastBillDate;
+    }
+
+    public void setLastBillDate(String lastBillDate) {
+        LastBillDate = lastBillDate;
+    }
+
+    public String getInfo() {
+        return Info;
+    }
+
+    public void setInfo(String info) {
+        Info = info;
     }
 }
