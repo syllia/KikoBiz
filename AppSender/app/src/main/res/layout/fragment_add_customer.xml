@@ -58,7 +58,7 @@
         android:layout_alignEnd="@+id/numberEditText" />
 
     <Spinner
-        android:background="@drawable/spinner_background"
+        android:spinnerMode="dropdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/shopSpinner"

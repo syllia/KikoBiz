@@ -6,8 +6,6 @@
             <item>
                 <shape>
                     <gradient android:angle="90"
-                        android:endColor="#ffffff"
-                        android:startColor="#ffffff"
                         android:type="linear" />
 
                     <stroke android:width="2dp"
@@ -17,10 +15,7 @@
 
                 </shape>
             </item>
-            <item>
-                <bitmap android:gravity="center|right"
-                    android:src="@drawable/spinner_arrow" />
-            </item>
+
         </layer-list>
     </item>
 </selector>
