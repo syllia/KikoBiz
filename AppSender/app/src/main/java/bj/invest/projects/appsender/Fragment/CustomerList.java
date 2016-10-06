@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -43,6 +44,7 @@ public class CustomerList extends Fragment {
     String store;
     SearchView searchField;
     ProgressBar progressBarCustomer;
+    TextView empty;
 
 
     public CustomerList() {
@@ -67,7 +69,7 @@ public class CustomerList extends Fragment {
         getActivity().setTitle(store);
         progressBarCustomer = (ProgressBar)root.findViewById(R.id.progressbar_loading_customers);
         loadList();
-
+        empty = (TextView)root.findViewById(R.id.emptyCustomerList);
 
         setHasOptionsMenu(true);
         ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
@@ -181,6 +183,9 @@ public class CustomerList extends Fragment {
                            }
 
                            CustomerAdapter.notifyDataSetChanged();
+                           if (CustomerAdapter.isEmpty()){
+                               empty.setText("Aucun client enregistré pour ce magasin");
+                           }
                        }
                        else{
 

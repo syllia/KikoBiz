@@ -130,15 +130,15 @@ showAlertDialogInformationManquantes();
                     public void onCompleted(Exception e, JsonObject result) {
                         if(result != null) {
                             JsonElement id = result.get("id");
-                            if (id.getAsString()==""){
-                                showAlertDialogResult("Ce client numéro existe déja");
+                            if (id.isJsonNull()){
+                                showAlertDialogFail("Ce numero de client existe déjà");
                             }else{
-                            showAlertDialogResult("Nouveau client enrégisté");
+                            showAlertDialogResult("Nouveau client enregisté");
                             getActivity().onBackPressed();
                             }
                         }else{
 
-                        showAlertDialogResult("Connexion introuvable");}
+                        showAlertDialogFail("Connexion introuvable");}
 
                     }
                 });
@@ -149,9 +149,9 @@ showAlertDialogInformationManquantes();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setTitle("Enrégistrement du client");
+        builder.setTitle("Enregistrement du client");
         builder.setCancelable(false);
-        builder.setMessage("Voulez-vous enrégistrer le client:\n"+ name.getText().toString() + "\n"+ number.getText().toString()+ "?");
+        builder.setMessage("Voulez-vous enregistrer le client:\n"+ name.getText().toString() + "\n"+ number.getText().toString()+ "?");
 
         builder.setPositiveButton("OK",new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -168,7 +168,22 @@ showAlertDialogInformationManquantes();
     void showAlertDialogResult(String s){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setTitle("Enrégistrement du client");
+        builder.setTitle("Enregistrement du client");
+        builder.setCancelable(false);
+        builder.setMessage(s);
+        builder.setNeutralButton("OK",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //do things
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    void showAlertDialogFail(String s){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle("Échec de l'enregistrement");
         builder.setCancelable(false);
         builder.setMessage(s);
         builder.setNeutralButton("OK",new DialogInterface.OnClickListener() {
@@ -182,7 +197,7 @@ showAlertDialogInformationManquantes();
     void showAlertDialogInformationManquantes(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setTitle("Enrégistrement du client");
+        builder.setTitle("Enregistrement du client");
         builder.setCancelable(false);
         builder.setMessage("Informations manquantes pour le client");
 

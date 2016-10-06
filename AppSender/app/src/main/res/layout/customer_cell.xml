@@ -30,7 +30,7 @@
         android:paddingLeft="3dp"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="update"
+        android:text="Vente"
         android:textColor="@color/colorPrimary"
         android:background="@drawable/update_button_background"
         android:id="@+id/ok_button"

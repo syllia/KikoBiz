@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.koushikdutta.async.future.FutureCallback;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     ListView list;
     OnShopSelectedListener shopCallBack;
     ProgressBar progressBarStores;
+    TextView empty;
 
     public interface OnShopSelectedListener {
 
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment {
         mStoresAdapter = new StoresAdaptes(getActivity(), listOfStores);
         progressBarStores = (ProgressBar)root.findViewById(R.id.progressbar_loading_stores);
         list.setAdapter(mStoresAdapter);
+        empty = (TextView)root.findViewById(R.id.emptyList);
         loadStoresList();
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -90,6 +93,9 @@ public class HomeFragment extends Fragment {
 
                             }
                             progressBarStores.setVisibility(View.GONE);
+                            if(mStoresAdapter.isEmpty()){
+                                empty.setText("Aucun magasin enregistré");
+                            }
                             mStoresAdapter.notifyDataSetChanged();
                         }else{
 

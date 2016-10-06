@@ -35,5 +35,16 @@
         android:layout_below="@+id/progressbar_loading_stores"
         android:layout_marginTop="60dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/emptyList"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/welcomTextView"
+        android:layout_alignStart="@+id/welcomTextView"
+        android:textStyle="italic" />
+
 
 </RelativeLayout>

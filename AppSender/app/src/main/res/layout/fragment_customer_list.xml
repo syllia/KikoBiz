@@ -36,4 +36,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/emptyCustomerList"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="italic" />
 </RelativeLayout>
