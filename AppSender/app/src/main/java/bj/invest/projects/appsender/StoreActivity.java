@@ -3,6 +3,7 @@ package bj.invest.projects.appsender;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -58,12 +59,10 @@ public class StoreActivity extends AppCompatActivity implements HomeFragment.OnS
 
     public void onShopSelected(String position) {
         //mStoresAdapter.clear();
-        CustomerList test = new CustomerList();
-        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-        Bundle args = new Bundle();
-        args.putString("id", position);
-        test.setArguments(args);
-        ft.replace(R.id.fragmentContainer, test).addToBackStack("CustomerList").commit();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("id", position);
+        startActivity(intent);
 
     }
 

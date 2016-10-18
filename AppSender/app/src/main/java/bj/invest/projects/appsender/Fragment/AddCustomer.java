@@ -35,12 +35,11 @@ public class AddCustomer extends Fragment {
 
     Button validateNewCustomer;
     EditText name;
-    Spinner store;
     EditText number;
     ArrayAdapter storeSpinnerAdapter;
     List<String> listOfStores= new ArrayList<>();
     ProgressBar progressBarAddCustomer;
-
+    String store;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,35 +51,26 @@ public class AddCustomer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         getActivity().setTitle("Ajouter un client");
+        store = getArguments().getString("shop");
         View root =  inflater.inflate(R.layout.fragment_add_customer, container, false);
         progressBarAddCustomer = (ProgressBar)root.findViewById(R.id.progressbar_add_customer);
         name = (EditText)root.findViewById(R.id.nameEditText);
         //store = (EditText)root.findViewById(R.id.storeEditText);
         number = (EditText)root.findViewById(R.id.numberEditText);
-        store =(Spinner) root.findViewById(R.id.shopSpinner);
-        number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    hideKeyboard(v);
-                }
-            }
-        });
-        storeSpinnerAdapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item,
-                listOfStores);
+
 
         loadStoresList();
-        loadlistSecteurSpinner();
+
 
         validateNewCustomer = (Button)root.findViewById(R.id.addCustomerButton);
         validateNewCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!name.getText().toString().isEmpty() &&!number.getText().toString().isEmpty() && !store.getSelectedItem().toString().isEmpty()){
+                if (!name.getText().toString().isEmpty() &&!number.getText().toString().isEmpty()){
                     JsonObject obj = new JsonObject();
                     obj.addProperty("name", name.getText().toString());
                     obj.addProperty("number", number.getText().toString());
-                    obj.addProperty("store", store.getSelectedItem().toString());
+                    obj.addProperty("store", store);
                     showAlertDialogConfirmation(obj);
                 }else {
 showAlertDialogInformationManquantes();
@@ -210,22 +200,8 @@ showAlertDialogInformationManquantes();
 
     }
 
-    public void loadlistSecteurSpinner(){
 
 
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
 
-            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(store);
-            popupWindow.setHeight(100);
-        }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
-        }
-
-        storeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        store.setAdapter(storeSpinnerAdapter);
-
-    }
 
 }

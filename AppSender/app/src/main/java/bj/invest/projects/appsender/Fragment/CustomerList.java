@@ -1,6 +1,7 @@
 package bj.invest.projects.appsender.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -45,10 +46,23 @@ public class CustomerList extends Fragment {
     SearchView searchField;
     ProgressBar progressBarCustomer;
     TextView empty;
+    OnShopListener shopCallback;
 
 
-    public CustomerList() {
-        // Required empty public constructor
+
+    public interface OnShopListener {
+
+        public void onAddUser(String shop);
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            shopCallback = (OnShopListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     @Override
@@ -70,6 +84,7 @@ public class CustomerList extends Fragment {
         progressBarCustomer = (ProgressBar)root.findViewById(R.id.progressbar_loading_customers);
         loadList();
         empty = (TextView)root.findViewById(R.id.emptyCustomerList);
+
 
         setHasOptionsMenu(true);
         ListOfCustomers = (ListView) root.findViewById(R.id.customer_list);
@@ -138,8 +153,8 @@ public class CustomerList extends Fragment {
         switch (item.getItemId()) {
             case R.id.add_user:
                 AddCustomer test = new AddCustomer();
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentContainer, test).addToBackStack("list").commit();
+               shopCallback.onAddUser(store);
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
