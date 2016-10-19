@@ -65,7 +65,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateDate(@PathVariable String id) {
+	public ResponseEntity<?> updateDate(@PathVariable Long id) {
 		if (repository.exists(id)) {
 
 			Customer customer = repository.findOne(id);
@@ -85,11 +85,11 @@ public class CustomerController {
 			throws IOException, InterruptedException {
 		if (!stores.findByStore(customerDTO.store).isEmpty()) {
 			if (customerDTO.number != null) {
-				if (repository.findByNumber(customerDTO.number).isEmpty()) {
+				if (repository.findByNumero(customerDTO.number).isEmpty()) {
 					Customer customer = new Customer(customerDTO.number, customerDTO.name, customerDTO.store);
 					customer = repository.save(customer);
 					log.info("Ajout client :: " + customer.toString());
-					ClickatellServices.sendMessage(MessageDefine.welcome, customer.getNumber());
+					ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
 					return new ResponseEntity<>(new CustomerDTO(customer), HttpStatus.CREATED);
 				}
 				return new ResponseEntity<>(customerDTO, HttpStatus.ALREADY_REPORTED);
@@ -102,7 +102,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> getById(@PathVariable String id) {
+	public ResponseEntity<?> getById(@PathVariable Long id) {
 		Customer customer = repository.findOne(id);
 		if (customer != null) {
 			CustomerDTO customerDTO = new CustomerDTO(customer);
@@ -114,7 +114,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteById(@PathVariable String id) {
+	public ResponseEntity<?> deleteById(@PathVariable Long id) {
 		Customer customer = repository.findOne(id);
 		if (customer != null) {
 			repository.delete(id);

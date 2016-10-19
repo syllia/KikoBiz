@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import com.investMessage.model.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, String> {
-	List<Customer> findByNumber(String number);
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+	List<Customer> findByNumero(String numero);
+
+	List<Customer> findByShopAndNumeroStartsWithIgnoreCase(String shop, String numero);
 
 	List<Customer> findByShop(String shop);
 }

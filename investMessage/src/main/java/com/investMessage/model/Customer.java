@@ -7,19 +7,20 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "customer")
 public class Customer {
 	@Id
-	@Column(length = 40)
-	@GeneratedValue(generator = "randomId")
-	@GenericGenerator(name = "randomId", strategy = "com.investMessage.model.RandomIdGenerator")
-	private String id;
+	// @Column(length = 40)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	// @GeneratedValue(generator = "randomId")
+	// @GenericGenerator(name = "randomId", strategy =
+	// "com.investMessage.model.RandomIdGenerator")
+	private Long id;
 	@Column(length = 1024)
-	private String number;
+	private String numero;
 	@Column(length = 1024)
 	private String name;
 	@Column(length = 1024)
@@ -36,10 +37,10 @@ public class Customer {
 	}
 
 	public Customer(String number, String name, String shop) {
-		this.numberBill = 0;
-		this.number = number;
+		this.numero = number;
 		this.name = name;
 		this.shop = shop;
+		this.numberBill = 0;
 		this.lastBillString = "Pas d'achat";
 		this.info = "Nouveau client enrégistré";
 	}
@@ -66,11 +67,11 @@ public class Customer {
 
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -90,12 +91,12 @@ public class Customer {
 		this.shop = idShop;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getNumero() {
+		return numero;
 	}
 
 	public void setNumber(String number) {
-		this.number = number;
+		this.numero = number;
 	}
 
 	public String getInfo() {
@@ -116,10 +117,10 @@ public class Customer {
 
 	public String toString() {
 		if (lastBillDate != null) {
-			return "Client :" + this.name + " " + this.number + " " + this.shop + " " + this.lastBillDate.getDayOfWeek()
+			return "Client :" + this.name + " " + this.numero + " " + this.shop + " " + this.lastBillDate.getDayOfWeek()
 					+ "-" + this.lastBillDate.getDayOfMonth() + "-" + this.lastBillDate.getMonth().toString();
 		}
-		return "Client :" + this.name + " " + this.number + " " + this.shop;
+		return "Client :" + this.name + " " + this.numero + " " + this.shop;
 	}
 
 }
