@@ -14,9 +14,11 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -31,11 +33,11 @@ public class VaadinUI extends UI {
 	private final CustomerEditor editor;
 
 	final Grid grid;
-
+	ComboBox storesCombobox;
 	final TextField filter;
 	private Button validate;
-	private TextField store;
-	private TextField passwordStore;
+	private Label storeSeletec;
+	private PasswordField passwordStore;
 	private Label result;
 	private com.vaadin.ui.Label connexion;
 
@@ -48,12 +50,14 @@ public class VaadinUI extends UI {
 		this.editor = editor;
 		this.grid = new Grid();
 		this.validate = new Button("Se connecter", FontAwesome.SIGN_IN);
-		this.store = new TextField("Magasin");
+		this.storeSeletec = new Label();
 		this.result = new Label("");
-		this.passwordStore = new TextField("Mot de passe");
+		this.passwordStore = new PasswordField("Mot de passe");
 		this.connexion = new Label("Connexion Employé");
 		this.filter = new TextField();
-		this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
+		this.storesCombobox = new ComboBox("Magasin");
+		storesCombobox.setNullSelectionAllowed(false);
+		this.addNewBtn = new Button("Nouveau client", FontAwesome.PLUS);
 	}
 
 	@Override
@@ -61,9 +65,8 @@ public class VaadinUI extends UI {
 		// build layout
 
 		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-		VerticalLayout login = new VerticalLayout(connexion, store, passwordStore, validate, result);
+		VerticalLayout login = new VerticalLayout(connexion, storesCombobox, passwordStore, validate, result);
 		VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
-
 		setContent(login);
 
 		// Configure layouts and components
@@ -73,25 +76,30 @@ public class VaadinUI extends UI {
 
 		login.setMargin(true);
 		login.setSpacing(true);
+		storesCombobox.setContainerDataSource(new BeanItemContainer(Store.class, repoStore.findAll()));
+		storesCombobox.setItemCaptionPropertyId("store");
 
 		grid.setHeight(300, Unit.PIXELS);
-		grid.setColumns("id", "name", "numero");
-
+		grid.setWidth(600, Unit.PIXELS);
+		grid.setColumns("name", "numero", "lastBillString", "numberBill");
 		grid.getColumn("name").setHeaderCaption("Nom du client");
 		grid.getColumn("numero").setHeaderCaption("Téléphone");
+		grid.getColumn("lastBillString").setHeaderCaption("Dernier achat");
+		grid.getColumn("numberBill").setHeaderCaption("Nombre d'achats");
 
 		validate.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-
+				storeSeletec.setValue(((Store) storesCombobox.getValue()).getStore());
 				if (isCredentialValid()) {
 					result.setValue("valide");
 					setContent(mainLayout);
 					listCustomers(null);
 
 				} else {
-					result.setValue("non valide");
+					result.setValue("Mot de passe invalide.");
+
 				}
 
 			}
@@ -113,9 +121,8 @@ public class VaadinUI extends UI {
 				editor.editCustomer((Customer) grid.getSelectedRow());
 			}
 		});
-
 		// Instantiate and edit new Customer the new button is clicked
-		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "", store.getValue())));
+		addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "", storeSeletec.getValue())));
 
 		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
@@ -126,10 +133,10 @@ public class VaadinUI extends UI {
 	}
 
 	private boolean isCredentialValid() {
-		if (repoStore.findByStore(store.getValue()).isEmpty()) {
+		if (repoStore.findByStore(storeSeletec.getValue()).isEmpty()) {
 			return false;
 		} else {
-			Store myStore = repoStore.findByStore(store.getValue()).get(0);
+			Store myStore = repoStore.findByStore(storeSeletec.getValue()).get(0);
 			if (myStore.getCode().equals(passwordStore.getValue())) {
 				return true;
 			}
@@ -142,10 +149,11 @@ public class VaadinUI extends UI {
 	void listCustomers(String text) {
 		if (StringUtils.isEmpty(text)) {
 
-			grid.setContainerDataSource(new BeanItemContainer(Customer.class, repo.findByShop(store.getValue())));
-		} else {
 			grid.setContainerDataSource(
-					new BeanItemContainer(Customer.class, repo.findByShopAndNameStartsWithIgnoreCase(store.getValue(), text)));
+					new BeanItemContainer(Customer.class, repo.findByShop(storeSeletec.getValue())));
+		} else {
+			grid.setContainerDataSource(new BeanItemContainer(Customer.class,
+					repo.findByShopAndNameStartsWithIgnoreCase(storeSeletec.getValue(), text)));
 		}
 	}
 	// end::listCustomers[]

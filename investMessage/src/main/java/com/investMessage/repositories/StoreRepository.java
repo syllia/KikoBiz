@@ -10,4 +10,5 @@ import com.investMessage.model.Store;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
 	List<Store> findByStore(String store);
+
 }

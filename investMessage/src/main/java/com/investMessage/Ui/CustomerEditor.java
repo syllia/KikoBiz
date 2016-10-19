@@ -1,9 +1,14 @@
 package com.investMessage.Ui;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.investMessage.model.Customer;
+import com.investMessage.model.MessageDefine;
 import com.investMessage.repositories.CustomerRepository;
+import com.investMessage.services.ClickatellServices;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
@@ -46,8 +51,9 @@ public class CustomerEditor extends VerticalLayout {
 	/* Action buttons */
 	Button save = new Button("Sauvegarder", FontAwesome.SAVE);
 	Button cancel = new Button("Annuler");
+	Button achat = new Button("Enrégistrer achat", FontAwesome.SEND);
 	Button delete = new Button("Supprimer", FontAwesome.TRASH_O);
-	CssLayout actions = new CssLayout(save, cancel, delete);
+	CssLayout actions = new CssLayout(save, cancel, delete, achat);
 
 	@Autowired
 	public CustomerEditor(CustomerRepository repository) {
@@ -55,8 +61,9 @@ public class CustomerEditor extends VerticalLayout {
 
 		name.setMaxLength(20);
 		numero.setMaxLength(8);
-		name.addValidator(new StringLengthValidator("Nom invalide", 5, 20, false));
+		name.addValidator(new StringLengthValidator("Nom invalide", 2, 20, false));
 		numero.addValidator(new StringLengthValidator("Téléphone invalide", 8, 8, true));
+
 		addComponents(numero, name, actions);
 
 		// Configure and style components
@@ -70,17 +77,32 @@ public class CustomerEditor extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-			
-			        try {
-			            name.validate();
-			            numero.validate();
-			            customer.setNumber(numero.getValue());
-						customer.setName(name.getValue());
+
+				try {
+					Integer.parseInt(numero.getValue());
+					name.validate();
+					numero.validate();
+					customer.setNumber(numero.getValue());
+					customer.setName(name.getValue());
+					if (repository.findByNumero(numero.getValue()).isEmpty()) {
 						repository.save(customer);
-			        } catch (InvalidValueException e) {
-			            Notification.show(e.getMessage());
-			            
-			        }
+						try {
+							ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
+						} catch (IOException | InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						Notification.show("Ce numéro existe déja");
+					}
+
+				} catch (InvalidValueException e) {
+					Notification.show("Information client invalide");
+
+				} catch (NumberFormatException e) {
+					Notification.show("Le numéro est invalide");
+
+				}
 
 			}
 		});
@@ -99,14 +121,25 @@ public class CustomerEditor extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// customer.setNumber(numero.getValue());
-				// customer.setName(name.getValue());
+
 				editCustomer(customer);
 
 			}
 		});
-		// delete.addClickListener(e -> repository.delete(customer));
-		// cancel.addClickListener(e -> editCustomer(customer));
+		achat.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				customer.setLastBillDate(LocalDateTime.now());
+				customer = repository.save(customer);
+				try {
+					ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
+				} catch (IOException | InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		setVisible(false);
 	}
 
@@ -145,6 +178,7 @@ public class CustomerEditor extends VerticalLayout {
 		// is clicked
 		save.addClickListener(e -> h.onChange());
 		delete.addClickListener(e -> h.onChange());
+		achat.addClickListener(e -> h.onChange());
 	}
 
 }

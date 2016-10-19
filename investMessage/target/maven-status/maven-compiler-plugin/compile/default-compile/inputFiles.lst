@@ -2,6 +2,7 @@
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/config/data/PostgresLocalDataSourceConfig.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/config/data/MySqlLocateDataSourceConfig.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/InvestMessageApplication.java
+/Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/Ui/VaadinUI.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/web/DTO/StoreDTO.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/model/MessageDefine.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/web/DTO/CustomerDTO.java
@@ -14,6 +15,7 @@
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/config/WebApplicationInitializer.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/model/Customer.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/web/StoreController.java
+/Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/Ui/CustomerEditor.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/config/data/RelationalCloudDataSourceConfig.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/web/DTO/PromosDTO.java
 /Users/julioadossou/Documents/KikoBiz/investMessage/src/main/java/com/investMessage/model/Store.java

@@ -28,8 +28,6 @@ public class Customer {
 	private int numberBill;
 	@Column(length = 1024)
 	private String lastBillString;
-	@Column(length = 1024)
-	private String info;
 	private LocalDateTime lastBillDate;
 
 	public Customer() {
@@ -42,7 +40,6 @@ public class Customer {
 		this.shop = shop;
 		this.numberBill = 0;
 		this.lastBillString = "Pas d'achat";
-		this.info = "Nouveau client enrégistré";
 	}
 
 	public String getLastBillString() {
@@ -63,7 +60,6 @@ public class Customer {
 		this.numberBill = numberBill + 1;
 		this.lastBillDate = lastBillDate;
 		setLastBillString();
-		this.setInfo("Ce client a acheté cette semaine");
 
 	}
 
@@ -97,14 +93,6 @@ public class Customer {
 
 	public void setNumber(String number) {
 		this.numero = number;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
 	}
 
 	public int getNumberBill() {

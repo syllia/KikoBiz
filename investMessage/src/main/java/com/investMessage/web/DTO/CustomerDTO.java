@@ -9,7 +9,6 @@ public class CustomerDTO {
 	public String store;
 	public int numberBill;
 	public String LastBilDate;
-	public String info;
 
 	public CustomerDTO() {
 
@@ -28,7 +27,6 @@ public class CustomerDTO {
 		this.store = customer.getShop();
 		this.numberBill = customer.getNumberBill();
 		this.LastBilDate = customer.getLastBillString();
-		this.info = customer.getInfo();
 	}
 
 }

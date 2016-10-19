@@ -19,9 +19,9 @@ public class ClickatellServices {
 
 	public static void sendMessage(String message, String numero) throws IOException, InterruptedException {
 
-		String phoneNumber = numero;
+		String phoneNumber = "+229" + numero;
 		String sender = "investdrink";
-		String messageSend = URLEncoder.encode(message + " STOP au 36180", "UTF-8");
+		String messageSend = URLEncoder.encode(message, "UTF-8");
 		String login = "investdrink";
 		String apiKey = "c5ed693f13f44c4";
 		String smsData = "<DATA><MESSAGE><![CDATA[[" + messageSend + "]]></MESSAGE><TPOA>" + sender
