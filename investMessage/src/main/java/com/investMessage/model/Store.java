@@ -14,13 +14,16 @@ public class Store {
 	private Long id;
 	@Column(length = 1024)
 	private String store;
+	@Column(length = 1024)
+	private String code;
 
 	public Store() {
 
 	}
 
-	public Store(String store) {
+	public Store(String store, String code) {
 		this.store = store;
+		this.code = code;
 	}
 
 	public Long getId() {
@@ -29,6 +32,14 @@ public class Store {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getStore() {

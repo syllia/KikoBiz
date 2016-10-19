@@ -39,7 +39,7 @@ public class ScheduledTasks {
 		for (Customer customer : customers) {
 			if (isDateValideSend(customer.getLastBillDate())) {
 				log.info("Clients remerciés ::" + customer.toString());
-				ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumber());
+				ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
 			}
 		}
 	}

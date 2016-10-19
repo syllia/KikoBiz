@@ -46,7 +46,7 @@ public class StoreController {
 		if (storeDTO.store != null) {
 			List<Store> stores = repository.findByStore(storeDTO.store);
 			if (stores.isEmpty()) {
-				Store store = new Store(storeDTO.store);
+				Store store = new Store(storeDTO.store, storeDTO.code);
 				store = repository.save(store);
 				return new ResponseEntity<>(new StoreDTO(store), HttpStatus.CREATED);
 			}

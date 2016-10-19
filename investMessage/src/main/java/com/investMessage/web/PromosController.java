@@ -35,7 +35,7 @@ public class PromosController {
 			if (promosDTO.code.equals(MessageDefine.code) && !promosDTO.message.equals("")) {
 				for (Customer customer : customersRepository.findAll()) {
 					logger.info("send promos" + customer.getId());
-					ClickatellServices.sendMessage(promosDTO.message, customer.getNumber());
+					ClickatellServices.sendMessage(promosDTO.message, customer.getNumero());
 				}
 				return new ResponseEntity<>("Envoyé", HttpStatus.CREATED);
 			}

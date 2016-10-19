@@ -2,9 +2,11 @@ package com.investMessage.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.slf4j.Logger;
@@ -17,10 +19,39 @@ public class ClickatellServices {
 
 	public static void sendMessage(String message, String numero) throws IOException, InterruptedException {
 
-		String messageSend = URLEncoder.encode(message, "Windows-1252");
-		String url = "http://api.clickatell.com/http/sendmsg?user=investDrink&password=papa1212" + "&api_id=3620208"
-				+ "&to=" + numero + "&text=" + "helloinvestdrink";
-		sendGET(url);
+		String phoneNumber = numero;
+		String sender = "investdrink";
+		String messageSend = URLEncoder.encode(message + " STOP au 36180", "UTF-8");
+		String login = "investdrink";
+		String apiKey = "c5ed693f13f44c4";
+		String smsData = "<DATA><MESSAGE><![CDATA[[" + messageSend + "]]></MESSAGE><TPOA>" + sender
+				+ "</TPOA><SMS><MOBILEPHONE>" + phoneNumber + "</MOBILEPHONE></SMS></DATA>";
+		String url = "https://api.allmysms.com/http/9.0/sendSms/?login=" + login + "&apiKey=" + apiKey + "&smsData="
+				+ smsData;
+		// String messageSend = URLEncoder.encode(message, "Windows-1252");
+		// String url =
+		// "http://api.clickatell.com/http/sendmsg?user=investDrink&password=papa1212"
+		// + "&api_id=3620208"
+		// + "&to=" + numero + "&text=" + "helloinvestdrink";
+		envoi(url);
+	}
+
+	private static void envoi(String url) throws IOException {
+		URL client = new URL(url);
+		URLConnection conn = client.openConnection();
+		InputStream responseBody = conn.getInputStream();
+		// Convert in XML document
+
+		byte[] contents = new byte[1024];
+
+		int bytesRead = 0;
+		String strFileContents = null;
+		while ((bytesRead = responseBody.read(contents)) != -1) {
+			strFileContents = new String(contents, 0, bytesRead);
+		}
+
+		responseBody.close();
+		System.out.println(strFileContents);
 	}
 
 	private static void sendGET(String url) throws IOException, InterruptedException {

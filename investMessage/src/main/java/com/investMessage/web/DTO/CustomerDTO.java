@@ -3,7 +3,7 @@ package com.investMessage.web.DTO;
 import com.investMessage.model.Customer;
 
 public class CustomerDTO {
-	public String id;
+	public Long id;
 	public String number;
 	public String name;
 	public String store;
@@ -23,7 +23,7 @@ public class CustomerDTO {
 
 	public CustomerDTO(Customer customer) {
 		this.id = customer.getId();
-		this.number = customer.getNumber();
+		this.number = customer.getNumero();
 		this.name = customer.getName();
 		this.store = customer.getShop();
 		this.numberBill = customer.getNumberBill();
