@@ -11,7 +11,7 @@ import com.investMessage.model.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	List<Customer> findByNumero(String numero);
 
-	List<Customer> findByShopAndNumeroStartsWithIgnoreCase(String shop, String numero);
-
+	List<Customer> findByShopAndNameStartsWithIgnoreCase(String shop, String name);
+	List<Customer> findByNameStartsWithIgnoreCase(String text);
 	List<Customer> findByShop(String shop);
 }

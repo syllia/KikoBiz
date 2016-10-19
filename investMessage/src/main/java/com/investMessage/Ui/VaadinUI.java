@@ -145,7 +145,7 @@ public class VaadinUI extends UI {
 			grid.setContainerDataSource(new BeanItemContainer(Customer.class, repo.findByShop(store.getValue())));
 		} else {
 			grid.setContainerDataSource(
-					new BeanItemContainer(Customer.class, repo.findByShopAndNumeroStartsWithIgnoreCase(text, text)));
+					new BeanItemContainer(Customer.class, repo.findByShopAndNameStartsWithIgnoreCase(store.getValue(), text)));
 		}
 	}
 	// end::listCustomers[]
