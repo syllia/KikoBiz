@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.investMessage.model.Customer;
 import com.investMessage.repositories.CustomerRepository;
+import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -12,6 +13,7 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -53,7 +55,7 @@ public class CustomerEditor extends VerticalLayout {
 
 		name.setMaxLength(20);
 		numero.setMaxLength(8);
-		name.addValidator(new StringLengthValidator("Nom invalide", 0, 8, false));
+		name.addValidator(new StringLengthValidator("Nom invalide", 5, 20, false));
 		numero.addValidator(new StringLengthValidator("Téléphone invalide", 8, 8, true));
 		addComponents(numero, name, actions);
 
@@ -68,9 +70,17 @@ public class CustomerEditor extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				customer.setNumber(numero.getValue());
-				customer.setName(name.getValue());
-				repository.save(customer);
+			
+			        try {
+			            name.validate();
+			            numero.validate();
+			            customer.setNumber(numero.getValue());
+						customer.setName(name.getValue());
+						repository.save(customer);
+			        } catch (InvalidValueException e) {
+			            Notification.show(e.getMessage());
+			            
+			        }
 
 			}
 		});
