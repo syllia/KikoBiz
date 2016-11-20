@@ -19,7 +19,7 @@ public class ClickatellServices {
 
 	public static void sendMessage(String message, String numero) throws IOException, InterruptedException {
 
-		String phoneNumber = "+229" + numero;
+		String phoneNumber = numero;
 		String sender = "investdrink";
 		String messageSend = URLEncoder.encode(message, "UTF-8");
 		String login = "investdrink";
