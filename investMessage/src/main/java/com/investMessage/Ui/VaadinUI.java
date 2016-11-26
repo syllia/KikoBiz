@@ -56,7 +56,8 @@ public class VaadinUI extends UI {
 		this.connexion = new Label("Connexion Employé");
 		this.filter = new TextField();
 		this.storesCombobox = new ComboBox("Magasin");
-		storesCombobox.setNullSelectionAllowed(false);
+		this.storesCombobox.setNullSelectionAllowed(false);
+		this.storesCombobox.setValue("Calavi");
 		this.addNewBtn = new Button("Nouveau client", FontAwesome.PLUS);
 	}
 
