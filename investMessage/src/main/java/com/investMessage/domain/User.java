@@ -32,4 +32,16 @@ public class User {
 	public Store getStore() {
 		return store;
 	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
 }

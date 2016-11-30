@@ -1,22 +1,24 @@
 package com.investMessage.Ui;
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 
-public class MainView extends CustomComponent implements View, ClickListener {
+public class MainView extends HorizontalLayout {
 
-	@Override
-	public void buttonClick(ClickEvent event) {
-		// TODO Auto-generated method stub
+	public MainView() {
+		setSizeFull();
+		addStyleName("mainview");
 
-	}
+		addComponent(new DashboardMenu());
 
-	@Override
-	public void enter(ViewChangeEvent event) {
+		ComponentContainer content = new CssLayout();
+		content.addStyleName("view-content");
+		content.setSizeFull();
+		addComponent(content);
+		setExpandRatio(content, 1.0f);
 
+		new DashboardNavigator(content);
 	}
 
 }
