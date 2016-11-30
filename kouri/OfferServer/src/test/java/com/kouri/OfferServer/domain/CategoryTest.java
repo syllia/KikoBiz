@@ -16,7 +16,6 @@ public class CategoryTest {
 		subcategories.add(new SubCategory());
 		subcategories.add(new SubCategory());
 		category = new Category(CATEGORY_NAME);
-
 	}
 
 }

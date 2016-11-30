@@ -4,14 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 @EnableAutoConfiguration
-public class OfferServer implements Runnable {
-	public static void main(String[] args) {
-		new OfferServer().run();
-	}
+public class OfferServer  {
 
-	@Override
-	public void run() {
+	public static void main(String[] args) {
 		SpringApplication.run(OfferServer.class);
 	}
-
 }

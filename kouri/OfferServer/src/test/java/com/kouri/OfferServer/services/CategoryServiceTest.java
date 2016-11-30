@@ -21,7 +21,7 @@ import com.kouri.OfferServer.domain.SubCategoryAlreadyRegisteredException;
 @RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
 	@Mock
-	private static CategoryRepository categoryRepository;
+	private CategoryRepository categoryRepository;
 	private static final String CATEGORY_NAME = "C";
 	@InjectMocks
 	private CategoryService categoryService = new CategoryService(categoryRepository);

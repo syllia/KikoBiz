@@ -41,13 +41,12 @@ public class Offer {
 		this.endDate = startDate.plusMonths(LIMIT_MONTH);
 	}
 
-	public Offer(User user, City city, String p_name, long cost, long nbViews, String description,
-			SubCategory subCategory, String contact) {
+	public Offer(User user, City city, String p_name, long cost, String description, SubCategory subCategory,
+			String contact) {
 		this.user = user;
 		this.subCategory = subCategory;
 		this.name = p_name;
 		this.contact = contact;
-		this.nbViews = nbViews;
 		this.cost = cost;
 		this.startDate = LocalDateTime.now();
 		this.endDate = startDate.plusMonths(LIMIT_MONTH);
@@ -101,6 +100,14 @@ public class Offer {
 
 	public List<ImageOffer> getPhotos() {
 		return photos;
+	}
+
+	public void updateNbViews() {
+		this.nbViews++;
+	}
+
+	public Boolean isOutDated() {
+		return endDate.isBefore(LocalDateTime.now());
 	}
 
 }

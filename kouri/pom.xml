@@ -18,6 +18,8 @@
     <module>OfferServer</module>
     <module>VaadinUI</module>
     <module>KouriApp</module>
+    <module>fff</module>
+    <module>vvv</module>
   </modules>
   
    <build>

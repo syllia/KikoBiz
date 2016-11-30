@@ -31,8 +31,7 @@ public class CategoryService {
 	public void saveCategory(CategoryDTO categoryDTO)
 			throws CategoryAlreadyRegisterException, SubCategoryAlreadyRegisteredException {
 		if (categoryRepository.findByName(categoryDTO.name) == null) {
-			categoryRepository
-					.save(new Category(categoryDTO.name, categoryDTO.convertFromSubCategoryDTOToSubCategoryList()));
+			categoryRepository.save(new Category(categoryDTO.name));
 		} else {
 			throw new CategoryAlreadyRegisterException();
 		}

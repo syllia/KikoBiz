@@ -24,15 +24,6 @@ public class Category {
 		this.subCategories = new ArrayList<SubCategory>();
 	}
 
-	public Category(String p_name, List<SubCategory> subCategories) throws SubCategoryAlreadyRegisteredException {
-		this.name = p_name;
-		this.subCategories = new ArrayList<SubCategory>();
-		for (SubCategory subCategoryRef : subCategories) {
-			this.addSubCategory(subCategoryRef);
-
-		}
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -63,7 +54,7 @@ public class Category {
 	public boolean equals(Object object) {
 		if (object instanceof Category) {
 			Category category = (Category) object;
-			return (this.name.equals(category.name) && this.subCategories.equals(category.subCategories));
+			return (this.name.equals(category.name));
 		} else {
 			return false;
 		}

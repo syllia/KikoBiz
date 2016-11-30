@@ -1,6 +1,6 @@
 package com.investMessage.web.DTO;
 
-import com.investMessage.model.Store;
+import com.investMessage.domain.Store;
 
 public class StoreDTO {
 	public String store;
@@ -12,7 +12,7 @@ public class StoreDTO {
 
 	public StoreDTO(Store store) {
 		if (store != null) {
-			this.store = store.getStore();
+			this.store = store.getName();
 		}
 	}
 

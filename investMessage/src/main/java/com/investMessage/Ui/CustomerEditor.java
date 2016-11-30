@@ -1,15 +1,9 @@
 package com.investMessage.Ui;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.investMessage.model.Customer;
-import com.investMessage.model.MessageDefine;
-import com.investMessage.repositories.CustomerRepository;
-import com.investMessage.services.ClickatellServices;
-import com.vaadin.data.Validator.InvalidValueException;
+import com.investMessage.domain.Customer;
+import com.investMessage.services.CustomerService;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
@@ -18,7 +12,6 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -35,12 +28,8 @@ import com.vaadin.ui.themes.ValoTheme;
 @SpringComponent
 @UIScope
 public class CustomerEditor extends VerticalLayout {
+	private CustomerService customerService;
 
-	private final CustomerRepository repository;
-
-	/**
-	 * The currently edited customer
-	 */
 	private Customer customer;
 
 	/* Fields to edit properties in Customer entity */
@@ -56,8 +45,8 @@ public class CustomerEditor extends VerticalLayout {
 	CssLayout actions = new CssLayout(save, cancel, delete, achat);
 
 	@Autowired
-	public CustomerEditor(CustomerRepository repository) {
-		this.repository = repository;
+	public CustomerEditor(CustomerService service) {
+		this.customerService = service;
 
 		name.setMaxLength(20);
 		numero.setMaxLength(8);
@@ -72,49 +61,37 @@ public class CustomerEditor extends VerticalLayout {
 		save.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-		// wire action buttons to save, delete and reset
-		save.addClickListener(new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-
-				try {
-					Integer.parseInt(numero.getValue());
-					name.validate();
-					numero.validate();
-					customer.setNumber(numero.getValue());
-					customer.setName(name.getValue());
-					if (repository.findByNumero(numero.getValue()).isEmpty()) {
-						repository.save(customer);
-						try {
-							ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
-						} catch (IOException | InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} else {
-						Notification.show("Ce numéro existe déja");
-					}
-
-				} catch (InvalidValueException e) {
-					Notification.show("Information client invalide");
-
-				} catch (NumberFormatException e) {
-					Notification.show("Le numéro est invalide");
-
-				}
-
-			}
-		});
+		/*
+		 * // wire action buttons to save, delete and reset
+		 * save.addClickListener(new Button.ClickListener() {
+		 * 
+		 * @Override public void buttonClick(ClickEvent event) {
+		 * 
+		 * try { Integer.parseInt(numero.getValue()); //name.validate();
+		 * //numero.validate(); //customer.setNumber(numero.getValue());
+		 * //customer.setName(name.getValue()); if
+		 * (repository.findByNumero(numero.getValue()).isEmpty()) {
+		 * repository.save(customer); try { //
+		 * ClickatellServices.sendMessage(MessageDefine.thanks,
+		 * customer.getNumero()); } catch (IOException | InterruptedException e)
+		 * { // TODO Auto-generated catch block e.printStackTrace(); } } else {
+		 * Notification.show("Ce numéro existe déja"); }
+		 * 
+		 * } catch (InvalidValueException e) {
+		 * Notification.show("Information client invalide");
+		 * 
+		 * } catch (NumberFormatException e) {
+		 * Notification.show("Le numéro est invalide");
+		 * 
+		 * }
+		 * 
+		 * } });
+		 */
 
 		delete.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				customer.setNumber(numero.getValue());
-				customer.setName(name.getValue());
-				repository.delete(customer);
-
 			}
 		});
 		cancel.addClickListener(new Button.ClickListener() {
@@ -130,14 +107,14 @@ public class CustomerEditor extends VerticalLayout {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				customer.setLastBillDate(LocalDateTime.now());
-				customer = repository.save(customer);
-				try {
-					ClickatellServices.sendMessage(MessageDefine.thanks, customer.getNumero());
-				} catch (IOException | InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				/*
+				 * customer.setLastBillDate(LocalDateTime.now()); customer =
+				 * repository.save(customer); try {
+				 * ClickatellServices.sendMessage(MessageDefine.thanks,
+				 * customer.getNumero()); } catch (IOException |
+				 * InterruptedException e) { // TODO Auto-generated catch block
+				 * e.printStackTrace(); }
+				 */
 			}
 		});
 		setVisible(false);
@@ -149,29 +126,24 @@ public class CustomerEditor extends VerticalLayout {
 	}
 
 	public final void editCustomer(Customer c) {
-		final boolean persisted = c.getId() != null;
-		if (persisted) {
-			// Find fresh entity for editing
-			customer = repository.findOne(c.getId());
-		} else {
-			customer = c;
-		}
-		cancel.setVisible(persisted);
-
-		// Bind customer properties to similarly named fields
-		// Could also use annotation or "manual binding" or programmatically
-		// moving values from fields to entities before saving
-		// BeanFieldGroup.bindFieldsUnbuffered(customer, this);
-		numero.setValue(customer.getNumero());
-		name.setValue(customer.getName());
-
-		setVisible(true);
-
-		// A hack to ensure the whole form is visible
-		save.focus();
-		// Select all text in firstName field automatically
-		// numero.selectAll();
-	}
+		/*
+		 * final boolean persisted = c.getId() != null; if (persisted) { // Find
+		 * fresh entity for editing customer =
+		 * customerService.findOne(c.getId()); } else { customer = c; }
+		 * cancel.setVisible(persisted);
+		 * 
+		 * // Bind customer properties to similarly named fields // Could also
+		 * use annotation or "manual binding" or programmatically // moving
+		 * values from fields to entities before saving //
+		 * BeanFieldGroup.bindFieldsUnbuffered(customer, this);
+		 * numero.setValue(customer.getNumero());
+		 * name.setValue(customer.getName());
+		 * 
+		 * setVisible(true);
+		 * 
+		 * // A hack to ensure the whole form is visible save.focus(); // Select
+		 * all text in firstName field automatically // numero.selectAll();
+		 */ }
 
 	public void setChangeHandler(ChangeHandler h) {
 		// ChangeHandler is notified when either save or delete

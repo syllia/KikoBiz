@@ -16,14 +16,11 @@ public class Country {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<City> cities;
 
-	public Country() {
-		this.cities = new ArrayList<City>();
-	}
-
-	public Country(String code, String name) {
+	public Country(String name, String code) {
 		this.phoneCode = code;
 		this.name = name;
 		this.cities = new ArrayList<City>();
+
 	}
 
 	public String getPhoneCode() {
@@ -54,5 +51,15 @@ public class Country {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Country) {
+			Country country = (Country) object;
+			return (this.name.equals(country.name));
+		} else {
+			return false;
+		}
 	}
 }

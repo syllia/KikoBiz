@@ -1,32 +1,39 @@
 package com.investMessage.web.DTO;
 
-import com.investMessage.model.Customer;
+import com.investMessage.domain.Customer;
 
 public class CustomerDTO {
-	public Long id;
 	public String number;
 	public String name;
 	public String store;
 	public int numberBill;
-	public String LastBilDate;
+	public String username;
+	public String lastBillDate;
+	public int id;
 
-	public CustomerDTO() {
-
+	public CustomerDTO(Customer customer) {
+		this.number = customer.getNumber();
+		this.name = customer.getName();
+		this.store = customer.getStore().getName();
+		this.numberBill = customer.getNumberBill();
+		this.username = customer.getUser();
+		this.lastBillDate = customer.getLastBillDate().toString();
+		this.id = customer.getId();
 	}
 
-	public CustomerDTO(String number, String name, String store) {
+	public CustomerDTO(String number, String name, String store, String username) {
 		this.number = number;
 		this.name = name;
 		this.store = store;
+		this.username = username;
 	}
 
-	public CustomerDTO(Customer customer) {
-		this.id = customer.getId();
-		this.number = customer.getNumero();
-		this.name = customer.getName();
-		this.store = customer.getShop();
-		this.numberBill = customer.getNumberBill();
-		this.LastBilDate = customer.getLastBillString();
+	public CustomerDTO(int id, String number, String name, String store, String username) {
+		this.number = number;
+		this.name = name;
+		this.store = store;
+		this.username = username;
+		this.id = id;
 	}
 
 }

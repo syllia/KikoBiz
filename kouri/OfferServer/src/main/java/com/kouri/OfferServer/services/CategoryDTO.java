@@ -15,18 +15,15 @@ public class CategoryDTO {
 		addSubCategoryDTO(category.getSubCategories());
 	}
 
+	public CategoryDTO(String name) {
+		this.name = name;
+		this.subCategoryDTOs = new ArrayList<>();
+	}
+
 	private void addSubCategoryDTO(List<SubCategory> subCategories) {
 		for (SubCategory subCategoryRef : subCategories) {
 			this.subCategoryDTOs.add(new SubCategoryDTO(subCategoryRef));
 		}
-	}
-
-	public List<SubCategory> convertFromSubCategoryDTOToSubCategoryList() {
-		List<SubCategory> subCategories = new ArrayList<>();
-		for (SubCategoryDTO subCategoryDTORef : this.subCategoryDTOs) {
-			subCategories.add(new SubCategory(subCategoryDTORef.name));
-		}
-		return subCategories;
 	}
 
 	@Override
