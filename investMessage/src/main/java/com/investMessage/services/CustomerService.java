@@ -71,4 +71,14 @@ public class CustomerService {
 		}
 	}
 
+	public void updateOrder(int id) throws CustomerNotFoundException {
+		Customer customer = customerRepository.getOne(id);
+		if (customer != null) {
+			customer.updatePurchase();
+			customerRepository.save(customer);
+		} else {
+			throw new CustomerNotFoundException();
+		}
+	}
+
 }

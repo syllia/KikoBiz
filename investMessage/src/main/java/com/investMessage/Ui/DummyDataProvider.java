@@ -2,8 +2,8 @@ package com.investMessage.Ui;
 
 import java.util.Collection;
 
-import com.investMessage.domain.User;
 import com.investMessage.services.UserService;
+import com.investMessage.web.DTO.UserDTO;
 
 public class DummyDataProvider implements DataProvider {
 	;
@@ -14,8 +14,8 @@ public class DummyDataProvider implements DataProvider {
 	}
 
 	@Override
-	public User authenticate(String userName, String password) {
-		return userService.getUserBy(userName, password);
+	public UserDTO authenticate(String userName, String password) {
+		return userService.findUserBy(userName, password);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.investMessage.Ui.DashboardEvent.UserLoginRequestedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.domain.User;
 import com.investMessage.services.UserService;
+import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.Page;
@@ -79,8 +80,8 @@ public class DashboardUI extends UI {
 
 	@Subscribe
 	public void userLoginRequested(final UserLoginRequestedEvent event) {
-		User user = getDataProvider().authenticate(event.getUserName(), event.getPassword());
-		VaadinSession.getCurrent().setAttribute(User.class.getName(), user);
+		UserDTO userDTO = getDataProvider().authenticate(event.getUserName(), event.getPassword());
+		VaadinSession.getCurrent().setAttribute(User.class.getName(), userDTO);
 		updateContent();
 	}
 

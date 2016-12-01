@@ -10,6 +10,7 @@ import com.investMessage.domain.Store;
 import com.investMessage.domain.StoreRepository;
 import com.investMessage.domain.User;
 import com.investMessage.domain.UserRepository;
+import com.investMessage.web.DTO.UserDTO;
 
 @Service
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
 		this.storeRepository = storeRepository;
 	}
 
-	public void saveCustomer(String firstName, String lastName, Store store)
+	public void saveUser(String firstName, String lastName, Store store, String email, String phoneNumber)
 			throws CustomerIsAlreadyRegisteredException, UserIsAlreadyRegisteredException {
 		String username = generateUsername(firstName, lastName);
 		String pass = generateRandomPassword(username);
@@ -40,7 +41,7 @@ public class UserService {
 		if (user == null && store != null) {
 			System.out.println(username);
 			System.out.println(pass);
-			userRepository.save(new User(username, firstName, lastName, store, pass));
+			userRepository.save(new User(username, firstName, lastName, store, pass, email, phoneNumber));
 		} else {
 			throw new UserIsAlreadyRegisteredException();
 		}
@@ -57,7 +58,11 @@ public class UserService {
 		return letters;
 	}
 
-	public User getUserBy(String userName, String passWord) {
-		return userRepository.findByUserNameAndPassWordIgnoreCase(userName, passWord);
+	public UserDTO findUserBy(String userName, String passWord) {
+		return new UserDTO(userRepository.findByUserNameAndPassWordIgnoreCase(userName, passWord));
+	}
+
+	public void updatePassWord() {
+
 	}
 }

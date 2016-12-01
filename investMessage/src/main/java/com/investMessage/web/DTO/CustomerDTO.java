@@ -17,7 +17,6 @@ public class CustomerDTO {
 		this.store = customer.getStore().getName();
 		this.numberBill = customer.getNumberBill();
 		this.username = customer.getUser();
-		this.lastBillDate = customer.getLastBillDate().toString();
 		this.id = customer.getId();
 	}
 
@@ -34,6 +33,16 @@ public class CustomerDTO {
 		this.store = store;
 		this.username = username;
 		this.id = id;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof CustomerDTO) {
+			CustomerDTO customerDTO = (CustomerDTO) object;
+			return (this.number.equals(customerDTO.number) && this.name.equals(customerDTO.name));
+		} else {
+			return false;
+		}
 	}
 
 }

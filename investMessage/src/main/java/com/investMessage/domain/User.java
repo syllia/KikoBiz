@@ -11,26 +11,31 @@ public class User {
 	private String lastname;
 	private String firstname;
 	private String passWord;
+	private String emailAddress;
+	private String phoneNumber;
 	@OneToOne
 	private Store store;
 
 	public User() {
 	}
 
-	public User(String userName, String firstName, String lastName, Store store, String passWord) {
+	public User(String userName, String firstName, String lastName, Store store, String passWord, String emailAddress,
+			String phoneNumber) {
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.store = store;
 		this.userName = userName;
 		this.passWord = passWord;
+		this.emailAddress = emailAddress;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getUserName() {
 		return userName;
 	}
 
-	public Store getStore() {
-		return store;
+	public String getStore() {
+		return store.getName();
 	}
 
 	public String getLastname() {
@@ -44,4 +49,13 @@ public class User {
 	public String getPassWord() {
 		return passWord;
 	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
 }

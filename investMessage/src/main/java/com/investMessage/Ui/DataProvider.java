@@ -2,11 +2,11 @@ package com.investMessage.Ui;
 
 import java.util.Collection;
 
-import com.investMessage.domain.User;
+import com.investMessage.web.DTO.UserDTO;
 
 public interface DataProvider {
 
-	User authenticate(String userName, String password);
+	UserDTO authenticate(String userName, String password);
 
 	/**
 	 * @return The number of unread notifications for the current user.

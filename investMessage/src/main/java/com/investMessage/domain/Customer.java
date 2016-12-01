@@ -66,6 +66,11 @@ public class Customer {
 		return id;
 	}
 
+	public void updatePurchase() {
+		this.lastBillDate = LocalDateTime.now();
+		this.numberBill++;
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof Customer) {
