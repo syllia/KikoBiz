@@ -58,4 +58,21 @@ public class User {
 		return phoneNumber;
 	}
 
+	public void update(String password, String phoneNumber, String email) {
+		this.passWord = password;
+		this.phoneNumber = phoneNumber;
+		this.emailAddress = email;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof User) {
+			User user = (User) object;
+			return (this.userName.equals(user.userName) && this.passWord.equals(user.passWord)
+					&& this.emailAddress.equals(user.emailAddress) && this.phoneNumber.equals(user.phoneNumber));
+		} else {
+			return false;
+		}
+	}
+
 }

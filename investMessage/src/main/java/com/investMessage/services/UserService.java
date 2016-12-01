@@ -62,7 +62,19 @@ public class UserService {
 		return new UserDTO(userRepository.findByUserNameAndPassWordIgnoreCase(userName, passWord));
 	}
 
-	public void updatePassWord() {
+	public void updateInfos(UserDTO userDTO) throws UserNotFoundException, StoreNotFoundException {
+		User user = userRepository.findOne(userDTO.userName);
+		Store store = storeRepository.findOne(userDTO.store);
+		if (user != null && store != null) {
+			user.update(userDTO.passWord, userDTO.phoneNumber, userDTO.emailAddress);
+			userRepository.save(user);
+		} else {
+			if (user == null)
+				throw new UserNotFoundException();
+			else {
+				throw new StoreNotFoundException();
+			}
+		}
 
 	}
 }

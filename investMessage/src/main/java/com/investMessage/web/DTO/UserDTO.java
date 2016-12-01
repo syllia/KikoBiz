@@ -4,8 +4,8 @@ import com.investMessage.domain.User;
 
 public class UserDTO {
 	public String userName;
-	public String lastname;
-	public String firstname;
+	public String lastName;
+	public String firstName;
 	public String passWord;
 	public String emailAddress;
 	public String phoneNumber;
@@ -15,8 +15,8 @@ public class UserDTO {
 			String phoneNumber, String store) {
 		super();
 		this.userName = userName;
-		this.lastname = lastname;
-		this.firstname = firstname;
+		this.lastName = lastname;
+		this.firstName = firstname;
 		this.passWord = passWord;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
@@ -26,8 +26,8 @@ public class UserDTO {
 	public UserDTO(User user) {
 
 		this.userName = user.getUserName();
-		this.lastname = user.getLastname();
-		this.firstname = user.getFirstname();
+		this.lastName = user.getLastname();
+		this.firstName = user.getFirstname();
 		this.passWord = user.getPassWord();
 		this.emailAddress = user.getEmailAddress();
 		this.phoneNumber = user.getPhoneNumber();
