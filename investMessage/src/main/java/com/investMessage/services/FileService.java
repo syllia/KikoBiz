@@ -3,29 +3,25 @@ package com.investMessage.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.activation.MimetypesFileTypeMap;
 
-import com.dropbox.core.DbxException;
 import com.google.api.client.http.FileContent;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.investMessage.domain.FileDto;
 import com.investMessage.web.DTO.UserDTO;
 
 public class FileService {
+	private Drive drive;
 	private FileClient fileClient;
 	private static final String parentId = "0B6zgJkAQOR7yNUFVaG5qcUhqblk";
 
 	public FileService() {
-		try {
-			this.fileClient = new FileClient();
-		} catch (DbxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.fileClient = new FileClient();
 	}
 
 	public FileService(FileClient fileClient) {
@@ -36,7 +32,7 @@ public class FileService {
 		List<FileDto> fileDtos = new ArrayList<>();
 
 		try {
-			this.fileClient = fileClient.getDriveService();
+			this.drive = fileClient.getDriveService();
 			FileList result = drive.files().list().setFields("nextPageToken, files(id,name,description,createdTime)")
 					.execute();
 			List<File> files = result.getFiles();
@@ -98,25 +94,22 @@ public class FileService {
 
 	public void insertFile(String title, String description, String filename) throws DriveErrorException {
 		// File's metadata.
+		File body = new File();
+		body.setName(title);
+		body.setDescription(description);
+
+		// Set the parent folder.
+		if (parentId != null && parentId.length() > 0) {
+			body.setParents(Arrays.asList(parentId));
+		}
+		MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+
+		// File's content.
+		java.io.File fileContent = new java.io.File(filename);
+		FileContent mediaContent = new FileContent(mimeTypesMap.getContentType(filename), fileContent);
 		try {
-			this.drive = fileClient.getDriveService();
-			File body = new File();
-			body.setName(title);
-			body.setDescription(description);
-
-			// Set the parent folder.
-			if (parentId != null && parentId.length() > 0) {
-				body.setParents(Collections.singletonList(parentId));
-			}
-			MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-
-			// File's content.
-			java.io.File fileContent = new java.io.File(filename);
-			FileContent mediaContent = new FileContent(mimeTypesMap.getContentType(filename), fileContent);
-
 			drive.files().create(body, mediaContent).execute();
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new DriveErrorException();
 		}
 

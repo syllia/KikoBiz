@@ -1,5 +1,6 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view;
 
+import com.investMessage.Ui.DashboardNavigator;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;

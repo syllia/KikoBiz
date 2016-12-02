@@ -1,7 +1,11 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.window;
 
-import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
+import com.investMessage.Ui.DashboardUI;
+import com.investMessage.Ui.DataEmptyException;
+import com.investMessage.Ui.event.DashboardEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
+import com.investMessage.Ui.view.files.UploadFileComponent;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
@@ -22,6 +26,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -37,7 +42,7 @@ public class DownloadFileWindow extends Window {
 	private TextField description;
 	private OptionGroup multi;
 	public static String filename = "";
-
+	private ProgressBar bar;
 	private UploadFileComponent uploadFileView;
 
 	private DownloadFileWindow(final UserDTO user, final boolean preferencesTabOpen) {
@@ -69,6 +74,13 @@ public class DownloadFileWindow extends Window {
 		if (preferencesTabOpen) {
 			detailsWrapper.setSelectedTab(1);
 		}
+		uploadFileView = new UploadFileComponent();
+		// uploadFileView.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
+		uploadFileView.init("advanced");
+		uploadFileView.setVisible(false);
+		uploadFileView.setWidth(200.0f, Unit.PERCENTAGE);
+		content.addComponent(uploadFileView);
+
 		content.addComponent(buildFooter(user));
 
 	}
@@ -112,21 +124,21 @@ public class DownloadFileWindow extends Window {
 		Label section = new Label("Visibilité");
 		section.addStyleName(ValoTheme.LABEL_H4);
 		section.addStyleName(ValoTheme.LABEL_COLORED);
+
 		details.addComponent(section);
+		bar = new ProgressBar();
+		bar.setIndeterminate(true);
+		bar.setVisible(false);
 
 		multi = new OptionGroup("Multiple Selection");
 		// multi.setRequired(true);
 		// multi.addItems("Privé", "Public");
 
-		uploadFileView = new UploadFileComponent();
-		uploadFileView.init("advanced");
-		uploadFileView.setVisible(false);
-		details.addComponent(uploadFileView);
-
 		// section = new Label("Additional Info");
 		// section.addStyleName(ValoTheme.LABEL_H4);
 		// section.addStyleName(ValoTheme.LABEL_COLORED);
 		// details.addComponent(section);
+
 		return root;
 	}
 
@@ -143,25 +155,36 @@ public class DownloadFileWindow extends Window {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					// if info valide
+					if (!description.isEmpty()) {
 
-					uploadFileView.setVisible(true);
-					if (!filename.isEmpty()) {
-						DashboardUI.getDataProvider().post(filename, "lola", filename);
+						if (!filename.isEmpty()) {
+
+							bar.setVisible(true);
+							DashboardUI.getDataProvider().post(filename, description.getValue(), filename);
+						} else {
+							if (uploadFileView.isVisible()) {
+								throw new DriveErrorException();
+							} else {
+								uploadFileView.setVisible(true);
+								return;
+							}
+						}
+						// bar.setVisible(false);
+						Notification success = new Notification("Fichier téléchargé");
+						success.setDelayMsec(2000);
+						success.setStyleName("bar success small");
+						success.setPosition(Position.BOTTOM_CENTER);
+						success.show(Page.getCurrent());
+						filename = "";
+						close();
 					} else {
-						throw new DriveErrorException();
+						throw new DataEmptyException("Remplisser les informations du fichier");
 					}
 
-					Notification success = new Notification("Fichier télécharger");
-					success.setDelayMsec(2000);
-					success.setStyleName("bar success small");
-					success.setPosition(Position.BOTTOM_CENTER);
-					success.show(Page.getCurrent());
-					filename = "";
-					close();
-
 				} catch (DriveErrorException e) {
-					Notification.show("Erreur fichier non télécharger", Type.ERROR_MESSAGE);
+					Notification.show("Erreur fichier non téléchargé", Type.ERROR_MESSAGE);
+				} catch (DataEmptyException e) {
+					Notification.show(e.message, Type.ERROR_MESSAGE);
 				}
 
 			}

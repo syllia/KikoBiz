@@ -1,8 +1,9 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.investMessage.Ui.DashboardNotification;
 import com.investMessage.domain.FileDto;
 import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.services.CustomerService;

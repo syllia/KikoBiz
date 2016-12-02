@@ -1,9 +1,10 @@
 package com.investMessage.Ui;
 
-import com.investMessage.Ui.DashboardEvent.BrowserResizeEvent;
-import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.DashboardEvent.PostViewChangeEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
+import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
+import com.investMessage.Ui.event.DashboardEvent.PostViewChangeEvent;
+import com.investMessage.Ui.view.DashboardViewType;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

@@ -1,8 +1,11 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.window;
 
-import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.DashboardEvent.ProfileUpdatedEvent;
+import com.investMessage.Ui.DashboardUI;
+import com.investMessage.Ui.UserPasswordException;
+import com.investMessage.Ui.event.DashboardEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
+import com.investMessage.Ui.event.DashboardEvent.ProfileUpdatedEvent;
 import com.investMessage.services.StoreNotFoundException;
 import com.investMessage.services.UserNotFoundException;
 import com.investMessage.web.DTO.UserDTO;

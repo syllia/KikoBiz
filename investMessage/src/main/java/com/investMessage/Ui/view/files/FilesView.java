@@ -1,4 +1,4 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view.files;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -11,7 +11,10 @@ import java.util.stream.Collectors;
 import org.springframework.util.StringUtils;
 
 import com.google.common.eventbus.Subscribe;
-import com.investMessage.Ui.DashboardEvent.BrowserResizeEvent;
+import com.investMessage.Ui.DashboardUI;
+import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
+import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.window.DownloadFileWindow;
 import com.investMessage.domain.FileDto;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.util.BeanItemContainer;
@@ -47,7 +50,7 @@ public final class FilesView extends VerticalLayout implements View {
 	public FilesView() {
 		setSizeFull();
 		addStyleName("transactions");
-		// DashboardEventBus.register(this);
+		DashboardEventBus.register(this);
 
 		addComponent(buildToolbar());
 
@@ -61,7 +64,7 @@ public final class FilesView extends VerticalLayout implements View {
 		super.detach();
 		// A new instance of TransactionsView is created every time it's
 		// navigated to so we'll need to clean up references to it on detach.
-		// DashboardEventBus.unregister(this);
+		DashboardEventBus.unregister(this);
 	}
 
 	private Component buildToolbar() {
@@ -86,7 +89,7 @@ public final class FilesView extends VerticalLayout implements View {
 	}
 
 	private Button buildCreateReport() {
-		final Button createReport = new Button("Ajouter fichier");
+		final Button createReport = new Button("Ajouter un fichier");
 		createReport.setDescription("Ajouter un fichier");
 		createReport.addClickListener(event -> createNewReportFromSelection());
 		createReport.setEnabled(true);
@@ -135,15 +138,17 @@ public final class FilesView extends VerticalLayout implements View {
 
 		// grid.addColumn("Time", transaction ->
 		// DATEFORMAT.format(transaction.getTime())).setHidable(true);
-		collapsibleColumns.add(grid.addColumn("name"));
-		collapsibleColumns.add(grid.addColumn("user"));
-		collapsibleColumns.add(grid.addColumn("date"));
-		collapsibleColumns.add(grid.addColumn("description").setHidable(true));// ;
+
+		grid.addColumn("name", String.class);
+		collapsibleColumns.add(grid.addColumn("user", String.class));
+		collapsibleColumns.add(grid.addColumn("date", String.class));
+		collapsibleColumns.add(grid.addColumn("description", String.class));// ;
 
 		// grid.addColumn("Price", transaction -> "$" +
 		// DECIMALFORMAT.format(transaction.getPrice())).setHidable(true);
 
 		grid.setColumnReorderingAllowed(true);
+
 		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
 		grid.setContainerDataSource(new BeanItemContainer(FileDto.class, DashboardUI.getDataProvider().getFiles(user)));
 		// TODO either add these to grid or do it with style generators here

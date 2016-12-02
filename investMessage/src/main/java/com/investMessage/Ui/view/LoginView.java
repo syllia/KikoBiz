@@ -1,6 +1,6 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view;
 
-import com.investMessage.Ui.DashboardEvent.UserLoginRequestedEvent;
+import com.investMessage.Ui.event.DashboardEvent.UserLoginRequestedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
@@ -40,7 +40,7 @@ public class LoginView extends VerticalLayout {
 		notification.setHtmlContentAllowed(true);
 		notification.setStyleName("tray dark small closable login-help");
 		notification.setPosition(Position.BOTTOM_CENTER);
-		notification.setDelayMsec(20000);
+		notification.setDelayMsec(200);
 		notification.show(Page.getCurrent());
 	}
 
@@ -53,7 +53,7 @@ public class LoginView extends VerticalLayout {
 
 		loginPanel.addComponent(buildLabels());
 		loginPanel.addComponent(buildFields());
-		loginPanel.addComponent(new CheckBox("Remember me", true));
+		loginPanel.addComponent(new CheckBox("Remember me", false));
 		return loginPanel;
 	}
 

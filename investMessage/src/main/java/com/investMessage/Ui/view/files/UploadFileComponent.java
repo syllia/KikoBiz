@@ -1,4 +1,4 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view.files;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.investMessage.Ui.window.DownloadFileWindow;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -96,6 +97,7 @@ public class UploadFileComponent extends CustomComponent {
 				try {
 					fos = new FileOutputStream(new File(filename));
 					os.writeTo(fos);
+					DownloadFileWindow.filename = filename;
 					DownloadFileWindow.filename = filename;
 					fos.close();
 				} catch (IOException e1) {

@@ -1,13 +1,16 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view.home;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.common.eventbus.Subscribe;
-import com.investMessage.Ui.DashboardEdit.DashboardEditListener;
-import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.DashboardEvent.NotificationsCountUpdatedEvent;
+import com.investMessage.Ui.DashboardNotification;
+import com.investMessage.Ui.DashboardUI;
+import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
+import com.investMessage.Ui.event.DashboardEvent.NotificationsCountUpdatedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.view.files.UploadFileComponent;
+import com.investMessage.Ui.view.home.DashboardEdit.DashboardEditListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;

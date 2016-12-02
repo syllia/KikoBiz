@@ -1,4 +1,6 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.event;
+
+import com.investMessage.Ui.view.DashboardViewType;
 
 public class DashboardEvent {
 	public static final class UserLoginRequestedEvent {

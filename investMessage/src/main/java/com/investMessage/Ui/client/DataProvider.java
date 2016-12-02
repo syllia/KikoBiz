@@ -1,7 +1,8 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.client;
 
 import java.util.Collection;
 
+import com.investMessage.Ui.DashboardNotification;
 import com.investMessage.domain.FileDto;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.services.StoreNotFoundException;

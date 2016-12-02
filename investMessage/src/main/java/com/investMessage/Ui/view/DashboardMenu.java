@@ -1,12 +1,13 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view;
 
 import com.google.common.eventbus.Subscribe;
-import com.investMessage.Ui.DashboardEvent.NotificationsCountUpdatedEvent;
-import com.investMessage.Ui.DashboardEvent.PostViewChangeEvent;
-import com.investMessage.Ui.DashboardEvent.ProfileUpdatedEvent;
-import com.investMessage.Ui.DashboardEvent.ReportsCountUpdatedEvent;
-import com.investMessage.Ui.DashboardEvent.UserLoggedOutEvent;
+import com.investMessage.Ui.DashboardUI;
+import com.investMessage.Ui.event.DashboardEvent.NotificationsCountUpdatedEvent;
+import com.investMessage.Ui.event.DashboardEvent.PostViewChangeEvent;
+import com.investMessage.Ui.event.DashboardEvent.ProfileUpdatedEvent;
+import com.investMessage.Ui.event.DashboardEvent.UserLoggedOutEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.Ui.window.ProfilePreferencesWindow;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
@@ -166,12 +167,6 @@ public class DashboardMenu extends CustomComponent {
 		int unreadNotificationsCount = DashboardUI.getDataProvider().getUnreadNotificationsCount();
 		notificationsBadge.setValue(String.valueOf(unreadNotificationsCount));
 		notificationsBadge.setVisible(unreadNotificationsCount > 0);
-	}
-
-	@Subscribe
-	public void updateReportsCount(final ReportsCountUpdatedEvent event) {
-		reportsBadge.setValue(String.valueOf(event.getCount()));
-		reportsBadge.setVisible(event.getCount() > 0);
 	}
 
 	@Subscribe

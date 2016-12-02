@@ -1,4 +1,4 @@
-package com.investMessage.Ui;
+package com.investMessage.Ui.view.home;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.ui.Alignment;

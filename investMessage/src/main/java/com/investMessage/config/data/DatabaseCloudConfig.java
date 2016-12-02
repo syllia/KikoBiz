@@ -2,18 +2,19 @@ package com.investMessage.config.data;
 
 import javax.sql.DataSource;
 
+import org.springframework.cloud.config.java.AbstractCloudConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+@Profile("cloud")
 @Configuration
-@Profile("postgres-local")
-public class PostgresLocalDataSourceConfig extends AbstractDataSourceConfig {
+
+public class DatabaseCloudConfig extends AbstractCloudConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		return createDataSource("jdbc:postgresql://localhost/customers", "org.postgresql.Driver", "postgres",
-				"postgres");
+		return connectionFactory().dataSource();
 	}
 
 }
