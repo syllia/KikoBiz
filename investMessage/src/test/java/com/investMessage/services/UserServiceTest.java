@@ -35,8 +35,9 @@ public class UserServiceTest {
 
 	@Before
 	public void setUp() {
-		user = new User("filas", FIRST_NAME, LAST_NAME, new Store(STORE), "password", "emailAddress", "phoneNumber");
-		updatedUser = new User("filas", FIRST_NAME, LAST_NAME, new Store(STORE), "pass", "email", "phone");
+		user = new User("filas", FIRST_NAME, LAST_NAME, new Store(STORE), "password", "emailAddress", "phoneNumber",
+				"role");
+		updatedUser = new User("filas", FIRST_NAME, LAST_NAME, new Store(STORE), "pass", "email", "phone", "roles");
 		userDTO = new UserDTO(updatedUser);
 
 	}

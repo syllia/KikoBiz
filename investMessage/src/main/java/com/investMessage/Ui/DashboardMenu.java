@@ -7,7 +7,7 @@ import com.investMessage.Ui.DashboardEvent.ProfileUpdatedEvent;
 import com.investMessage.Ui.DashboardEvent.ReportsCountUpdatedEvent;
 import com.investMessage.Ui.DashboardEvent.UserLoggedOutEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.domain.User;
+import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
@@ -67,7 +67,7 @@ public class DashboardMenu extends CustomComponent {
 	}
 
 	private Component buildTitle() {
-		Label logo = new Label("QuickTickets <strong>Dashboard</strong>", ContentMode.HTML);
+		Label logo = new Label("App <strong>Invest Drink</strong>", ContentMode.HTML);
 		logo.setSizeUndefined();
 		HorizontalLayout logoWrapper = new HorizontalLayout(logo);
 		logoWrapper.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
@@ -75,30 +75,25 @@ public class DashboardMenu extends CustomComponent {
 		return logoWrapper;
 	}
 
-	private User getCurrentUser() {
-		return (User) VaadinSession.getCurrent().getAttribute(User.class.getName());
+	private UserDTO getCurrentUser() {
+		return (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
 	}
 
 	private Component buildUserMenu() {
 		final MenuBar settings = new MenuBar();
 		settings.addStyleName("user-menu");
-		final User user = getCurrentUser();
+		final UserDTO user = getCurrentUser();
 		settingsItem = settings.addItem("", new ThemeResource("img/profile-pic-300px.jpg"), null);
 		updateUserName(null);
-		settingsItem.addItem("Edit Profile", new Command() {
+		settingsItem.addItem("Modifier Profile", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				ProfilePreferencesWindow.open(user, false);
 			}
 		});
-		settingsItem.addItem("Preferences", new Command() {
-			@Override
-			public void menuSelected(final MenuItem selectedItem) {
-				ProfilePreferencesWindow.open(user, true);
-			}
-		});
+
 		settingsItem.addSeparator();
-		settingsItem.addItem("Sign Out", new Command() {
+		settingsItem.addItem("Déconnexion", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {
 				DashboardEventBus.post(new UserLoggedOutEvent());
@@ -181,8 +176,8 @@ public class DashboardMenu extends CustomComponent {
 
 	@Subscribe
 	public void updateUserName(final ProfileUpdatedEvent event) {
-		User user = getCurrentUser();
-		settingsItem.setText(user.getFirstname() + " " + user.getLastname());
+		UserDTO user = getCurrentUser();
+		settingsItem.setText(user.firstName + " " + user.lastName);
 	}
 
 	public final class ValoMenuItemButton extends Button {

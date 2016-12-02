@@ -35,6 +35,7 @@ public class DashboardView extends Panel implements View, DashboardEditListener 
 	public static final String TITLE_ID = "dashboard-title";
 
 	private Label titleLabel;
+	private UploadFileComponent uploadFileView;
 	private NotificationsButton notificationsButton;
 	private CssLayout dashboardPanels;
 	private final VerticalLayout root;
@@ -51,7 +52,9 @@ public class DashboardView extends Panel implements View, DashboardEditListener 
 		root.addStyleName("dashboard-view");
 		setContent(root);
 		Responsive.makeResponsive(root);
-
+		uploadFileView = new UploadFileComponent();
+		uploadFileView.init("advanced");
+		root.addComponent(uploadFileView);
 		root.addComponent(buildHeader());
 
 		root.addComponent(buildSparklines());

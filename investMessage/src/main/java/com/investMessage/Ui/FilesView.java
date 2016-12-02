@@ -1,0 +1,211 @@
+package com.investMessage.Ui;
+
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.util.StringUtils;
+
+import com.google.common.eventbus.Subscribe;
+import com.investMessage.Ui.DashboardEvent.BrowserResizeEvent;
+import com.investMessage.domain.FileDto;
+import com.investMessage.web.DTO.UserDTO;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.Column;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
+
+@SuppressWarnings({ "serial", "unchecked" })
+public final class FilesView extends VerticalLayout implements View {
+
+	private final Grid grid;
+	private Button createReport;
+	private String filterValue = "";
+	private static final DateFormat DATEFORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+	private static final DecimalFormat DECIMALFORMAT = new DecimalFormat("#.##");
+
+	private static final Set<Column> collapsibleColumns = new LinkedHashSet<>();
+
+	public FilesView() {
+		setSizeFull();
+		addStyleName("transactions");
+		// DashboardEventBus.register(this);
+
+		addComponent(buildToolbar());
+
+		grid = buildGrid();
+		addComponent(grid);
+		setExpandRatio(grid, 1);
+	}
+
+	@Override
+	public void detach() {
+		super.detach();
+		// A new instance of TransactionsView is created every time it's
+		// navigated to so we'll need to clean up references to it on detach.
+		// DashboardEventBus.unregister(this);
+	}
+
+	private Component buildToolbar() {
+		HorizontalLayout header = new HorizontalLayout();
+		header.addStyleName("viewheader");
+		header.setSpacing(true);
+		Responsive.makeResponsive(header);
+
+		Label title = new Label("Fichiers");
+		title.setSizeUndefined();
+		title.addStyleName(ValoTheme.LABEL_H1);
+		title.addStyleName(ValoTheme.LABEL_NO_MARGIN);
+		header.addComponent(title);
+
+		createReport = buildCreateReport();
+		HorizontalLayout tools = new HorizontalLayout(buildFilter(), createReport);
+		tools.setSpacing(true);
+		tools.addStyleName("toolbar");
+		header.addComponent(tools);
+
+		return header;
+	}
+
+	private Button buildCreateReport() {
+		final Button createReport = new Button("Ajouter fichier");
+		createReport.setDescription("Ajouter un fichier");
+		createReport.addClickListener(event -> createNewReportFromSelection());
+		createReport.setEnabled(true);
+		return createReport;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private Component buildFilter() {
+		final TextField filter = new TextField();
+
+		// TODO improve filtering
+		filter.addValueChangeListener(event -> {
+
+			if (!StringUtils.isEmpty(filter.getValue())) {
+				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
+				Collection<FileDto> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream().filter(file -> {
+					filterValue = filter.getValue().trim().toLowerCase();
+					return passesFilter(file.name) || passesFilter(file.user);
+				}).collect(Collectors.toList());
+
+				grid.setContainerDataSource(new BeanItemContainer(FileDto.class, fileDtos));
+			} else {
+				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
+				Collection<FileDto> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream()
+						.collect(Collectors.toList());
+				grid.setContainerDataSource(new BeanItemContainer(FileDto.class, fileDtos));
+			}
+			// grid.setDataSource(dataSource.sortingBy(Comparator.comparing(Transaction::getTime).reversed()));
+		});
+
+		// filter.setPlaceholder("Filter");
+		filter.setIcon(FontAwesome.SEARCH);
+		filter.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
+		filter.addShortcutListener(new ShortcutListener("Clear", KeyCode.ESCAPE, null) {
+			@Override
+			public void handleAction(final Object sender, final Object target) {
+				filter.setValue("");
+			}
+		});
+		return filter;
+	}
+
+	private Grid buildGrid() {
+		final Grid grid = new Grid();
+		grid.setSizeFull();
+
+		// grid.addColumn("Time", transaction ->
+		// DATEFORMAT.format(transaction.getTime())).setHidable(true);
+		collapsibleColumns.add(grid.addColumn("name"));
+		collapsibleColumns.add(grid.addColumn("user"));
+		collapsibleColumns.add(grid.addColumn("date"));
+		collapsibleColumns.add(grid.addColumn("description").setHidable(true));// ;
+
+		// grid.addColumn("Price", transaction -> "$" +
+		// DECIMALFORMAT.format(transaction.getPrice())).setHidable(true);
+
+		grid.setColumnReorderingAllowed(true);
+		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
+		grid.setContainerDataSource(new BeanItemContainer(FileDto.class, DashboardUI.getDataProvider().getFiles(user)));
+		// TODO either add these to grid or do it with style generators here
+		// grid.setColumnAlignment("seats", Align.RIGHT);
+		// grid.setColumnAlignment("price", Align.RIGHT);
+
+		// TODO add when footers implemented in v8
+		// grid.setFooterVisible(true);
+		// grid.setColumnFooter("time", "Total");
+		// grid.setColumnFooter("price", "$" + DECIMALFORMAT
+		// .format(DashboardUI.getDataProvider().getTotalSum()));
+
+		// TODO add this functionality to grid?
+		// grid.addActionHandler(new TransactionsActionHandler());
+
+		// grid.addSelectionListener(event ->
+		// createReport.setEnabled(!grid.getSelectedItems().isEmpty()));
+		return grid;
+	}
+
+	private boolean defaultColumnsVisible() {
+		boolean result = true;
+		for (Column column : collapsibleColumns) {
+			if (column.isHidden() == Page.getCurrent().getBrowserWindowWidth() < 800) {
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	@Subscribe
+	public void browserResized(final BrowserResizeEvent event) {
+		// Some columns are collapsed when browser window width gets small
+		// enough to make the table fit better.
+
+		if (defaultColumnsVisible()) {
+			for (Column column : collapsibleColumns) {
+				column.setHidden(Page.getCurrent().getBrowserWindowWidth() < 800);
+			}
+		}
+	}
+
+	void createNewReportFromSelection() {
+		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
+		DownloadFileWindow.open(user, false);
+		// grid.addSelectionListener(e -> {
+		// if (!e.getSelected().isEmpty()) {
+		// //
+		// );
+		// }
+		// });
+
+	}
+
+	private boolean passesFilter(String subject) {
+		if (subject == null) {
+			return false;
+		}
+		return subject.trim().toLowerCase().contains(filterValue);
+	}
+
+	@Override
+	public void enter(final ViewChangeEvent event) {
+	}
+}

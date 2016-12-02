@@ -1,17 +1,14 @@
 package com.investMessage.Ui;
 
 import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.DashboardEvent.ProfileUpdatedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.services.StoreNotFoundException;
-import com.investMessage.services.UserNotFoundException;
+import com.investMessage.services.DriveErrorException;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -21,10 +18,10 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -32,30 +29,18 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class ProfilePreferencesWindow extends Window {
+public class DownloadFileWindow extends Window {
 
-	public static final String ID = "profilepreferenceswindow";
+	public static final String ID = "downloadFileWindow";
 
-	// private final BeanFieldGroup<UserDTO> fieldGroup;
-	/*
-	 * Fields for editing the User object are defined here as class members.
-	 * They are later bound to a FieldGroup by calling
-	 * fieldGroup.bindMemberFields(this). The Fields' values don't need to be
-	 * explicitly set, calling fieldGroup.setItemDataSource(user) synchronizes
-	 * the fields with the user object.
-	 */
-	@PropertyId("actuPassWordField")
-	private TextField actuPassWordField;
-	@PropertyId("passWordField")
-	private TextField passWordField;
-	@PropertyId("newPassWordField")
-	private TextField newPassWordField;
-	@PropertyId("emailAddress")
-	private TextField emailField;
-	@PropertyId("phoneNumber")
-	private TextField phoneField;
+	@PropertyId("description")
+	private TextField description;
+	private OptionGroup multi;
+	public static String filename = "";
 
-	private ProfilePreferencesWindow(final UserDTO user, final boolean preferencesTabOpen) {
+	private UploadFileComponent uploadFileView;
+
+	private DownloadFileWindow(final UserDTO user, final boolean preferencesTabOpen) {
 		addStyleName("profile-window");
 		setId(ID);
 		Responsive.makeResponsive(this);
@@ -84,70 +69,59 @@ public class ProfilePreferencesWindow extends Window {
 		if (preferencesTabOpen) {
 			detailsWrapper.setSelectedTab(1);
 		}
-		actuPassWordField.setValue("");
-		passWordField.setValue("");
-		newPassWordField.setValue("");
-		emailField.setValue(user.emailAddress);
-		phoneField.setValue(user.phoneNumber);
-
 		content.addComponent(buildFooter(user));
 
 	}
 
 	private Component buildProfileTab() {
 		HorizontalLayout root = new HorizontalLayout();
-		root.setCaption("Profile");
-		root.setIcon(FontAwesome.USER);
+		root.setCaption("Téléchargement");
+		root.setIcon(FontAwesome.FILE);
 		root.setWidth(100.0f, Unit.PERCENTAGE);
 		root.setSpacing(true);
 		root.setMargin(true);
 		root.addStyleName("profile-form");
 
-		VerticalLayout pic = new VerticalLayout();
-		pic.setSizeUndefined();
-		pic.setSpacing(true);
-		Image profilePic = new Image(null, new ThemeResource("img/profile-pic-300px.jpg"));
-		profilePic.setWidth(100.0f, Unit.PIXELS);
-		pic.addComponent(profilePic);
+		// VerticalLayout pic = new VerticalLayout();
+		// pic.setSizeUndefined();
+		// pic.setSpacing(true);
+		// Image profilePic = new Image(null, new
+		// ThemeResource("img/profile-pic-300px.jpg"));
+		// profilePic.setWidth(100.0f, Unit.PIXELS);
+		// pic.addComponent(profilePic);
 
-		Button upload = new Button("Change…", new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Notification.show("Not implemented in this demo");
-			}
-		});
-		upload.addStyleName(ValoTheme.BUTTON_TINY);
-		pic.addComponent(upload);
+		// Button upload = new Button("Change…", new ClickListener() {
+		// @Override
+		// public void buttonClick(ClickEvent event) {
+		// Notification.show("Not implemented in this demo");
+		// }
+		// });
+		// upload.addStyleName(ValoTheme.BUTTON_TINY);
+		// pic.addComponent(upload);
 
-		root.addComponent(pic);
+		// root.addComponent(pic);
 
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 		root.addComponent(details);
 		root.setExpandRatio(details, 1);
 
-		actuPassWordField = new TextField("Tapez votre mot de passe");
-		details.addComponent(actuPassWordField);
+		description = new TextField("Description du fichier");
+		details.addComponent(description);
 
-		passWordField = new TextField("Nouveau mot de passe");
-		details.addComponent(passWordField);
-
-		newPassWordField = new TextField("Retapez votre nouveau mot de passe");
-		details.addComponent(newPassWordField);
-
-		Label section = new Label("Contact Info");
+		Label section = new Label("Visibilité");
 		section.addStyleName(ValoTheme.LABEL_H4);
 		section.addStyleName(ValoTheme.LABEL_COLORED);
 		details.addComponent(section);
 
-		emailField = new TextField("Email");
-		emailField.setWidth("100%");
-		emailField.setRequired(true);
-		details.addComponent(emailField);
+		multi = new OptionGroup("Multiple Selection");
+		// multi.setRequired(true);
+		// multi.addItems("Privé", "Public");
 
-		phoneField = new TextField("Phone");
-		phoneField.setWidth("100%");
-		details.addComponent(phoneField);
+		uploadFileView = new UploadFileComponent();
+		uploadFileView.init("advanced");
+		uploadFileView.setVisible(false);
+		details.addComponent(uploadFileView);
 
 		// section = new Label("Additional Info");
 		// section.addStyleName(ValoTheme.LABEL_H4);
@@ -161,7 +135,7 @@ public class ProfilePreferencesWindow extends Window {
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth(100.0f, Unit.PERCENTAGE);
 
-		Button ok = new Button("OK");
+		Button ok = new Button("Ajouter fichier");
 		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		Button cancel = new Button("ANNULER");
 		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
@@ -169,35 +143,25 @@ public class ProfilePreferencesWindow extends Window {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				try {
-					if (!actuPassWordField.getValue().equals("") || !actuPassWordField.getValue().equals("")
-							|| !newPassWordField.getValue().equals(""))
-						if (actuPassWordField.getValue().equals(user.passWord)) {
-							if (passWordField.getValue().equals(newPassWordField.getValue())
-									&& !passWordField.isEmpty()) {
-								user.passWord = passWordField.getValue();
-							} else {
-								throw new UserPasswordException();
-							}
+					// if info valide
 
-						} else {
-							throw new UserPasswordException();
-						}
+					uploadFileView.setVisible(true);
+					if (!filename.isEmpty()) {
+						DashboardUI.getDataProvider().post(filename, "lola", filename);
+					} else {
+						throw new DriveErrorException();
+					}
 
-					user.emailAddress = emailField.getValue();
-					user.phoneNumber = phoneField.getValue();
-
-					DashboardUI.getDataProvider().saveUser(user);
-
-					Notification success = new Notification("Profile updated successfully");
+					Notification success = new Notification("Fichier télécharger");
 					success.setDelayMsec(2000);
 					success.setStyleName("bar success small");
 					success.setPosition(Position.BOTTOM_CENTER);
 					success.show(Page.getCurrent());
-
-					DashboardEventBus.post(new ProfileUpdatedEvent());
+					filename = "";
 					close();
-				} catch (UserPasswordException | UserNotFoundException | StoreNotFoundException e) {
-					Notification.show("Error while updating profile", Type.ERROR_MESSAGE);
+
+				} catch (DriveErrorException e) {
+					Notification.show("Erreur fichier non télécharger", Type.ERROR_MESSAGE);
 				}
 
 			}
@@ -219,7 +183,7 @@ public class ProfilePreferencesWindow extends Window {
 
 	public static void open(final UserDTO user, final boolean preferencesTabActive) {
 		DashboardEventBus.post(new CloseOpenWindowsEvent());
-		Window w = new ProfilePreferencesWindow(user, preferencesTabActive);
+		Window w = new DownloadFileWindow(user, preferencesTabActive);
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	}

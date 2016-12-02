@@ -10,7 +10,7 @@ import com.investMessage.Ui.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.DashboardEvent.UserLoggedOutEvent;
 import com.investMessage.Ui.DashboardEvent.UserLoginRequestedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.domain.User;
+import com.investMessage.services.CustomerService;
 import com.investMessage.services.UserService;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.annotations.Theme;
@@ -36,8 +36,8 @@ public class DashboardUI extends UI {
 	private DataProvider dataProvider;
 
 	@Autowired
-	public DashboardUI(UserService repo) {
-		dataProvider = new DummyDataProvider(repo);
+	public DashboardUI(UserService repo, CustomerService repoCustumer) {
+		dataProvider = new DummyDataProvider(repo, repoCustumer);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class DashboardUI extends UI {
 	 * Otherwise login view is shown.
 	 */
 	private void updateContent() {
-		User user = (User) VaadinSession.getCurrent().getAttribute(User.class.getName());
+		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
 		if (user != null) {
 			// Authenticated user
 			setContent(new MainView());
@@ -81,7 +81,7 @@ public class DashboardUI extends UI {
 	@Subscribe
 	public void userLoginRequested(final UserLoginRequestedEvent event) {
 		UserDTO userDTO = getDataProvider().authenticate(event.getUserName(), event.getPassword());
-		VaadinSession.getCurrent().setAttribute(User.class.getName(), userDTO);
+		VaadinSession.getCurrent().setAttribute(UserDTO.class.getName(), userDTO);
 		updateContent();
 	}
 
@@ -92,6 +92,7 @@ public class DashboardUI extends UI {
 		// invalidate the current HttpSession.
 		VaadinSession.getCurrent().close();
 		Page.getCurrent().reload();
+
 	}
 
 	@Subscribe

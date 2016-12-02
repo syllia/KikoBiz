@@ -34,9 +34,9 @@ public class LoginView extends VerticalLayout {
 		addComponent(loginForm);
 		setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
-		Notification notification = new Notification("Welcome to Dashboard Demo");
+		Notification notification = new Notification("Bienvenue");
 		notification.setDescription(
-				"<span>This application is not real, it only demonstrates an application built with the <a href=\"https://vaadin.com\">Vaadin framework</a>.</span> <span>No username or password is required, just click the <b>Sign In</b> button to continue.</span>");
+				"<span>Application de gestion Invest drink.</span> <span>Entrer votre nom d'utilisateur et votre mot de passe</span>");
 		notification.setHtmlContentAllowed(true);
 		notification.setStyleName("tray dark small closable login-help");
 		notification.setPosition(Position.BOTTOM_CENTER);
@@ -91,13 +91,13 @@ public class LoginView extends VerticalLayout {
 		CssLayout labels = new CssLayout();
 		labels.addStyleName("labels");
 
-		Label welcome = new Label("Welcome");
+		Label welcome = new Label("Bienvenue");
 		welcome.setSizeUndefined();
 		welcome.addStyleName(ValoTheme.LABEL_H4);
 		welcome.addStyleName(ValoTheme.LABEL_COLORED);
 		labels.addComponent(welcome);
 
-		Label title = new Label("InvestDrink Dashboard");
+		Label title = new Label("InvestDrink");
 		title.setSizeUndefined();
 		title.addStyleName(ValoTheme.LABEL_H3);
 		title.addStyleName(ValoTheme.LABEL_LIGHT);

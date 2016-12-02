@@ -13,6 +13,7 @@ public class User {
 	private String passWord;
 	private String emailAddress;
 	private String phoneNumber;
+	private String role;
 	@OneToOne
 	private Store store;
 
@@ -20,7 +21,7 @@ public class User {
 	}
 
 	public User(String userName, String firstName, String lastName, Store store, String passWord, String emailAddress,
-			String phoneNumber) {
+			String phoneNumber, String role) {
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.store = store;
@@ -28,6 +29,10 @@ public class User {
 		this.passWord = passWord;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
+	}
+
+	public String getRole() {
+		return role;
 	}
 
 	public String getUserName() {
