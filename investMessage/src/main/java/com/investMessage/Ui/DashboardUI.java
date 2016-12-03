@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.eventbus.Subscribe;
 import com.investMessage.Ui.client.DataProvider;
 import com.investMessage.Ui.client.DummyDataProvider;
-import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEvent.UserLoggedOutEvent;
 import com.investMessage.Ui.event.DashboardEvent.UserLoginRequestedEvent;
+import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.view.LoginView;
 import com.investMessage.Ui.view.MainView;
 import com.investMessage.services.CustomerService;
@@ -53,7 +53,7 @@ public class DashboardUI extends UI {
 		addStyleName(ValoTheme.UI_WITH_MENU);
 
 		updateContent();
-
+		;
 		// Some views need to be aware of browser resize events so a
 		// BrowserResizeEvent gets fired to the event bus on every occasion.
 		Page.getCurrent().addBrowserWindowResizeListener(new BrowserWindowResizeListener() {

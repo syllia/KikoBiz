@@ -9,7 +9,6 @@ import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEvent.NotificationsCountUpdatedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.Ui.view.files.UploadFileComponent;
 import com.investMessage.Ui.view.home.DashboardEdit.DashboardEditListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
@@ -38,7 +37,6 @@ public class DashboardView extends Panel implements View, DashboardEditListener 
 	public static final String TITLE_ID = "dashboard-title";
 
 	private Label titleLabel;
-	private UploadFileComponent uploadFileView;
 	private NotificationsButton notificationsButton;
 	private CssLayout dashboardPanels;
 	private final VerticalLayout root;
@@ -55,9 +53,6 @@ public class DashboardView extends Panel implements View, DashboardEditListener 
 		root.addStyleName("dashboard-view");
 		setContent(root);
 		Responsive.makeResponsive(root);
-		uploadFileView = new UploadFileComponent();
-		uploadFileView.init("advanced");
-		root.addComponent(uploadFileView);
 		root.addComponent(buildHeader());
 
 		root.addComponent(buildSparklines());

@@ -33,8 +33,8 @@ public class FileService {
 
 		try {
 			this.drive = fileClient.getDriveService();
-			FileList result = drive.files().list().setFields("nextPageToken, files(id,name,description,createdTime)")
-					.execute();
+			FileList result = drive.files().list().setQ("'" + parentId + "' in parents")
+					.setFields("nextPageToken, files(id,name,description,createdTime)").execute();
 			List<File> files = result.getFiles();
 			if (files != null) {
 				fileDtos = createListFileDto(files);
