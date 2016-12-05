@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.investMessage.Ui.DashboardNotification;
-import com.investMessage.domain.FileDto;
+import com.investMessage.Ui.window.FileDownloadFailure;
+import com.investMessage.domain.FileDTO;
 import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.services.CustomerService;
 import com.investMessage.services.DriveErrorException;
@@ -66,7 +67,7 @@ public class DummyDataProvider implements DataProvider {
 	}
 
 	@Override
-	public Collection<FileDto> getFiles(UserDTO user) {
+	public Collection<FileDTO> getFiles(UserDTO user) {
 		try {
 			return fileService.findByUser(user);
 		} catch (DriveErrorException e) {
@@ -79,6 +80,12 @@ public class DummyDataProvider implements DataProvider {
 	public void post(String title, String description, String filename) throws DriveErrorException {
 		fileService.insertFile(title, description, filename);
 		;
+
+	}
+
+	@Override
+	public byte[] getFileFromId(String fileId) throws FileDownloadFailure {
+		return fileService.getFileStreamById(fileId);
 
 	}
 

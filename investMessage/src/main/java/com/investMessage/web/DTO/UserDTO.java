@@ -9,12 +9,10 @@ public class UserDTO {
 	public String passWord;
 	public String emailAddress;
 	public String phoneNumber;
-	public String role;
 	public String store;
 
 	public UserDTO(String userName, String lastname, String firstname, String passWord, String emailAddress,
 			String phoneNumber, String store) {
-		super();
 		this.userName = userName;
 		this.lastName = lastname;
 		this.firstName = firstname;
@@ -33,7 +31,6 @@ public class UserDTO {
 		this.emailAddress = user.getEmailAddress();
 		this.phoneNumber = user.getPhoneNumber();
 		this.store = user.getStore();
-		this.role = user.getRole();
 	}
 
 	@Override

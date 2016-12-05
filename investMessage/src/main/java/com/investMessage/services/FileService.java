@@ -1,6 +1,8 @@
 package com.investMessage.services;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +14,8 @@ import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import com.investMessage.domain.FileDto;
+import com.investMessage.Ui.window.FileDownloadFailure;
+import com.investMessage.domain.FileDTO;
 import com.investMessage.web.DTO.UserDTO;
 
 public class FileService {
@@ -28,8 +31,8 @@ public class FileService {
 		this.fileClient = fileClient;
 	}
 
-	public List<FileDto> findByUser(UserDTO userDTO) throws DriveErrorException {
-		List<FileDto> fileDtos = new ArrayList<>();
+	public List<FileDTO> findByUser(UserDTO userDTO) throws DriveErrorException {
+		List<FileDTO> fileDtos = new ArrayList<>();
 
 		try {
 			this.drive = fileClient.getDriveService();
@@ -49,14 +52,14 @@ public class FileService {
 		}
 	}
 
-	private List<FileDto> findListForUser(String username, List<FileDto> listDto, String role) {
+	private List<FileDTO> findListForUser(String username, List<FileDTO> listDto, String role) {
 		return listDto.stream().filter(e -> e.user.equals(username) || e.roles.contains(role))
 				.collect(Collectors.toList());
 
 	}
 
-	private List<FileDto> createListFileDto(List<File> files) {
-		List<FileDto> fileDtos = new ArrayList<>();
+	private List<FileDTO> createListFileDto(List<File> files) {
+		List<FileDTO> fileDtos = new ArrayList<>();
 		for (File file : files) {
 			try {
 				fileDtos.add(split(file));
@@ -66,8 +69,19 @@ public class FileService {
 		return fileDtos;
 	}
 
-	private FileDto split(File file) throws DriveErrorException {
-		FileDto fileDto = new FileDto();
+	public byte[] getFileStreamById(String fileId) throws FileDownloadFailure {
+		OutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			this.drive = fileClient.getDriveService();
+			drive.files().get(fileId).executeMediaAndDownloadTo(outputStream);
+		} catch (IOException e) {
+			throw new FileDownloadFailure();
+		}
+		return ((ByteArrayOutputStream) outputStream).toByteArray();
+	}
+
+	private FileDTO split(File file) throws DriveErrorException {
+		FileDTO fileDto = new FileDTO();
 		fileDto.name = file.getName();
 		fileDto.id = file.getId();
 
@@ -80,7 +94,7 @@ public class FileService {
 		if (elements.size() == 3) {
 			fileDto.user = elements.get(0);
 			fileDto.description = elements.get(1);
-			List<String> roles = Arrays.asList(elements.get(1).split(","));
+			List<String> roles = Arrays.asList(elements.get(2).split(","));
 			for (String string : roles) {
 				fileDto.roles.add(string);
 			}
@@ -90,6 +104,16 @@ public class FileService {
 			// THROW
 			return fileDto;
 		}
+	}
+
+	private String formatDescription(String username, String fileTitle, List<String> stores) {
+		String description = "";
+		description += username + "/" + fileTitle + "/";
+		for (String store : stores) {
+			description += store + ",";
+		}
+		description = description.substring(0, description.length() - 1);
+		return description;
 	}
 
 	public void insertFile(String title, String description, String filename) throws DriveErrorException {
@@ -107,10 +131,11 @@ public class FileService {
 		// File's content.
 		java.io.File fileContent = new java.io.File(filename);
 		FileContent mediaContent = new FileContent(mimeTypesMap.getContentType(filename), fileContent);
+
 		try {
 			drive.files().create(body, mediaContent).execute();
 		} catch (IOException e) {
-			throw new DriveErrorException();
+			e.printStackTrace();
 		}
 
 	}

@@ -3,7 +3,8 @@ package com.investMessage.Ui.client;
 import java.util.Collection;
 
 import com.investMessage.Ui.DashboardNotification;
-import com.investMessage.domain.FileDto;
+import com.investMessage.Ui.window.FileDownloadFailure;
+import com.investMessage.domain.FileDTO;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.services.StoreNotFoundException;
 import com.investMessage.services.UserNotFoundException;
@@ -28,7 +29,10 @@ public interface DataProvider {
 
 	void saveUser(UserDTO user) throws UserNotFoundException, StoreNotFoundException;
 
-	Collection<FileDto> getFiles(UserDTO user);
+	Collection<FileDTO> getFiles(UserDTO user);
 
 	void post(String title, String description, String filename) throws DriveErrorException;
+
+	byte[] getFileFromId(String fileId) throws FileDownloadFailure;
+
 }

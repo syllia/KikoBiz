@@ -15,7 +15,8 @@ import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.window.DownloadFileWindow;
-import com.investMessage.domain.FileDto;
+import com.investMessage.Ui.window.UploadFileWindow;
+import com.investMessage.domain.FileDTO;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -41,6 +42,7 @@ public final class FilesView extends VerticalLayout implements View {
 
 	private final Grid grid;
 	private Button createReport;
+	private Button downloadFile;
 	private String filterValue = "";
 	private static final DateFormat DATEFORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 	private static final DecimalFormat DECIMALFORMAT = new DecimalFormat("#.##");
@@ -55,6 +57,7 @@ public final class FilesView extends VerticalLayout implements View {
 		addComponent(buildToolbar());
 
 		grid = buildGrid();
+
 		addComponent(grid);
 		setExpandRatio(grid, 1);
 	}
@@ -80,6 +83,7 @@ public final class FilesView extends VerticalLayout implements View {
 		header.addComponent(title);
 
 		createReport = buildCreateReport();
+
 		HorizontalLayout tools = new HorizontalLayout(buildFilter(), createReport);
 		tools.setSpacing(true);
 		tools.addStyleName("toolbar");
@@ -105,17 +109,17 @@ public final class FilesView extends VerticalLayout implements View {
 
 			if (!StringUtils.isEmpty(filter.getValue())) {
 				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<FileDto> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream().filter(file -> {
+				Collection<FileDTO> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream().filter(file -> {
 					filterValue = filter.getValue().trim().toLowerCase();
 					return passesFilter(file.name) || passesFilter(file.user);
 				}).collect(Collectors.toList());
 
-				grid.setContainerDataSource(new BeanItemContainer(FileDto.class, fileDtos));
+				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, fileDtos));
 			} else {
 				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<FileDto> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream()
+				Collection<FileDTO> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream()
 						.collect(Collectors.toList());
-				grid.setContainerDataSource(new BeanItemContainer(FileDto.class, fileDtos));
+				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, fileDtos));
 			}
 			// grid.setDataSource(dataSource.sortingBy(Comparator.comparing(Transaction::getTime).reversed()));
 		});
@@ -150,7 +154,7 @@ public final class FilesView extends VerticalLayout implements View {
 		grid.setColumnReorderingAllowed(true);
 
 		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-		grid.setContainerDataSource(new BeanItemContainer(FileDto.class, DashboardUI.getDataProvider().getFiles(user)));
+		grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, DashboardUI.getDataProvider().getFiles(user)));
 		// TODO either add these to grid or do it with style generators here
 		// grid.setColumnAlignment("seats", Align.RIGHT);
 		// grid.setColumnAlignment("price", Align.RIGHT);
@@ -166,6 +170,14 @@ public final class FilesView extends VerticalLayout implements View {
 
 		// grid.addSelectionListener(event ->
 		// createReport.setEnabled(!grid.getSelectedItems().isEmpty()));
+
+		grid.addSelectionListener(e -> {
+			if (e.getSelected().isEmpty()) {
+			} else {
+				FileDTO fileDTO = (FileDTO) grid.getSelectedRow();
+				openDownloadView(fileDTO);
+			}
+		});
 		return grid;
 	}
 
@@ -193,14 +205,11 @@ public final class FilesView extends VerticalLayout implements View {
 
 	void createNewReportFromSelection() {
 		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-		DownloadFileWindow.open(user, false);
-		// grid.addSelectionListener(e -> {
-		// if (!e.getSelected().isEmpty()) {
-		// //
-		// );
-		// }
-		// });
+		UploadFileWindow.open(user, false);
+	}
 
+	void openDownloadView(FileDTO fileDTO) {
+		DownloadFileWindow.open(fileDTO);
 	}
 
 	private boolean passesFilter(String subject) {

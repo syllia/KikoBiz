@@ -1,19 +1,19 @@
 package com.investMessage.Ui.window;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import com.investMessage.Ui.DashboardUI;
-import com.investMessage.Ui.DataEmptyException;
-import com.investMessage.Ui.event.DashboardEvent;
-import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.view.files.UploadFileComponent;
-import com.investMessage.services.DriveErrorException;
-import com.investMessage.web.DTO.UserDTO;
+import com.investMessage.Ui.event.DashboardEventBus;
+import com.investMessage.domain.FileDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
-import com.vaadin.shared.Position;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -22,10 +22,9 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
@@ -37,19 +36,22 @@ import com.vaadin.ui.themes.ValoTheme;
 public class DownloadFileWindow extends Window {
 
 	public static final String ID = "downloadFileWindow";
+	private String fileId;
 
-	@PropertyId("description")
+	@PropertyId("FileName")
+	private TextField filename;
+	@PropertyId("Date")
+	private TextField date;
+	@PropertyId("Description")
 	private TextField description;
-	private OptionGroup multi;
-	public static String filename = "";
-	private ProgressBar bar;
-	private UploadFileComponent uploadFileView;
 
-	private DownloadFileWindow(final UserDTO user, final boolean preferencesTabOpen) {
+	private ProgressBar bar;
+
+	private DownloadFileWindow(final FileDTO fileDTO) {
 		addStyleName("profile-window");
 		setId(ID);
 		Responsive.makeResponsive(this);
-
+		fileId = fileDTO.id;
 		setModal(true);
 		setCloseShortcut(KeyCode.ESCAPE, null);
 		setResizable(false);
@@ -69,124 +71,77 @@ public class DownloadFileWindow extends Window {
 		content.addComponent(detailsWrapper);
 		content.setExpandRatio(detailsWrapper, 1f);
 
-		detailsWrapper.addComponent(buildProfileTab());
+		detailsWrapper.addComponent(buildProfileTab(fileDTO));
 
-		if (preferencesTabOpen) {
-			detailsWrapper.setSelectedTab(1);
-		}
-		uploadFileView = new UploadFileComponent();
-		// uploadFileView.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
-		uploadFileView.init("advanced");
-		uploadFileView.setVisible(false);
-		uploadFileView.setWidth(200.0f, Unit.PERCENTAGE);
-		content.addComponent(uploadFileView);
-
-		content.addComponent(buildFooter(user));
+		content.addComponent(buildFooter(fileDTO));
 
 	}
 
-	private Component buildProfileTab() {
+	private Component buildProfileTab(FileDTO fileDTO) {
 		HorizontalLayout root = new HorizontalLayout();
-		root.setCaption("Téléchargement");
-		root.setIcon(FontAwesome.FILE);
+		root.setCaption("Profile");
+		root.setIcon(FontAwesome.USER);
 		root.setWidth(100.0f, Unit.PERCENTAGE);
 		root.setSpacing(true);
 		root.setMargin(true);
 		root.addStyleName("profile-form");
 
-		// VerticalLayout pic = new VerticalLayout();
-		// pic.setSizeUndefined();
-		// pic.setSpacing(true);
-		// Image profilePic = new Image(null, new
-		// ThemeResource("img/profile-pic-300px.jpg"));
-		// profilePic.setWidth(100.0f, Unit.PIXELS);
-		// pic.addComponent(profilePic);
+		VerticalLayout pic = new VerticalLayout();
+		pic.setSizeUndefined();
+		pic.setSpacing(true);
+		Image profilePic = new Image(null, new ThemeResource("img/profile-pic-300px.jpg"));
+		profilePic.setWidth(100.0f, Unit.PIXELS);
+		pic.addComponent(profilePic);
 
-		// Button upload = new Button("Change…", new ClickListener() {
-		// @Override
-		// public void buttonClick(ClickEvent event) {
-		// Notification.show("Not implemented in this demo");
-		// }
-		// });
-		// upload.addStyleName(ValoTheme.BUTTON_TINY);
-		// pic.addComponent(upload);
+		Button upload = new Button("Change…", new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				Notification.show("Not implemented in this demo");
+			}
+		});
+		upload.addStyleName(ValoTheme.BUTTON_TINY);
+		pic.addComponent(upload);
 
-		// root.addComponent(pic);
+		root.addComponent(pic);
 
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 		root.addComponent(details);
 		root.setExpandRatio(details, 1);
 
-		description = new TextField("Description du fichier");
-		details.addComponent(description);
+		filename = new TextField("Nom du fichier");
+		details.addComponent(filename);
+		filename.setValue(fileDTO.name);
 
-		Label section = new Label("Visibilité");
+		date = new TextField("Date");
+		details.addComponent(date);
+		date.setValue(fileDTO.date);
+
+		description = new TextField("Description");
+		details.addComponent(description);
+		description.setValue(fileDTO.description);
+
+		Label section = new Label("Contact Info");
 		section.addStyleName(ValoTheme.LABEL_H4);
 		section.addStyleName(ValoTheme.LABEL_COLORED);
-
 		details.addComponent(section);
-		bar = new ProgressBar();
-		bar.setIndeterminate(true);
-		bar.setVisible(false);
-
-		multi = new OptionGroup("Multiple Selection");
-		// multi.setRequired(true);
-		// multi.addItems("Privé", "Public");
-
-		// section = new Label("Additional Info");
-		// section.addStyleName(ValoTheme.LABEL_H4);
-		// section.addStyleName(ValoTheme.LABEL_COLORED);
-		// details.addComponent(section);
 
 		return root;
 	}
 
-	private Component buildFooter(UserDTO user) {
+	private Component buildFooter(FileDTO fileDTO) {
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth(100.0f, Unit.PERCENTAGE);
 
-		Button ok = new Button("Ajouter fichier");
-		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
-		Button cancel = new Button("ANNULER");
-		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
-		ok.addClickListener(new ClickListener() {
+		Button downloadButton = createDownloadButton(fileDTO.name);
+		downloadButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		Button cancel = new Button("Annuler");
+		Button delete = new Button("Supprimer");
+		downloadButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
+		downloadButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				try {
-					if (!description.isEmpty()) {
-
-						if (!filename.isEmpty()) {
-
-							bar.setVisible(true);
-							DashboardUI.getDataProvider().post(filename, description.getValue(), filename);
-						} else {
-							if (uploadFileView.isVisible()) {
-								throw new DriveErrorException();
-							} else {
-								uploadFileView.setVisible(true);
-								return;
-							}
-						}
-						// bar.setVisible(false);
-						Notification success = new Notification("Fichier téléchargé");
-						success.setDelayMsec(2000);
-						success.setStyleName("bar success small");
-						success.setPosition(Position.BOTTOM_CENTER);
-						success.show(Page.getCurrent());
-						filename = "";
-						close();
-					} else {
-						throw new DataEmptyException("Remplisser les informations du fichier");
-					}
-
-				} catch (DriveErrorException e) {
-					Notification.show("Erreur fichier non téléchargé", Type.ERROR_MESSAGE);
-				} catch (DataEmptyException e) {
-					Notification.show(e.message, Type.ERROR_MESSAGE);
-				}
-
 			}
 		});
 		cancel.addClickListener(new ClickListener() {
@@ -195,19 +150,55 @@ public class DownloadFileWindow extends Window {
 				close();
 			}
 		});
-		ok.focus();
+
+		delete.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// delete file
+			}
+		});
+		downloadButton.focus();
 		cancel.focus();
-		footer.addComponent(ok);
+		delete.focus();
+		footer.addComponent(downloadButton);
 		footer.addComponent(cancel);
-		footer.setComponentAlignment(ok, Alignment.TOP_RIGHT);
+		footer.addComponent(delete);
+		footer.setComponentAlignment(delete, Alignment.TOP_LEFT);
+		footer.setComponentAlignment(downloadButton, Alignment.TOP_RIGHT);
 		footer.setComponentAlignment(cancel, Alignment.TOP_RIGHT);
 		return footer;
 	}
 
-	public static void open(final UserDTO user, final boolean preferencesTabActive) {
+	private Button createDownloadButton(final String fileName) {
+		final Button downloadButton = new Button("Télécharger le fichier");
+
+		@SuppressWarnings("serial")
+		StreamResource.StreamSource streamSource = new StreamResource.StreamSource() {
+			public InputStream getStream() {
+				try {
+					return new ByteArrayInputStream(DashboardUI.getDataProvider().getFileFromId(fileId));
+				} catch (FileDownloadFailure e) {
+					Notification.show("Échec du téléchargement");
+				}
+				return null;
+			}
+		};
+
+		if (streamSource != null) {
+			StreamResource resource = new StreamResource(streamSource, fileName);
+			FileDownloader fileDownloader = new FileDownloader(resource);
+			fileDownloader.setOverrideContentType(false);
+			fileDownloader.extend(downloadButton);
+		}
+
+		return downloadButton;
+	}
+
+	public static void open(final FileDTO fileDTO) {
 		DashboardEventBus.post(new CloseOpenWindowsEvent());
-		Window w = new DownloadFileWindow(user, preferencesTabActive);
+		Window w = new DownloadFileWindow(fileDTO);
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	}
+
 }

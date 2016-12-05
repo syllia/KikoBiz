@@ -3,7 +3,7 @@ package com.investMessage.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileDto {
+public class FileDTO {
 	public String id;
 	public String name;
 	public String date;
@@ -11,7 +11,7 @@ public class FileDto {
 	public List<String> roles;
 	public String description;
 
-	public FileDto() {
+	public FileDTO() {
 		description = "";
 		user = "";
 		roles = new ArrayList<>();

@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.investMessage.Ui.window.DownloadFileWindow;
+import com.investMessage.Ui.window.UploadFileWindow;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -97,8 +97,8 @@ public class UploadFileComponent extends CustomComponent {
 				try {
 					fos = new FileOutputStream(new File(filename));
 					os.writeTo(fos);
-					DownloadFileWindow.filename = filename;
-					DownloadFileWindow.filename = filename;
+					UploadFileWindow.filename = filename;
+					UploadFileWindow.filename = filename;
 					fos.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

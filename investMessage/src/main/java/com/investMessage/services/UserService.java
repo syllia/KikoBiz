@@ -31,17 +31,15 @@ public class UserService {
 		this.storeRepository = storeRepository;
 	}
 
-	public void saveUser(String firstName, String lastName, Store store, String email, String phoneNumber, String role)
-			throws CustomerIsAlreadyRegisteredException, UserIsAlreadyRegisteredException {
+	public void saveUser(String firstName, String lastName, Store store, String email, String phoneNumber)
+			throws UserIsAlreadyRegisteredException {
 		String username = generateUsername(firstName, lastName);
 		String pass = generateRandomPassword(username);
 		User user = userRepository.findOne(username);
 		storeRepository.saveAndFlush(store);
 		store = storeRepository.findOne(store.getName());
 		if (user == null && store != null) {
-			System.out.println(username);
-			System.out.println(pass);
-			userRepository.save(new User(username, firstName, lastName, store, pass, email, phoneNumber, role));
+			userRepository.save(new User(username, firstName, lastName, store, pass, email, phoneNumber));
 		} else {
 			throw new UserIsAlreadyRegisteredException();
 		}
@@ -66,7 +64,7 @@ public class UserService {
 
 	}
 
-	public void updateInfos(UserDTO userDTO) throws UserNotFoundException, StoreNotFoundException {
+	public void updateInfos(UserDTO userDTO) throws UserNotFoundException {
 		User user = userRepository.findOne(userDTO.userName);
 		Store store = storeRepository.findOne(userDTO.store);
 		if (user != null && store != null) {
@@ -75,9 +73,6 @@ public class UserService {
 		} else {
 			if (user == null)
 				throw new UserNotFoundException();
-			else {
-				throw new StoreNotFoundException();
-			}
 		}
 
 	}

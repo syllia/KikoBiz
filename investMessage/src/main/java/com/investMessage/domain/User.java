@@ -13,7 +13,7 @@ public class User {
 	private String passWord;
 	private String emailAddress;
 	private String phoneNumber;
-	private String role;
+
 	@OneToOne
 	private Store store;
 
@@ -21,7 +21,7 @@ public class User {
 	}
 
 	public User(String userName, String firstName, String lastName, Store store, String passWord, String emailAddress,
-			String phoneNumber, String role) {
+			String phoneNumber) {
 		this.firstname = firstName;
 		this.lastname = lastName;
 		this.store = store;
@@ -29,10 +29,6 @@ public class User {
 		this.passWord = passWord;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
-	}
-
-	public String getRole() {
-		return role;
 	}
 
 	public String getUserName() {
@@ -73,8 +69,8 @@ public class User {
 	public boolean equals(Object object) {
 		if (object instanceof User) {
 			User user = (User) object;
-			return (this.userName.equals(user.userName) && this.passWord.equals(user.passWord)
-					&& this.emailAddress.equals(user.emailAddress) && this.phoneNumber.equals(user.phoneNumber));
+			return (this.userName.equals(user.userName) && this.emailAddress.equals(user.emailAddress)
+					&& this.phoneNumber.equals(user.phoneNumber));
 		} else {
 			return false;
 		}

@@ -47,7 +47,7 @@ public class FileClient {
 	 * If modifying these scopes, delete your previously saved credentials at
 	 * ~/.credentials/drive-java-quickstart
 	 */
-	private final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE_METADATA_READONLY);
+	private final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE);
 
 	static {
 		try {
