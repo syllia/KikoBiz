@@ -1,5 +1,10 @@
 package com.investMessage.Ui.window;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
 import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.DataEmptyException;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
@@ -28,6 +33,7 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -39,6 +45,7 @@ public class UploadFileWindow extends Window {
 
 	@PropertyId("description")
 	private TextField description;
+	private TextField visibility;
 	private OptionGroup multi;
 	public static String filename = "";
 	private ProgressBar bar;
@@ -92,7 +99,17 @@ public class UploadFileWindow extends Window {
 		root.setSpacing(true);
 		root.setMargin(true);
 		root.addStyleName("profile-form");
+		Component twinSelector = this.chooseUsers();
+		Button selectUser = new Button("Sélectionner des utilisateurs");
+		root.addComponent(selectUser);
+		selectUser.addClickListener(new ClickListener() {
 
+			@Override
+			public void buttonClick(ClickEvent event) {
+				root.addComponent(twinSelector);
+
+			}
+		});
 		// VerticalLayout pic = new VerticalLayout();
 		// pic.setSizeUndefined();
 		// pic.setSpacing(true);
@@ -118,7 +135,9 @@ public class UploadFileWindow extends Window {
 		root.setExpandRatio(details, 1);
 
 		description = new TextField("Description du fichier");
+		visibility = new TextField("Accessible par");
 		details.addComponent(description);
+		details.addComponent(visibility);
 
 		Label section = new Label("Visibilité");
 		section.addStyleName(ValoTheme.LABEL_H4);
@@ -158,8 +177,10 @@ public class UploadFileWindow extends Window {
 
 						if (!filename.isEmpty()) {
 
+							String description = formatDescription(user.userName, filename,
+									getUsernamesFromVisibilityField(visibility.getValue(), ","));
 							bar.setVisible(true);
-							DashboardUI.getDataProvider().post(filename, description.getValue(), filename);
+							DashboardUI.getDataProvider().post(filename, description, filename);
 						} else {
 							if (uploadFileView.isVisible()) {
 								throw new DriveErrorException();
@@ -208,5 +229,37 @@ public class UploadFileWindow extends Window {
 		Window w = new UploadFileWindow(user, preferencesTabActive);
 		UI.getCurrent().addWindow(w);
 		w.focus();
+	}
+
+	private Component chooseUsers() {
+
+		TwinColSelect select = new TwinColSelect("Choisir des utilisateurs");
+		select.addItems("user1", "user2", "user3", "user4");
+		select.setRows(select.size());
+		select.setValue(new HashSet<String>(Arrays.asList("Venus", "Earth", "Mars")));
+
+		// // Handle value changes
+		// select.addValueChangeListener(event ->
+		// layout.addComponent(new Label("Selected: " +
+		// event.getProperty().getValue())));
+
+		return select;
+
+	}
+
+	private String formatDescription(String username, String fileTitle, List<String> users) {
+		String description = "";
+		description += username + "/" + fileTitle + "/";
+		for (String user : users) {
+			description += user + ",";
+		}
+		description = description.substring(0, description.length() - 1);
+		return description;
+	}
+
+	private List<String> getUsernamesFromVisibilityField(String visibility, String separator) {
+		List<String> usernames = new ArrayList<>();
+		usernames = Arrays.asList(visibility.split(separator));
+		return usernames;
 	}
 }

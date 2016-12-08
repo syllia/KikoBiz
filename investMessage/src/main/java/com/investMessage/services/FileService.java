@@ -52,9 +52,8 @@ public class FileService {
 		}
 	}
 
-	private List<FileDTO> findListForUser(String username, List<FileDTO> listDto, String role) {
-		return listDto.stream().filter(e -> e.user.equals(username) || e.roles.contains(role))
-				.collect(Collectors.toList());
+	private List<FileDTO> findListForUser(String username, List<FileDTO> listDto) {
+		return listDto.stream().filter(e -> e.user.equals(username)).collect(Collectors.toList());
 
 	}
 
