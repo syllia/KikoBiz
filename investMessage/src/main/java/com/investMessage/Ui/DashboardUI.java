@@ -2,8 +2,6 @@ package com.investMessage.Ui;
 
 import java.util.Locale;
 
-import javax.servlet.annotation.WebServlet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.eventbus.Subscribe;
@@ -21,14 +19,12 @@ import com.investMessage.services.UserService;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.Page;
 import com.vaadin.server.Page.BrowserWindowResizeEvent;
 import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
@@ -41,6 +37,8 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @Title("InvestDrink Dashboard")
 public class DashboardUI extends UI {
+	@Autowired
+	DashboardServlet dashboardServlet;
 
 	private final DashboardEventBus dashboardEventbus = new DashboardEventBus();
 	private DataProvider dataProvider;
@@ -52,6 +50,7 @@ public class DashboardUI extends UI {
 
 	@Override
 	protected void init(final VaadinRequest request) {
+
 		setLocale(Locale.US);
 		boolean isProductionMode = VaadinService.getCurrent().getDeploymentConfiguration().isProductionMode();
 		if (isProductionMode) {
@@ -126,12 +125,6 @@ public class DashboardUI extends UI {
 
 	public static DashboardEventBus getDashboardEventbus() {
 		return ((DashboardUI) getCurrent()).dashboardEventbus;
-	}
-
-	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-	@VaadinServletConfiguration(ui = DashboardUI.class, productionMode = false)
-	public static class MyUIServlet extends VaadinServlet {
-
 	}
 
 }
