@@ -2,8 +2,11 @@ package com.investMessage.Ui.window;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.DataEmptyException;
@@ -11,7 +14,9 @@ import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.view.files.UploadFileComponent;
 import com.investMessage.services.DriveErrorException;
+import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
+import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
@@ -42,12 +47,14 @@ import com.vaadin.ui.themes.ValoTheme;
 public class UploadFileWindow extends Window {
 
 	public static final String ID = "uploadFileWindow";
-
+	private TextField accessorList = new TextField("Accessible par: ");
+	private List<UserDTO> userDTOs = new ArrayList<>();
 	@PropertyId("description")
 	private TextField description;
-	private TextField visibility;
+
 	private OptionGroup multi;
 	public static String filename = "";
+	public static byte[] bytes;
 	private ProgressBar bar;
 	private UploadFileComponent uploadFileView;
 
@@ -99,17 +106,7 @@ public class UploadFileWindow extends Window {
 		root.setSpacing(true);
 		root.setMargin(true);
 		root.addStyleName("profile-form");
-		Component twinSelector = this.chooseUsers();
-		Button selectUser = new Button("Sélectionner des utilisateurs");
-		root.addComponent(selectUser);
-		selectUser.addClickListener(new ClickListener() {
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				root.addComponent(twinSelector);
-
-			}
-		});
 		// VerticalLayout pic = new VerticalLayout();
 		// pic.setSizeUndefined();
 		// pic.setSpacing(true);
@@ -130,37 +127,44 @@ public class UploadFileWindow extends Window {
 		// root.addComponent(pic);
 
 		FormLayout details = new FormLayout();
+		HorizontalLayout visibility = new HorizontalLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 		root.addComponent(details);
 		root.setExpandRatio(details, 1);
 
 		description = new TextField("Description du fichier");
-		visibility = new TextField("Accessible par");
+
 		details.addComponent(description);
-		details.addComponent(visibility);
 
-		Label section = new Label("Visibilité");
-		section.addStyleName(ValoTheme.LABEL_H4);
-		section.addStyleName(ValoTheme.LABEL_COLORED);
-
-		details.addComponent(section);
-		bar = new ProgressBar();
-		bar.setIndeterminate(true);
-		bar.setVisible(false);
-
-		multi = new OptionGroup("Multiple Selection");
-		// multi.setRequired(true);
-		// multi.addItems("Privé", "Public");
-
-		// section = new Label("Additional Info");
+		// Label section = new Label("Visibilité");
 		// section.addStyleName(ValoTheme.LABEL_H4);
 		// section.addStyleName(ValoTheme.LABEL_COLORED);
+		//
 		// details.addComponent(section);
+		// bar = new ProgressBar();
+		// bar.setIndeterminate(true);
+		// bar.setVisible(false);
 
+		Button selectUsers = new Button("+");
+		selectUsers.addClickListener(new ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				openChooseUsersWindow();
+
+			}
+		});
+
+		details.addComponent(accessorList);
+
+		details.addComponent(selectUsers);
+
+		details.addComponent(visibility);
+
+		multi = new OptionGroup("Multiple Selection");
 		return root;
 	}
 
-	private Component buildFooter(UserDTO user) {
+	private Component buildFooter(UserDTO userDTO) {
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth(100.0f, Unit.PERCENTAGE);
@@ -172,15 +176,16 @@ public class UploadFileWindow extends Window {
 		ok.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
+
 				try {
 					if (!description.isEmpty()) {
 
 						if (!filename.isEmpty()) {
+							DocumentDTO documentToSave = new DocumentDTO(filename, bytes, (new Date()).toString(),
+									userDTO, description.getValue());
+							// bar.setVisible(true);
+							DashboardUI.getDataProvider().saveDocument(documentToSave);
 
-							String description = formatDescription(user.userName, filename,
-									getUsernamesFromVisibilityField(visibility.getValue(), ","));
-							bar.setVisible(true);
-							DashboardUI.getDataProvider().post(filename, description, filename);
 						} else {
 							if (uploadFileView.isVisible()) {
 								throw new DriveErrorException();
@@ -231,19 +236,61 @@ public class UploadFileWindow extends Window {
 		w.focus();
 	}
 
-	private Component chooseUsers() {
+	private void openChooseUsersWindow() {
 
-		TwinColSelect select = new TwinColSelect("Choisir des utilisateurs");
-		select.addItems("user1", "user2", "user3", "user4");
-		select.setRows(select.size());
-		select.setValue(new HashSet<String>(Arrays.asList("Venus", "Earth", "Mars")));
+		List<UserDTO> userList = DashboardUI.getDataProvider().FindAllUsers();
+		Window subWindow = new Window("Choisir des utilisateurs");
 
-		// // Handle value changes
-		// select.addValueChangeListener(event ->
-		// layout.addComponent(new Label("Selected: " +
-		// event.getProperty().getValue())));
+		VerticalLayout subContent = new VerticalLayout();
 
-		return select;
+		subContent.setMargin(true);
+		subWindow.setContent(subContent);
+
+		VerticalLayout windowContent = new VerticalLayout();
+		windowContent.setMargin(true);
+		windowContent.setSpacing(true);
+
+		Label chosenUsers = new Label();
+
+		TwinColSelect select = new TwinColSelect();
+
+		for (UserDTO userInlist : userList) {
+			select.addItems(userInlist);
+			select.setItemCaption(userInlist, userInlist.firstName + " " + userInlist.lastName);
+
+		}
+
+		select.setRows(10);
+		select.setValue(new HashSet<UserDTO>((Collection<? extends UserDTO>) Arrays.asList(userDTOs)));
+
+		Button validate = new Button("Valider");
+
+		validate.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				String res = "";
+				Set<Item> values = (Set<Item>) select.getValue();
+				for (Object v : values) {
+					res += select.getItemCaption(v) + ",";
+				}
+				accessorList.setValue(res);
+
+				subWindow.close();
+
+			}
+		});
+
+		windowContent.addComponent(select);
+		windowContent.addComponent(chosenUsers);
+		windowContent.addComponent(validate);
+
+		// Put some components in it
+		subContent.addComponent(windowContent);
+
+		subWindow.center();
+
+		UI.getCurrent().addWindow(subWindow);
 
 	}
 

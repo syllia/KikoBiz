@@ -2,30 +2,35 @@ package com.investMessage.Ui.client;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.investMessage.Ui.DashboardNotification;
-import com.investMessage.Ui.window.FileDownloadFailure;
-import com.investMessage.domain.FileDTO;
-import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.services.CustomerService;
+import com.investMessage.services.DocumentNotFoundException;
+import com.investMessage.services.DocumentService;
 import com.investMessage.services.DriveErrorException;
-import com.investMessage.services.FileService;
-import com.investMessage.services.StoreNotFoundException;
 import com.investMessage.services.UserNotFoundException;
 import com.investMessage.services.UserService;
-import com.investMessage.web.DTO.CustomerDTO;
+import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 
 public class DummyDataProvider implements DataProvider {
 
 	private UserService userService;
 	private CustomerService customerService;
-	private FileService fileService;
+	private DocumentService documentService;
 
-	public DummyDataProvider(UserService userService, CustomerService customerService) {
+	public DummyDataProvider() {
+		this.userService = new UserService();
+		this.customerService = new CustomerService();
+		this.documentService = new DocumentService();
+	}
+
+	public DummyDataProvider(UserService userService, CustomerService customerService,
+			DocumentService documentService) {
 		this.userService = userService;
 		this.customerService = customerService;
-		fileService = new FileService();
+		this.documentService = documentService;
 	}
 
 	@Override
@@ -50,43 +55,25 @@ public class DummyDataProvider implements DataProvider {
 	}
 
 	@Override
-	public Collection<CustomerDTO> getRecentCustomer(String store) {
-		Collection<CustomerDTO> collection = new ArrayList<>();
-		try {
-			collection = customerService.findCustomerByStore(store);
-		} catch (CustomerIsAlreadyRegisteredException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return collection;
+	public Collection<DocumentDTO> findDocumentByUser(UserDTO user) {
+		return userService.findDocumentsByUser(user);
 	}
 
 	@Override
-	public void saveUser(UserDTO user) throws UserNotFoundException, StoreNotFoundException {
-		userService.updateInfos(user);
-	}
-
-	@Override
-	public Collection<FileDTO> getFiles(UserDTO user) {
-		try {
-			return fileService.findByUser(user);
-		} catch (DriveErrorException e) {
-			return new ArrayList<>();// TODO Auto-generated catch block
-
-		}
-	}
-
-	@Override
-	public void post(String title, String description, String filename) throws DriveErrorException {
-		fileService.insertFile(title, description, filename);
-		;
+	public void saveDocument(DocumentDTO documentDTO) throws DriveErrorException {
+		documentService.saveDocument(documentDTO);
 
 	}
 
 	@Override
-	public byte[] getFileFromId(String fileId) throws FileDownloadFailure {
-		return fileService.getFileStreamById(fileId);
+	public DocumentDTO findDocumentById(String documentId) throws DocumentNotFoundException {
+		return documentService.findDocumentById(documentId);
+	}
 
+	@Override
+	public List<UserDTO> FindAllUsers() {
+		// TODO Auto-generated method stub
+		return new ArrayList<UserDTO>();
 	}
 
 }

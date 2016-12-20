@@ -7,7 +7,6 @@ import com.investMessage.Ui.event.DashboardEvent.PostViewChangeEvent;
 import com.investMessage.Ui.event.DashboardEvent.ProfileUpdatedEvent;
 import com.investMessage.Ui.event.DashboardEvent.UserLoggedOutEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.Ui.window.ProfilePreferencesWindow;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
@@ -86,14 +85,14 @@ public class DashboardMenu extends CustomComponent {
 		final UserDTO user = getCurrentUser();
 		settingsItem = settings.addItem("", new ThemeResource("img/profile-pic-300px.jpg"), null);
 		updateUserName(null);
-		settingsItem.addItem("Modifier Profile", new Command() {
-			@Override
-			public void menuSelected(final MenuItem selectedItem) {
-				ProfilePreferencesWindow.open(user, false);
-			}
-		});
+		// settingsItem.addItem("Modifier Profile", new Command() {
+		// @Override
+		// public void menuSelected(final MenuItem selectedItem) {
+		// ProfilePreferencesWindow.open(user, false);
+		// }
+		// });
 
-		settingsItem.addSeparator();
+		// settingsItem.addSeparator();
 		settingsItem.addItem("Déconnexion", new Command() {
 			@Override
 			public void menuSelected(final MenuItem selectedItem) {

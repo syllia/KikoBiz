@@ -1,8 +1,10 @@
 package com.investMessage.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -13,30 +15,26 @@ public class User {
 	private String passWord;
 	private String emailAddress;
 	private String phoneNumber;
-
-	@OneToOne
-	private Store store;
+	@OneToMany
+	private List<Document> documents;
 
 	public User() {
 	}
 
-	public User(String userName, String firstName, String lastName, Store store, String passWord, String emailAddress,
-			String phoneNumber) {
-		this.firstname = firstName;
-		this.lastname = lastName;
-		this.store = store;
+	public User(String userName, String lastname, String firstname, String passWord, String emailAddress,
+			String phoneNumber, List<Document> documents) {
+		super();
 		this.userName = userName;
+		this.lastname = lastname;
+		this.firstname = firstname;
 		this.passWord = passWord;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
+		this.documents = documents;
 	}
 
 	public String getUserName() {
 		return userName;
-	}
-
-	public String getStore() {
-		return store.getName();
 	}
 
 	public String getLastname() {
@@ -57,6 +55,10 @@ public class User {
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public List<Document> getDocuments() {
+		return documents;
 	}
 
 	public void update(String password, String phoneNumber, String email) {

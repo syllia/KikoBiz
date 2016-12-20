@@ -9,17 +9,15 @@ public class UserDTO {
 	public String passWord;
 	public String emailAddress;
 	public String phoneNumber;
-	public String store;
 
 	public UserDTO(String userName, String lastname, String firstname, String passWord, String emailAddress,
-			String phoneNumber, String store) {
+			String phoneNumber) {
 		this.userName = userName;
 		this.lastName = lastname;
 		this.firstName = firstname;
 		this.passWord = passWord;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
-		this.store = store;
 	}
 
 	public UserDTO(User user) {
@@ -30,7 +28,6 @@ public class UserDTO {
 		this.passWord = user.getPassWord();
 		this.emailAddress = user.getEmailAddress();
 		this.phoneNumber = user.getPhoneNumber();
-		this.store = user.getStore();
 	}
 
 	@Override

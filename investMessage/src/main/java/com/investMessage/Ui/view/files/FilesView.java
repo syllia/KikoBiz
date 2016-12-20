@@ -17,6 +17,7 @@ import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.window.DownloadFileWindow;
 import com.investMessage.Ui.window.UploadFileWindow;
 import com.investMessage.domain.FileDTO;
+import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -109,17 +110,18 @@ public final class FilesView extends VerticalLayout implements View {
 
 			if (!StringUtils.isEmpty(filter.getValue())) {
 				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<FileDTO> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream().filter(file -> {
-					filterValue = filter.getValue().trim().toLowerCase();
-					return passesFilter(file.name) || passesFilter(file.user);
-				}).collect(Collectors.toList());
+				Collection<DocumentDTO> fileDtos = DashboardUI.getDataProvider().findDocumentByUser(user).stream()
+						.filter(file -> {
+							filterValue = filter.getValue().trim().toLowerCase();
+							return passesFilter(file.name);
+						}).collect(Collectors.toList());
 
 				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, fileDtos));
 			} else {
 				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<FileDTO> fileDtos = DashboardUI.getDataProvider().getFiles(user).stream()
+				Collection<DocumentDTO> fileDtos = DashboardUI.getDataProvider().findDocumentByUser(user).stream()
 						.collect(Collectors.toList());
-				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, fileDtos));
+				grid.setContainerDataSource(new BeanItemContainer(DocumentDTO.class, fileDtos));
 			}
 			// grid.setDataSource(dataSource.sortingBy(Comparator.comparing(Transaction::getTime).reversed()));
 		});
@@ -144,7 +146,7 @@ public final class FilesView extends VerticalLayout implements View {
 		// DATEFORMAT.format(transaction.getTime())).setHidable(true);
 
 		grid.addColumn("name", String.class);
-		collapsibleColumns.add(grid.addColumn("user", String.class));
+		collapsibleColumns.add(grid.addColumn("creator", String.class));
 		collapsibleColumns.add(grid.addColumn("date", String.class));
 		collapsibleColumns.add(grid.addColumn("description", String.class));// ;
 
@@ -154,7 +156,8 @@ public final class FilesView extends VerticalLayout implements View {
 		grid.setColumnReorderingAllowed(true);
 
 		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-		grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, DashboardUI.getDataProvider().getFiles(user)));
+		grid.setContainerDataSource(
+				new BeanItemContainer(DocumentDTO.class, DashboardUI.getDataProvider().findDocumentByUser(user)));
 		// TODO either add these to grid or do it with style generators here
 		// grid.setColumnAlignment("seats", Align.RIGHT);
 		// grid.setColumnAlignment("price", Align.RIGHT);
@@ -174,8 +177,8 @@ public final class FilesView extends VerticalLayout implements View {
 		grid.addSelectionListener(e -> {
 			if (e.getSelected().isEmpty()) {
 			} else {
-				FileDTO fileDTO = (FileDTO) grid.getSelectedRow();
-				openDownloadView(fileDTO);
+				DocumentDTO documentDTO = (DocumentDTO) grid.getSelectedRow();
+				openDownloadView(documentDTO);
 			}
 		});
 		return grid;
@@ -208,8 +211,8 @@ public final class FilesView extends VerticalLayout implements View {
 		UploadFileWindow.open(user, false);
 	}
 
-	void openDownloadView(FileDTO fileDTO) {
-		DownloadFileWindow.open(fileDTO);
+	void openDownloadView(DocumentDTO documentDTO) {
+		DownloadFileWindow.open(documentDTO);
 	}
 
 	private boolean passesFilter(String subject) {

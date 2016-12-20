@@ -6,14 +6,14 @@ import java.io.InputStream;
 import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.domain.FileDTO;
+import com.investMessage.services.DocumentNotFoundException;
+import com.investMessage.web.DTO.DocumentDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.StreamResource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -22,7 +22,6 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.ProgressBar;
@@ -47,11 +46,11 @@ public class DownloadFileWindow extends Window {
 
 	private ProgressBar bar;
 
-	private DownloadFileWindow(final FileDTO fileDTO) {
+	private DownloadFileWindow(final DocumentDTO documentDTO) {
 		addStyleName("profile-window");
 		setId(ID);
 		Responsive.makeResponsive(this);
-		fileId = fileDTO.id;
+		fileId = documentDTO.id;
 		setModal(true);
 		setCloseShortcut(KeyCode.ESCAPE, null);
 		setResizable(false);
@@ -71,38 +70,20 @@ public class DownloadFileWindow extends Window {
 		content.addComponent(detailsWrapper);
 		content.setExpandRatio(detailsWrapper, 1f);
 
-		detailsWrapper.addComponent(buildProfileTab(fileDTO));
+		detailsWrapper.addComponent(buildProfileTab(documentDTO));
 
-		content.addComponent(buildFooter(fileDTO));
+		content.addComponent(buildFooter(documentDTO));
 
 	}
 
-	private Component buildProfileTab(FileDTO fileDTO) {
+	private Component buildProfileTab(DocumentDTO documentDTO) {
 		HorizontalLayout root = new HorizontalLayout();
 		root.setCaption("Profile");
-		root.setIcon(FontAwesome.USER);
+		root.setIcon(FontAwesome.FILE);
 		root.setWidth(100.0f, Unit.PERCENTAGE);
 		root.setSpacing(true);
 		root.setMargin(true);
 		root.addStyleName("profile-form");
-
-		VerticalLayout pic = new VerticalLayout();
-		pic.setSizeUndefined();
-		pic.setSpacing(true);
-		Image profilePic = new Image(null, new ThemeResource("img/profile-pic-300px.jpg"));
-		profilePic.setWidth(100.0f, Unit.PIXELS);
-		pic.addComponent(profilePic);
-
-		Button upload = new Button("Change…", new ClickListener() {
-			@Override
-			public void buttonClick(ClickEvent event) {
-				Notification.show("Not implemented in this demo");
-			}
-		});
-		upload.addStyleName(ValoTheme.BUTTON_TINY);
-		pic.addComponent(upload);
-
-		root.addComponent(pic);
 
 		FormLayout details = new FormLayout();
 		details.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
@@ -111,15 +92,15 @@ public class DownloadFileWindow extends Window {
 
 		filename = new TextField("Nom du fichier");
 		details.addComponent(filename);
-		filename.setValue(fileDTO.name);
+		filename.setValue(documentDTO.name);
 
 		date = new TextField("Date");
 		details.addComponent(date);
-		date.setValue(fileDTO.date);
+		date.setValue(documentDTO.date);
 
 		description = new TextField("Description");
 		details.addComponent(description);
-		description.setValue(fileDTO.description);
+		description.setValue(documentDTO.description);
 
 		Label section = new Label("Contact Info");
 		section.addStyleName(ValoTheme.LABEL_H4);
@@ -129,12 +110,13 @@ public class DownloadFileWindow extends Window {
 		return root;
 	}
 
-	private Component buildFooter(FileDTO fileDTO) {
+	private Component buildFooter(DocumentDTO documentDTO) {
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth(100.0f, Unit.PERCENTAGE);
+		footer.setSpacing(true);
 
-		Button downloadButton = createDownloadButton(fileDTO.name);
+		Button downloadButton = createDownloadButton(documentDTO.name);
 		downloadButton.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		Button cancel = new Button("Annuler");
 		Button delete = new Button("Supprimer");
@@ -176,8 +158,9 @@ public class DownloadFileWindow extends Window {
 		StreamResource.StreamSource streamSource = new StreamResource.StreamSource() {
 			public InputStream getStream() {
 				try {
-					return new ByteArrayInputStream(DashboardUI.getDataProvider().getFileFromId(fileId));
-				} catch (FileDownloadFailure e) {
+					return new ByteArrayInputStream(DashboardUI.getDataProvider().findDocumentById(fileId).content);
+
+				} catch (DocumentNotFoundException e) {
 					Notification.show("Échec du téléchargement");
 				}
 				return null;
@@ -194,9 +177,9 @@ public class DownloadFileWindow extends Window {
 		return downloadButton;
 	}
 
-	public static void open(final FileDTO fileDTO) {
+	public static void open(final DocumentDTO documentDTO) {
 		DashboardEventBus.post(new CloseOpenWindowsEvent());
-		Window w = new DownloadFileWindow(fileDTO);
+		Window w = new DownloadFileWindow(documentDTO);
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	}

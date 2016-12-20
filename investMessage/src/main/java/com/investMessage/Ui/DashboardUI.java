@@ -15,6 +15,7 @@ import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.view.LoginView;
 import com.investMessage.Ui.view.MainView;
 import com.investMessage.services.CustomerService;
+import com.investMessage.services.DocumentService;
 import com.investMessage.services.UserService;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.annotations.Theme;
@@ -40,8 +41,8 @@ public class DashboardUI extends UI {
 	private DataProvider dataProvider;
 
 	@Autowired
-	public DashboardUI(UserService repo, CustomerService repoCustumer) {
-		dataProvider = new DummyDataProvider(repo, repoCustumer);
+	public DashboardUI(UserService repo, CustomerService repoCustumer, DocumentService documentService) {
+		dataProvider = new DummyDataProvider(repo, repoCustumer, documentService);
 	}
 
 	@Override

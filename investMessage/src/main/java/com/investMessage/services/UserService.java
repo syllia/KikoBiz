@@ -1,15 +1,18 @@
 package com.investMessage.services;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.investMessage.domain.Store;
+import com.investMessage.domain.Document;
 import com.investMessage.domain.StoreRepository;
 import com.investMessage.domain.User;
 import com.investMessage.domain.UserRepository;
+import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 
 @Service
@@ -19,27 +22,29 @@ public class UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private StoreRepository storeRepository;
+	private static final Random RANDOM = new SecureRandom();
+	public static final int PASSWORD_LENGTH = 8;
 
 	public UserService() {
 	}
 
-	private static final Random RANDOM = new SecureRandom();
-	public static final int PASSWORD_LENGTH = 8;
-
 	public UserService(UserRepository customerRepository, StoreRepository storeRepository) {
+
 		this.userRepository = customerRepository;
 		this.storeRepository = storeRepository;
 	}
 
-	public void saveUser(String firstName, String lastName, Store store, String email, String phoneNumber)
+	public void saveUser(String firstName, String lastName, String email, String phoneNumber)
 			throws UserIsAlreadyRegisteredException {
 		String username = generateUsername(firstName, lastName);
 		String pass = generateRandomPassword(username);
 		User user = userRepository.findOne(username);
-		storeRepository.saveAndFlush(store);
-		store = storeRepository.findOne(store.getName());
-		if (user == null && store != null) {
-			userRepository.save(new User(username, firstName, lastName, store, pass, email, phoneNumber));
+		System.out.println(pass);
+		System.out.println(username);
+
+		if (user == null) {
+			userRepository
+					.save(new User(username, firstName, lastName, pass, email, phoneNumber, new ArrayList<Document>()));
 		} else {
 			throw new UserIsAlreadyRegisteredException();
 		}
@@ -66,8 +71,7 @@ public class UserService {
 
 	public void updateInfos(UserDTO userDTO) throws UserNotFoundException {
 		User user = userRepository.findOne(userDTO.userName);
-		Store store = storeRepository.findOne(userDTO.store);
-		if (user != null && store != null) {
+		if (user != null) {
 			user.update(userDTO.passWord, userDTO.phoneNumber, userDTO.emailAddress);
 			userRepository.save(user);
 		} else {
@@ -75,5 +79,19 @@ public class UserService {
 				throw new UserNotFoundException();
 		}
 
+	}
+
+	public List<UserDTO> findAll() {
+		List<UserDTO> usersDTO = new ArrayList<>();
+		List<User> users = userRepository.findAll();
+		for (User user : users) {
+			usersDTO.add(new UserDTO(user));
+		}
+		return usersDTO;
+	}
+
+	public List<DocumentDTO> findDocumentsByUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,9 +1,7 @@
 package com.investMessage.Ui.view.files;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import com.investMessage.Ui.window.UploadFileWindow;
@@ -94,17 +92,11 @@ public class UploadFileComponent extends CustomComponent {
 
 			public void uploadSucceeded(SucceededEvent event) {
 				FileOutputStream fos;
-				try {
-					fos = new FileOutputStream(new File(filename));
-					os.writeTo(fos);
-					UploadFileWindow.filename = filename;
-					UploadFileWindow.filename = filename;
-					fos.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					int i = 3;
-				}
 
+				os.toByteArray();
+				UploadFileWindow.filename = filename;
+				UploadFileWindow.bytes = os.toByteArray();
+				;
 				/*
 				 * try { IOUtils.copy(new
 				 * ByteArrayInputStream(os.toByteArray()), new

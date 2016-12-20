@@ -1,20 +1,13 @@
 package com.investMessage.Ui.window;
 
-import com.investMessage.Ui.DashboardUI;
-import com.investMessage.Ui.UserPasswordException;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
-import com.investMessage.Ui.event.DashboardEvent.ProfileUpdatedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.services.StoreNotFoundException;
-import com.investMessage.services.UserNotFoundException;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -26,7 +19,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -170,37 +162,42 @@ public class ProfilePreferencesWindow extends Window {
 		ok.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				try {
-					if (!actuPassWordField.getValue().equals("") || !actuPassWordField.getValue().equals("")
-							|| !newPassWordField.getValue().equals(""))
-						if (actuPassWordField.getValue().equals(user.passWord)) {
-							if (passWordField.getValue().equals(newPassWordField.getValue())
-									&& !passWordField.isEmpty()) {
-								user.passWord = passWordField.getValue();
-							} else {
-								throw new UserPasswordException();
-							}
-
-						} else {
-							throw new UserPasswordException();
-						}
-
-					user.emailAddress = emailField.getValue();
-					user.phoneNumber = phoneField.getValue();
-
-					DashboardUI.getDataProvider().saveUser(user);
-
-					Notification success = new Notification("Profile updated successfully");
-					success.setDelayMsec(2000);
-					success.setStyleName("bar success small");
-					success.setPosition(Position.BOTTOM_CENTER);
-					success.show(Page.getCurrent());
-
-					DashboardEventBus.post(new ProfileUpdatedEvent());
-					close();
-				} catch (UserPasswordException | UserNotFoundException | StoreNotFoundException e) {
-					Notification.show("Error while updating profile", Type.ERROR_MESSAGE);
-				}
+				// try {
+				// if (!actuPassWordField.getValue().equals("") ||
+				// !actuPassWordField.getValue().equals("")
+				// || !newPassWordField.getValue().equals(""))
+				// if (actuPassWordField.getValue().equals(user.passWord)) {
+				// if
+				// (passWordField.getValue().equals(newPassWordField.getValue())
+				// && !passWordField.isEmpty()) {
+				// user.passWord = passWordField.getValue();
+				// } else {
+				// throw new UserPasswordException();
+				// }
+				//
+				// } else {
+				// throw new UserPasswordException();
+				// }
+				//
+				// user.emailAddress = emailField.getValue();
+				// user.phoneNumber = phoneField.getValue();
+				//
+				// // DashboardUI.getDataProvider().saveUser(user);
+				//
+				// Notification success = new Notification("Profile updated
+				// successfully");
+				// success.setDelayMsec(2000);
+				// success.setStyleName("bar success small");
+				// success.setPosition(Position.BOTTOM_CENTER);
+				// success.show(Page.getCurrent());
+				//
+				// DashboardEventBus.post(new ProfileUpdatedEvent());
+				// close();
+				// } catch (UserPasswordException | UserNotFoundException |
+				// StoreNotFoundException e) {
+				// Notification.show("Error while updating profile",
+				// Type.ERROR_MESSAGE);
+				// }
 
 			}
 		});
