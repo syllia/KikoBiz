@@ -12,27 +12,26 @@ import org.springframework.core.env.ConfigurableEnvironment;
 public class WebApplicationInitializer
 		implements ApplicationContextInitializer<AnnotationConfigEmbeddedWebApplicationContext> {
 
-	 private static final Log logger = LogFactory.getLog(WebApplicationInitializer.class);
+	private static final Log logger = LogFactory.getLog(WebApplicationInitializer.class);
 
-	    @Override
-	    public void initialize(AnnotationConfigEmbeddedWebApplicationContext applicationContext) {
-	        Cloud cloud = getCloud();
-	        ConfigurableEnvironment appEnvironment = applicationContext.getEnvironment();
+	@Override
+	public void initialize(AnnotationConfigEmbeddedWebApplicationContext applicationContext) {
+		Cloud cloud = getCloud();
+		ConfigurableEnvironment appEnvironment = applicationContext.getEnvironment();
 
-	        if (cloud!=null) {
-	            appEnvironment.addActiveProfile("cloud");
-	        }
+		if (cloud != null) {
+			appEnvironment.addActiveProfile("cloud");
+		}
 
-	        logger.info("Cloud profile active");
-	    }
+		logger.info("Cloud profile active");
+	}
 
-	    private Cloud getCloud() {
-	        try {
-	            CloudFactory cloudFactory = new CloudFactory();
-	            return cloudFactory.getCloud();
-	        } catch (CloudException ce) {
-	            return null;
-	        }
-	    }
-
+	private Cloud getCloud() {
+		try {
+			CloudFactory cloudFactory = new CloudFactory();
+			return cloudFactory.getCloud();
+		} catch (CloudException ce) {
+			return null;
+		}
+	}
 }

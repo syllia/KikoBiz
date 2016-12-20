@@ -1,11 +1,16 @@
 package com.investMessage.Ui;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 
-import com.vaadin.server.VaadinServlet;
+import org.springframework.stereotype.Component;
+
+import com.vaadin.spring.server.SpringVaadinServlet;
 
 @SuppressWarnings("serial")
-public class DashboardServlet extends VaadinServlet {
+@WebServlet(value = "/*", asyncSupported = true)
+@Component("vaadinServlet")
+public class DashboardServlet extends SpringVaadinServlet {
 
 	@Override
 	protected final void servletInitialized() throws ServletException {

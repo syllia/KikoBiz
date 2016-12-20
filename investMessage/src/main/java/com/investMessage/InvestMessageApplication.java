@@ -13,8 +13,11 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
 import com.investMessage.services.UserService;
 
+import com.investMessage.domain.StoreRepository;
+import com.investMessage.domain.UserRepository;
 @EnableAsync
 @EnableScheduling
 @SpringBootApplication
@@ -22,12 +25,12 @@ import com.investMessage.services.UserService;
 @Configuration
 @ComponentScan
 public class InvestMessageApplication extends AsyncConfigurerSupport {
-
 	// private static final Logger log =
 	// LoggerFactory.getLogger(InvestMessageApplication.class);
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(InvestMessageApplication.class, args);
+
 	}
 
 	@Bean

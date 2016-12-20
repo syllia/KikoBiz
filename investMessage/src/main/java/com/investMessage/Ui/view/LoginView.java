@@ -3,12 +3,13 @@ package com.investMessage.Ui.view;
 import com.investMessage.Ui.event.DashboardEvent.UserLoginRequestedEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.shared.Position;
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -24,9 +25,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-@SpringComponent
-@UIScope
-public class LoginView extends VerticalLayout {
+@SpringView
+public class LoginView extends VerticalLayout implements View {
 	public LoginView() {
 		setSizeFull();
 
@@ -103,6 +103,12 @@ public class LoginView extends VerticalLayout {
 		title.addStyleName(ValoTheme.LABEL_LIGHT);
 		labels.addComponent(title);
 		return labels;
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
