@@ -45,9 +45,13 @@ public class DocumentService {
 		} catch (IOException e) {
 			throw new DriveErrorException();
 		}
-		User user = new User(documentDTO.creator.userName, documentDTO.creator.lastName, documentDTO.creator.firstName,
-				documentDTO.creator.passWord, documentDTO.creator.emailAddress, documentDTO.creator.phoneNumber,
-				documentDTO.creator.documents);
+		User user = null;
+		// User user = new User(documentDTO.creator.userName,
+		// documentDTO.creator.lastName, documentDTO.creator.firstName,
+		// documentDTO.creator.passWord, documentDTO.creator.emailAddress,
+		// documentDTO.creator.phoneNumber,
+		// documentDTO.creator.documents
+		// );
 		Document document = new Document(savedDocument.id, documentDTO.name, documentDTO.date, user,
 				documentDTO.description);
 		documentRepository.save(document);

@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.List;
 
 import com.investMessage.Ui.DashboardNotification;
+import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.services.DocumentNotFoundException;
 import com.investMessage.services.DriveErrorException;
+import com.investMessage.web.DTO.CustomerDTO;
 import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 
@@ -24,5 +26,9 @@ public interface DataProvider {
 	Collection<DashboardNotification> getNotifications();
 
 	List<UserDTO> FindAllUsers();
+
+	List<CustomerDTO> findCustomerByUser(UserDTO user);
+
+	void saveClient(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException;
 
 }

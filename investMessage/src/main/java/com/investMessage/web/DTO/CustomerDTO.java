@@ -27,14 +27,6 @@ public class CustomerDTO {
 		this.username = username;
 	}
 
-	public CustomerDTO(int id, String number, String name, String store, String username) {
-		this.number = number;
-		this.name = name;
-		this.store = store;
-		this.username = username;
-		this.id = id;
-	}
-
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof CustomerDTO) {

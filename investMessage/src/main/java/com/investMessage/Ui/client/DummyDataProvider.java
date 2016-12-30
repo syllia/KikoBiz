@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.List;
 
 import com.investMessage.Ui.DashboardNotification;
+import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.services.CustomerService;
 import com.investMessage.services.DocumentNotFoundException;
 import com.investMessage.services.DocumentService;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.services.UserNotFoundException;
 import com.investMessage.services.UserService;
+import com.investMessage.web.DTO.CustomerDTO;
 import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 
@@ -74,6 +76,18 @@ public class DummyDataProvider implements DataProvider {
 	public List<UserDTO> FindAllUsers() {
 		// TODO Auto-generated method stub
 		return new ArrayList<UserDTO>();
+	}
+
+	@Override
+	public List<CustomerDTO> findCustomerByUser(UserDTO user) {
+		return customerService.findCustomerByUser(user.userName);
+
+	}
+
+	@Override
+	public void saveClient(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException {
+		customerService.saveCustomer(customerDTO);
+
 	}
 
 }

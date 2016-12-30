@@ -8,7 +8,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.investMessage.domain.Document;
 import com.investMessage.domain.StoreRepository;
 import com.investMessage.domain.User;
 import com.investMessage.domain.UserRepository;
@@ -36,18 +35,17 @@ public class UserService {
 
 	public void saveUser(String firstName, String lastName, String email, String phoneNumber)
 			throws UserIsAlreadyRegisteredException {
-		String username = generateUsername(firstName, lastName);
-		String pass = generateRandomPassword(username);
-		User user = userRepository.findOne(username);
-		System.out.println(pass);
-		System.out.println(username);
-
-		if (user == null) {
-			userRepository
-					.save(new User(username, firstName, lastName, pass, email, phoneNumber, new ArrayList<Document>()));
-		} else {
-			throw new UserIsAlreadyRegisteredException();
-		}
+		/*
+		 * String username = generateUsername(firstName, lastName); String pass
+		 * = generateRandomPassword(username); User user =
+		 * userRepository.findOne(username); System.out.println(pass);
+		 * System.out.println(username);
+		 * 
+		 * if (user == null) { userRepository .save(new User(username,
+		 * firstName, lastName, pass, email, phoneNumber, new
+		 * ArrayList<Document>())); } else { throw new
+		 * UserIsAlreadyRegisteredException(); }
+		 */
 	}
 
 	private String generateUsername(String firstName, String lastName) {

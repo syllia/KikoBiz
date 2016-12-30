@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.investMessage.domain.Customer;
 import com.investMessage.domain.CustomerRepository;
 import com.investMessage.domain.Store;
+import com.investMessage.domain.User;
+import com.investMessage.domain.UserRepository;
 import com.investMessage.web.DTO.CustomerDTO;
 
 @Service
 public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	public CustomerService() {
 	}
@@ -42,23 +46,15 @@ public class CustomerService {
 		}
 	}
 
-	public List<CustomerDTO> findCustomerByStore(String store) throws CustomerIsAlreadyRegisteredException {
+	public List<CustomerDTO> findCustomerByUser(String username) {
 		List<CustomerDTO> customerDTOs = new ArrayList<>();
-		for (Customer customer : customerRepository.findByStoreOrderByNameAsc(store)) {
-			customerDTOs.add(new CustomerDTO(customer));
+		User user = userRepository.findOne(username);
+		for (Store store : user.getStores()) {
+			for (Customer customer : customerRepository.findByStoreOrderByNameAsc(store.getName())) {
+				customerDTOs.add(new CustomerDTO(customer));
+			}
 		}
-		return customerDTOs;
-	}
 
-	public List<CustomerDTO> reseachByStoreByNameAndNumber(String store, int number, String name)
-			throws CustomerIsAlreadyRegisteredException {
-		List<CustomerDTO> customerDTOs = new ArrayList<>();
-		for (Customer customer : customerRepository.findByStoreAndNameStartsWithIgnoreCase(store, name)) {
-			customerDTOs.add(new CustomerDTO(customer));
-		}
-		for (Customer customer : customerRepository.findByStoreAndNumberStartsWithIgnoreCase(store, number)) {
-			customerDTOs.add(new CustomerDTO(customer));
-		}
 		return customerDTOs;
 	}
 
