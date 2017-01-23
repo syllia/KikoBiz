@@ -126,14 +126,21 @@ public class DashboardMenu extends CustomComponent {
 
 		for (final DashboardViewType view : DashboardViewType.values()) {
 			Component menuItemComponent = new ValoMenuItemButton(view);
+			final UserDTO user = getCurrentUser();
 
 			if (view == DashboardViewType.DASHBOARD) {
 				notificationsBadge = new Label();
 				notificationsBadge.setId(NOTIFICATIONS_BADGE_ID);
 				menuItemComponent = buildBadgeWrapper(menuItemComponent, notificationsBadge);
 			}
+			if (!view.getViewName().equals("user")) {
+				menuItemsLayout.addComponent(menuItemComponent);
+			} else {
+				if (user.type.equals("admin")) {
+					menuItemsLayout.addComponent(menuItemComponent);
+				}
+			}
 
-			menuItemsLayout.addComponent(menuItemComponent);
 		}
 		return menuItemsLayout;
 	}

@@ -1,8 +1,5 @@
 package com.investMessage.web.DTO;
 
-import java.util.List;
-
-import com.investMessage.domain.Store;
 import com.investMessage.domain.User;
 
 public class UserDTO {
@@ -12,7 +9,7 @@ public class UserDTO {
 	public String passWord;
 	public String emailAddress;
 	public String phoneNumber;
-	public List<String> stores;
+	public String type;
 
 	public UserDTO(User user) {
 		this.userName = user.getUserName();
@@ -21,9 +18,31 @@ public class UserDTO {
 		this.passWord = user.getPassWord();
 		this.emailAddress = user.getEmailAddress();
 		this.phoneNumber = user.getPhoneNumber();
-		for (Store store : user.getStores()) {
-			this.stores.add(store.getName());
-		}
+		this.type = user.getType();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
 	@Override

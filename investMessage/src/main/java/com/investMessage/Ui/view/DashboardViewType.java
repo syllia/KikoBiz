@@ -1,14 +1,14 @@
 package com.investMessage.Ui.view;
 
-import com.investMessage.Ui.view.files.FilesView;
 import com.investMessage.Ui.view.home.DashboardView;
+import com.investMessage.Ui.view.users.UsersViews;
 import com.vaadin.navigator.View;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 
 public enum DashboardViewType {
-	DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true), Files("files", FilesView.class,
-			FontAwesome.FILE, false);
+	DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true), User("user", UsersViews.class,
+			FontAwesome.USERS, false);
 
 	private final String viewName;
 	private final Class<? extends View> viewClass;

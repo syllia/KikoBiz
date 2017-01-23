@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.investMessage.domain.StoreRepository;
 import com.investMessage.domain.User;
 import com.investMessage.domain.UserRepository;
-import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 
 @Service
@@ -33,19 +32,21 @@ public class UserService {
 		this.storeRepository = storeRepository;
 	}
 
-	public void saveUser(String firstName, String lastName, String email, String phoneNumber)
+	public UserDTO saveUser(String firstName, String lastName, String type, String pass)
 			throws UserIsAlreadyRegisteredException {
-		/*
-		 * String username = generateUsername(firstName, lastName); String pass
-		 * = generateRandomPassword(username); User user =
-		 * userRepository.findOne(username); System.out.println(pass);
-		 * System.out.println(username);
-		 * 
-		 * if (user == null) { userRepository .save(new User(username,
-		 * firstName, lastName, pass, email, phoneNumber, new
-		 * ArrayList<Document>())); } else { throw new
-		 * UserIsAlreadyRegisteredException(); }
-		 */
+		String username = generateUsername(firstName, lastName);
+		User user = userRepository.findOne(username);
+
+		System.out.println(pass);
+		System.out.println(username);
+
+		if (user == null) {
+			userRepository.save(new User(username, firstName, lastName, pass, type));
+			return new UserDTO(userRepository.findByUserNameIgnoreCaseAndPassWord(username, pass));
+		} else {
+			throw new UserIsAlreadyRegisteredException();
+		}
+
 	}
 
 	private String generateUsername(String firstName, String lastName) {
@@ -67,18 +68,6 @@ public class UserService {
 
 	}
 
-	public void updateInfos(UserDTO userDTO) throws UserNotFoundException {
-		User user = userRepository.findOne(userDTO.userName);
-		if (user != null) {
-			user.update(userDTO.passWord, userDTO.phoneNumber, userDTO.emailAddress);
-			userRepository.save(user);
-		} else {
-			if (user == null)
-				throw new UserNotFoundException();
-		}
-
-	}
-
 	public List<UserDTO> findAll() {
 		List<UserDTO> usersDTO = new ArrayList<>();
 		List<User> users = userRepository.findAll();
@@ -86,10 +75,5 @@ public class UserService {
 			usersDTO.add(new UserDTO(user));
 		}
 		return usersDTO;
-	}
-
-	public List<DocumentDTO> findDocumentsByUser(UserDTO user) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

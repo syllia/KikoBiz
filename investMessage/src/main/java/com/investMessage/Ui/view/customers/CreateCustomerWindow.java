@@ -91,7 +91,7 @@ public class CreateCustomerWindow extends Window {
 
 		name = new TextField("Nom du client");
 		number = new TextField("Numero du client");
-		stores = new ComboBox("Magasin", user.stores);
+		// stores = new ComboBox("Magasin", user.stores);
 
 		details.addComponent(name);
 		details.addComponent(number);

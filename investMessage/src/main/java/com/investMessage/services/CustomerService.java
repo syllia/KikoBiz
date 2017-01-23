@@ -49,11 +49,12 @@ public class CustomerService {
 	public List<CustomerDTO> findCustomerByUser(String username) {
 		List<CustomerDTO> customerDTOs = new ArrayList<>();
 		User user = userRepository.findOne(username);
-		for (Store store : user.getStores()) {
-			for (Customer customer : customerRepository.findByStoreOrderByNameAsc(store.getName())) {
-				customerDTOs.add(new CustomerDTO(customer));
-			}
-		}
+		// for (Store store : ) {
+		// for (Customer customer :
+		// customerRepository.findByStoreOrderByNameAsc(store.getName())) {
+		// customerDTOs.add(new CustomerDTO(customer));
+		// }
+		// }
 
 		return customerDTOs;
 	}

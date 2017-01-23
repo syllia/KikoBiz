@@ -58,7 +58,7 @@ public class DummyDataProvider implements DataProvider {
 
 	@Override
 	public Collection<DocumentDTO> findDocumentByUser(UserDTO user) {
-		return userService.findDocumentsByUser(user);
+		return null;
 	}
 
 	@Override

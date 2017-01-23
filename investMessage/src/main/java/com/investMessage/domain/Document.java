@@ -1,7 +1,9 @@
 package com.investMessage.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Document {
@@ -9,6 +11,7 @@ public class Document {
 	private String id;
 	private String name;
 	private String date;
+	@OneToOne(cascade = CascadeType.ALL)
 	private User creator;
 	private String description;
 
