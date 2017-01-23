@@ -1,11 +1,14 @@
 package com.investMessage.Ui.view.customers;
 
+import java.util.Collection;
+
 import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.DataEmptyException;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.services.CustomerIsAlreadyRegisteredException;
 import com.investMessage.web.DTO.CustomerDTO;
+import com.investMessage.web.DTO.StoreDTO;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -91,7 +94,11 @@ public class CreateCustomerWindow extends Window {
 
 		name = new TextField("Nom du client");
 		number = new TextField("Numero du client");
-		// stores = new ComboBox("Magasin", user.stores);
+		Collection<StoreDTO> storesList = DashboardUI.getDataProvider().getStores();
+		stores = new ComboBox("Magasin");
+		for (StoreDTO st : storesList) {
+			stores.addItem(st.store);
+		}
 
 		details.addComponent(name);
 		details.addComponent(number);
@@ -127,7 +134,7 @@ public class CreateCustomerWindow extends Window {
 
 					if (name.isValid() || number.isValid() || stores.isValid()) {
 						CustomerDTO customerDTO = new CustomerDTO(number.getValue(), name.getValue(),
-								(String) stores.getValue(), userDTO.userName);
+								(String) stores.getValue(), userDTO.username);
 						DashboardUI.getDataProvider().saveClient(customerDTO);
 					} else {
 						throw new DataEmptyException("Remplissez les informations du client");

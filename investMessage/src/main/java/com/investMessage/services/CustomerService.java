@@ -1,6 +1,7 @@
 package com.investMessage.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,16 @@ import org.springframework.stereotype.Service;
 import com.investMessage.domain.Customer;
 import com.investMessage.domain.CustomerRepository;
 import com.investMessage.domain.Store;
-import com.investMessage.domain.User;
-import com.investMessage.domain.UserRepository;
+import com.investMessage.domain.StoreRepository;
 import com.investMessage.web.DTO.CustomerDTO;
+import com.investMessage.web.DTO.StoreDTO;
 
 @Service
 public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
-	private UserRepository userRepository;
+	private StoreRepository storeRepository;
 
 	public CustomerService() {
 	}
@@ -28,6 +29,7 @@ public class CustomerService {
 	}
 
 	public void saveCustomer(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException {
+
 		if (customerRepository.findByNumberAndStore(customerDTO.number, customerDTO.store) == null) {
 			customerRepository.save(new Customer(customerDTO.username, customerDTO.number, customerDTO.name,
 					new Store(customerDTO.store)));
@@ -46,16 +48,12 @@ public class CustomerService {
 		}
 	}
 
-	public List<CustomerDTO> findCustomerByUser(String username) {
+	public List<CustomerDTO> findAll() {
 		List<CustomerDTO> customerDTOs = new ArrayList<>();
-		User user = userRepository.findOne(username);
-		// for (Store store : ) {
-		// for (Customer customer :
-		// customerRepository.findByStoreOrderByNameAsc(store.getName())) {
-		// customerDTOs.add(new CustomerDTO(customer));
-		// }
-		// }
 
+		for (Customer customer : customerRepository.findAll()) {
+			customerDTOs.add(new CustomerDTO(customer));
+		}
 		return customerDTOs;
 	}
 
@@ -76,6 +74,19 @@ public class CustomerService {
 		} else {
 			throw new CustomerNotFoundException();
 		}
+	}
+
+	public Collection<StoreDTO> getStores() {
+		List<StoreDTO> storeDTOs = new ArrayList<>();
+
+		for (Store store : storeRepository.findAll()) {
+			storeDTOs.add(new StoreDTO(store));
+		}
+		return storeDTOs;
+	}
+
+	public void saveStore(String store) {
+		storeRepository.save(new Store(store));
 	}
 
 }

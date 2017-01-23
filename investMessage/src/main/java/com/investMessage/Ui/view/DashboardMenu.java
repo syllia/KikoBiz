@@ -133,7 +133,7 @@ public class DashboardMenu extends CustomComponent {
 				notificationsBadge.setId(NOTIFICATIONS_BADGE_ID);
 				menuItemComponent = buildBadgeWrapper(menuItemComponent, notificationsBadge);
 			}
-			if (!view.getViewName().equals("user")) {
+			if (!view.getViewName().equals("users")) {
 				menuItemsLayout.addComponent(menuItemComponent);
 			} else {
 				if (user.type.equals("admin")) {

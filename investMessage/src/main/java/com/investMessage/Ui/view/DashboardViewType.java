@@ -1,5 +1,6 @@
 package com.investMessage.Ui.view;
 
+import com.investMessage.Ui.view.customers.CustomersView;
 import com.investMessage.Ui.view.home.DashboardView;
 import com.investMessage.Ui.view.users.UsersViews;
 import com.vaadin.navigator.View;
@@ -7,8 +8,8 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 
 public enum DashboardViewType {
-	DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true), User("user", UsersViews.class,
-			FontAwesome.USERS, false);
+	DASHBOARD("dashboard", DashboardView.class, FontAwesome.HOME, true), User("users", UsersViews.class,
+			FontAwesome.USERS, false), Customers("Customers", CustomersView.class, FontAwesome.SHOPPING_BAG, false);
 
 	private final String viewName;
 	private final Class<? extends View> viewClass;

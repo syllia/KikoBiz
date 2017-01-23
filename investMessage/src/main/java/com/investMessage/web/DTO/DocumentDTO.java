@@ -2,8 +2,6 @@ package com.investMessage.web.DTO;
 
 import java.util.List;
 
-import com.investMessage.domain.Document;
-
 public class DocumentDTO {
 	public String id;
 	public String name;
@@ -22,23 +20,7 @@ public class DocumentDTO {
 		this.description = description;
 	}
 
-	public DocumentDTO(Document document) {
-		id = document.getId();
-		name = document.getName();
-
-		date = document.getDate();
-		creator = new UserDTO(document.getCreator());
-		description = document.getDescription();
-	}
-
-	public DocumentDTO(Document document, byte[] content) {
-		id = document.getId();
-		name = document.getName();
-		this.content = content;
-		date = document.getDate();
-		creator = new UserDTO(document.getCreator());
-		description = document.getDescription();
-
+	public DocumentDTO() {
 	}
 
 	public String getName() {

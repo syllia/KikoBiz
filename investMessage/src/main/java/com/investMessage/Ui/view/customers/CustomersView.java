@@ -108,8 +108,9 @@ public class CustomersView extends VerticalLayout implements View {
 		filter.addValueChangeListener(event -> {
 
 			if (!StringUtils.isEmpty(filter.getValue())) {
-				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<CustomerDTO> customerDTos = DashboardUI.getDataProvider().findCustomerByUser(user).stream()
+				// UserDTO user = (UserDTO)
+				// VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
+				Collection<CustomerDTO> customerDTos = DashboardUI.getDataProvider().findAllCustomer().stream()
 						.filter(customer -> {
 							filterValue = filter.getValue().trim().toLowerCase();
 							return passesFilter(customer.name) || passesFilter(customer.number)
@@ -118,8 +119,8 @@ public class CustomersView extends VerticalLayout implements View {
 
 				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, customerDTos));
 			} else {
-				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
-				Collection<CustomerDTO> customerDTos = DashboardUI.getDataProvider().findCustomerByUser(user).stream()
+
+				Collection<CustomerDTO> customerDTos = DashboardUI.getDataProvider().findAllCustomer().stream()
 						.collect(Collectors.toList());
 				grid.setContainerDataSource(new BeanItemContainer(DocumentDTO.class, customerDTos));
 			}
@@ -155,9 +156,8 @@ public class CustomersView extends VerticalLayout implements View {
 
 		grid.setColumnReorderingAllowed(true);
 
-		UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
 		grid.setContainerDataSource(
-				new BeanItemContainer(CustomerDTO.class, DashboardUI.getDataProvider().findCustomerByUser(user)));
+				new BeanItemContainer(CustomerDTO.class, DashboardUI.getDataProvider().findAllCustomer()));
 		// TODO either add these to grid or do it with style generators here
 		// grid.setColumnAlignment("seats", Align.RIGHT);
 		// grid.setColumnAlignment("price", Align.RIGHT);

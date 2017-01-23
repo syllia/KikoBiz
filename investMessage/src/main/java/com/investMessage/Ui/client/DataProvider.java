@@ -9,6 +9,7 @@ import com.investMessage.services.DocumentNotFoundException;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.web.DTO.CustomerDTO;
 import com.investMessage.web.DTO.DocumentDTO;
+import com.investMessage.web.DTO.StoreDTO;
 import com.investMessage.web.DTO.UserDTO;
 
 public interface DataProvider {
@@ -27,8 +28,10 @@ public interface DataProvider {
 
 	List<UserDTO> FindAllUsers();
 
-	List<CustomerDTO> findCustomerByUser(UserDTO user);
+	List<CustomerDTO> findAllCustomer();
 
 	void saveClient(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException;
+
+	Collection<StoreDTO> getStores();
 
 }

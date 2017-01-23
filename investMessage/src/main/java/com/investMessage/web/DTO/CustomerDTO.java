@@ -27,6 +27,34 @@ public class CustomerDTO {
 		this.username = username;
 	}
 
+	public String getNumber() {
+		return number;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public int getNumberBill() {
+		return numberBill;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getLastBillDate() {
+		return lastBillDate;
+	}
+
+	public int getId() {
+		return id;
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof CustomerDTO) {

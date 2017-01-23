@@ -136,8 +136,7 @@ public class UsersViews extends VerticalLayout implements View {
 		// grid.addColumn("Time", transaction ->
 		// DATEFORMAT.format(transaction.getTime())).setHidable(true);
 
-		grid.addColumn("name", String.class);
-		collapsibleColumns.add(grid.addColumn("username", String.class));
+		grid.addColumn("username", String.class);
 		collapsibleColumns.add(grid.addColumn("lastName", String.class));
 		collapsibleColumns.add(grid.addColumn("firstName", String.class));// ;
 		// grid.addColumn("Price", transaction -> "$" +

@@ -4,7 +4,6 @@ import com.investMessage.domain.Store;
 
 public class StoreDTO {
 	public String store;
-	public String code;
 
 	public StoreDTO() {
 
@@ -18,6 +17,5 @@ public class StoreDTO {
 
 	public StoreDTO(String store, String code) {
 		this.store = store;
-		this.code = code;
 	}
 }

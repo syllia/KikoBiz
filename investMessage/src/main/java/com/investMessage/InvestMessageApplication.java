@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.investMessage.services.CustomerService;
 import com.investMessage.services.UserService;
 
 @EnableAsync
@@ -31,9 +32,11 @@ public class InvestMessageApplication extends AsyncConfigurerSupport {
 	}
 
 	@Bean
-	public CommandLineRunner demo(UserService service) {
+	public CommandLineRunner demo(UserService service, CustomerService customers) {
 		return (args) -> {
-			service.saveUser("Adossou", "julio", "mmm", "admin");
+			service.saveUser("Adossou", "julio", "admin", "juado");
+			customers.saveStore("AKA");
+			customers.saveStore("CEKA");
 		};
 	}
 
