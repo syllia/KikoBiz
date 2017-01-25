@@ -30,16 +30,18 @@ public class CustomerService {
 
 	public void saveCustomer(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException {
 
-		if (customerRepository.findByNumberAndStore(customerDTO.number, customerDTO.store) == null) {
+		if (storeRepository.exists(customerDTO.store)
+				&& customerRepository.findByNumberAndStore(customerDTO.number, new Store(customerDTO.store)) == null) {
+			storeRepository.save(storeRepository.findOne(customerDTO.store));
 			customerRepository.save(new Customer(customerDTO.username, customerDTO.number, customerDTO.name,
-					new Store(customerDTO.store)));
+					storeRepository.findOne(customerDTO.store)));
 		} else {
 			throw new CustomerIsAlreadyRegisteredException();
 		}
 	}
 
 	public void updateCustomer(CustomerDTO customerDTO) throws CustomerNotFoundException {
-		Customer customer = customerRepository.getOne(customerDTO.id);
+		Customer customer = customerRepository.findOne(customerDTO.id);
 		if (customer != null) {
 			customer.update(customerDTO.number, customer.getName());
 			customerRepository.save(customer);
@@ -67,7 +69,7 @@ public class CustomerService {
 	}
 
 	public void updateOrder(int id) throws CustomerNotFoundException {
-		Customer customer = customerRepository.getOne(id);
+		Customer customer = customerRepository.findOne(id);
 		if (customer != null) {
 			customer.updatePurchase();
 			customerRepository.save(customer);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-	Customer findByNumberAndStore(String number, String store);
+	Customer findByNumberAndStore(String number, Store store);
 
 	List<Customer> findByStoreAndNameStartsWithIgnoreCase(String store, String name);
 

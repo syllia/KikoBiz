@@ -17,6 +17,10 @@ public class CustomerDTO {
 		this.store = customer.getStore().getName();
 		this.numberBill = customer.getNumberBill();
 		this.username = customer.getUser();
+		if (customer.getLastBillDate() != null) {
+			this.lastBillDate = customer.getLastBillDate().toString();
+		}
+
 		this.id = customer.getId();
 	}
 

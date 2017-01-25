@@ -35,8 +35,9 @@ public class InvestMessageApplication extends AsyncConfigurerSupport {
 	public CommandLineRunner demo(UserService service, CustomerService customers) {
 		return (args) -> {
 			service.saveUser("Adossou", "julio", "admin", "juado");
-			customers.saveStore("AKA");
-			customers.saveStore("CEKA");
+			service.saveUser("Adossou", "oulioo", "", "12345");
+			customers.saveStore("Ceka");
+			customers.saveStore("Cole");
 		};
 	}
 

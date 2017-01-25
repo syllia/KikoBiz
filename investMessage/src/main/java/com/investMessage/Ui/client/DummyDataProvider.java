@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.investMessage.Ui.DashboardNotification;
 import com.investMessage.services.CustomerIsAlreadyRegisteredException;
+import com.investMessage.services.CustomerNotFoundException;
 import com.investMessage.services.CustomerService;
 import com.investMessage.services.DocumentNotFoundException;
 import com.investMessage.services.DriveErrorException;
@@ -89,6 +90,25 @@ public class DummyDataProvider implements DataProvider {
 	@Override
 	public Collection<StoreDTO> getStores() {
 		return customerService.getStores();
+
+	}
+
+	@Override
+	public void updateClient(CustomerDTO customerDTO) throws CustomerNotFoundException {
+		customerService.updateCustomer(customerDTO);
+
+	}
+
+	@Override
+	public void purchaseClient(CustomerDTO customer) throws CustomerNotFoundException {
+
+		customerService.updateOrder(customer.id);
+
+	}
+
+	@Override
+	public void deleteClient(CustomerDTO customer) throws CustomerNotFoundException {
+		customerService.deleteCustomer(customer.id);
 
 	}
 

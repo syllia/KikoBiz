@@ -19,7 +19,7 @@ public class Customer {
 	private String registeredBy;
 	private String number;
 	private String name;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.DETACH)
 	private Store store;
 	private int numberBill;
 	private LocalDateTime lastBillDate;
@@ -31,6 +31,10 @@ public class Customer {
 		this.numberBill = DEFAULT_NUMBER_BILL;
 		this.registeredBy = registedBy;
 
+	}
+
+	public Customer() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getUser() {

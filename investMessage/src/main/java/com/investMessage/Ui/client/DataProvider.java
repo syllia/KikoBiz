@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.investMessage.Ui.DashboardNotification;
 import com.investMessage.services.CustomerIsAlreadyRegisteredException;
+import com.investMessage.services.CustomerNotFoundException;
 import com.investMessage.services.DocumentNotFoundException;
 import com.investMessage.services.DriveErrorException;
 import com.investMessage.web.DTO.CustomerDTO;
@@ -33,5 +34,11 @@ public interface DataProvider {
 	void saveClient(CustomerDTO customerDTO) throws CustomerIsAlreadyRegisteredException;
 
 	Collection<StoreDTO> getStores();
+
+	void updateClient(CustomerDTO customer) throws CustomerNotFoundException;
+
+	void purchaseClient(CustomerDTO customer) throws CustomerNotFoundException;
+
+	void deleteClient(CustomerDTO customer) throws CustomerNotFoundException;
 
 }

@@ -1,17 +1,12 @@
 package com.investMessage.Ui.view.customers;
 
-import java.util.Collection;
-
 import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.DataEmptyException;
 import com.investMessage.Ui.event.DashboardEvent.CloseOpenWindowsEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
-import com.investMessage.services.CustomerIsAlreadyRegisteredException;
+import com.investMessage.services.CustomerNotFoundException;
 import com.investMessage.web.DTO.CustomerDTO;
-import com.investMessage.web.DTO.StoreDTO;
-import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.fieldgroup.PropertyId;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
@@ -22,7 +17,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -36,7 +30,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class CreateCustomerWindow extends Window {
+public class UpdateCustomerWindow extends Window {
 
 	public static final String ID = "CreateCustomerWindow";
 
@@ -44,11 +38,10 @@ public class CreateCustomerWindow extends Window {
 	private TextField name;
 	@PropertyId("number")
 	private TextField number;
-	private ComboBox stores;
 
 	private ProgressBar bar;
 
-	private CreateCustomerWindow(final UserDTO user) {
+	private UpdateCustomerWindow(final CustomerDTO customerDTO) {
 		addStyleName("profile-window");
 		setId(ID);
 		Responsive.makeResponsive(this);
@@ -72,16 +65,16 @@ public class CreateCustomerWindow extends Window {
 		content.addComponent(detailsWrapper);
 		content.setExpandRatio(detailsWrapper, 1f);
 
-		detailsWrapper.addComponent(buildProfileTab(user));
+		detailsWrapper.addComponent(buildProfileTab(customerDTO));
 
-		content.addComponent(buildFooter(user));
+		content.addComponent(buildFooter(customerDTO));
 
 	}
 
-	private Component buildProfileTab(UserDTO user) {
+	private Component buildProfileTab(CustomerDTO customerDTO) {
 		HorizontalLayout root = new HorizontalLayout();
 		root.setCaption("Créer un client");
-		root.setIcon(FontAwesome.SHOPPING_BAG);
+		root.setIcon(FontAwesome.FILE);
 		root.setWidth(100.0f, Unit.PERCENTAGE);
 		root.setSpacing(true);
 		root.setMargin(true);
@@ -94,22 +87,12 @@ public class CreateCustomerWindow extends Window {
 		root.setExpandRatio(details, 1);
 
 		name = new TextField("Nom du client");
+		name.setValue(customerDTO.name);
 		number = new TextField("Numero du client");
-		name.setMaxLength(20);
-		number.setMaxLength(8);
-		name.addValidator(new StringLengthValidator("Nom invalide", 2, 20, false));
-		number.addValidator(new StringLengthValidator("Téléphone invalide", 8, 8, true));
-		Collection<StoreDTO> storesList = DashboardUI.getDataProvider().getStores();
-		stores = new ComboBox("Magasin");
-		for (StoreDTO st : storesList) {
-			stores.addItem(st.store);
-		}
-
-		stores.setNullSelectionAllowed(false);
+		number.setValue(customerDTO.number);
 
 		details.addComponent(name);
 		details.addComponent(number);
-		details.addComponent(stores);
 
 		// Label section = new Label("Visibilité");
 		// section.addStyleName(ValoTheme.LABEL_H4);
@@ -124,14 +107,17 @@ public class CreateCustomerWindow extends Window {
 		return root;
 	}
 
-	private Component buildFooter(UserDTO userDTO) {
+	private Component buildFooter(CustomerDTO customerDTO) {
 		HorizontalLayout footer = new HorizontalLayout();
 		footer.addStyleName(ValoTheme.WINDOW_BOTTOM_TOOLBAR);
 		footer.setWidth(100.0f, Unit.PERCENTAGE);
 
-		Button ok = new Button("Ajouter Client");
+		Button achat = new Button("Enrégistrer achat", FontAwesome.SEND);
+		Button delete = new Button("Supprimer", FontAwesome.TRASH_O);
+
+		Button ok = new Button("Sauvegarder", FontAwesome.SAVE);
 		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
-		Button cancel = new Button("ANNULER");
+		Button cancel = new Button("Annuler");
 		ok.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		ok.addClickListener(new ClickListener() {
 			@Override
@@ -139,28 +125,25 @@ public class CreateCustomerWindow extends Window {
 
 				try {
 
-					if (name.isValid() || number.isValid() || stores.isValid()) {
-						CustomerDTO customerDTO = new CustomerDTO(number.getValue(), name.getValue(),
-								(String) stores.getValue(), userDTO.username);
-						DashboardUI.getDataProvider().saveClient(customerDTO);
+					if (name.isValid() || number.isValid()) {
+						customerDTO.name = name.getValue();
+						customerDTO.number = number.getValue();
+						DashboardUI.getDataProvider().updateClient(customerDTO);
 					} else {
-						throw new DataEmptyException("Remplissez les informations du client");
+						throw new DataEmptyException("Informations du client incorectes");
 					}
 
 					// bar.setVisible(false);
-					Notification success = new Notification("Client ajouté");
+					Notification success = new Notification("Fichier téléchargé");
 					success.setDelayMsec(2000);
 					success.setStyleName("bar success small");
 					success.setPosition(Position.BOTTOM_CENTER);
 					success.show(Page.getCurrent());
-					// success.setDelayMsec(3000);
 					close();
 					Page.getCurrent().reload();
 
-				} catch (CustomerIsAlreadyRegisteredException e) {
-					Notification.show("Ce client existe déja", Type.ERROR_MESSAGE);
-				} catch (DataEmptyException e) {
-					Notification.show(e.message, Type.ERROR_MESSAGE);
+				} catch (DataEmptyException | CustomerNotFoundException e) {
+					Notification.show(e.getMessage(), Type.ERROR_MESSAGE);
 				}
 
 			}
@@ -169,21 +152,71 @@ public class CreateCustomerWindow extends Window {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+
 				close();
+
 			}
 		});
+		achat.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+
+				try {
+					DashboardUI.getDataProvider().purchaseClient(customerDTO);
+					Notification success = new Notification("Message envoyé");
+					success.setDelayMsec(2000);
+					success.setStyleName("bar success small");
+					success.setPosition(Position.BOTTOM_CENTER);
+					success.show(Page.getCurrent());
+
+					close();
+					Page.getCurrent().reload();
+				} catch (CustomerNotFoundException e) {
+					Notification success = new Notification("Message non envoyé");
+					success.setDelayMsec(2000);
+					success.setStyleName("bar success small");
+					success.setPosition(Position.BOTTOM_CENTER);
+					success.show(Page.getCurrent());
+				}
+			}
+		});
+
+		delete.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+
+				try {
+					DashboardUI.getDataProvider().deleteClient(customerDTO);
+					Notification success = new Notification("Client supprimé");
+					success.setDelayMsec(2000);
+					success.setStyleName("bar success small");
+					success.setPosition(Position.BOTTOM_CENTER);
+					success.show(Page.getCurrent());
+					close();
+				} catch (CustomerNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
 		ok.focus();
 		cancel.focus();
 		footer.addComponent(ok);
 		footer.addComponent(cancel);
+		footer.addComponent(achat);
 		footer.setComponentAlignment(ok, Alignment.TOP_RIGHT);
 		footer.setComponentAlignment(cancel, Alignment.TOP_RIGHT);
+		footer.setComponentAlignment(achat, Alignment.TOP_RIGHT);
+		// footer.setComponentAlignment(delete, Alignment.TOP_RIGHT);
 		return footer;
 	}
 
-	public static void open(final UserDTO user) {
+	public static void open(final CustomerDTO customerDTO) {
 		DashboardEventBus.post(new CloseOpenWindowsEvent());
-		Window w = new CreateCustomerWindow(user);
+		Window w = new UpdateCustomerWindow(customerDTO);
 		UI.getCurrent().addWindow(w);
 		w.focus();
 	}

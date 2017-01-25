@@ -15,7 +15,6 @@ import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.window.DownloadFileWindow;
-import com.investMessage.domain.FileDTO;
 import com.investMessage.web.DTO.CustomerDTO;
 import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
@@ -114,15 +113,15 @@ public class CustomersView extends VerticalLayout implements View {
 						.filter(customer -> {
 							filterValue = filter.getValue().trim().toLowerCase();
 							return passesFilter(customer.name) || passesFilter(customer.number)
-									|| passesFilter(customer.lastBillDate);
+									|| passesFilter(customer.store);
 						}).collect(Collectors.toList());
 
-				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, customerDTos));
+				grid.setContainerDataSource(new BeanItemContainer(CustomerDTO.class, customerDTos));
 			} else {
 
 				Collection<CustomerDTO> customerDTos = DashboardUI.getDataProvider().findAllCustomer().stream()
 						.collect(Collectors.toList());
-				grid.setContainerDataSource(new BeanItemContainer(DocumentDTO.class, customerDTos));
+				grid.setContainerDataSource(new BeanItemContainer(CustomerDTO.class, customerDTos));
 			}
 			// grid.setDataSource(dataSource.sortingBy(Comparator.comparing(Transaction::getTime).reversed()));
 		});
@@ -178,7 +177,7 @@ public class CustomersView extends VerticalLayout implements View {
 			if (e.getSelected().isEmpty()) {
 			} else {
 				CustomerDTO customerDTO = (CustomerDTO) grid.getSelectedRow();
-				// jjjjjjjjjjjjopenDownloadView(documentDTO);
+				UpdateCustomerWindow.open(customerDTO);
 			}
 		});
 		return grid;

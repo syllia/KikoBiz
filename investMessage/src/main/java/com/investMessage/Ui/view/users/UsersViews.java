@@ -12,7 +12,6 @@ import com.investMessage.Ui.DashboardUI;
 import com.investMessage.Ui.event.DashboardEvent.BrowserResizeEvent;
 import com.investMessage.Ui.event.DashboardEventBus;
 import com.investMessage.Ui.window.DownloadFileWindow;
-import com.investMessage.domain.FileDTO;
 import com.investMessage.web.DTO.DocumentDTO;
 import com.investMessage.web.DTO.UserDTO;
 import com.vaadin.data.util.BeanItemContainer;
@@ -107,12 +106,12 @@ public class UsersViews extends VerticalLayout implements View {
 					return passesFilter(u.lastName) || passesFilter(u.firstName) || passesFilter(u.phoneNumber);
 				}).collect(Collectors.toList());
 
-				grid.setContainerDataSource(new BeanItemContainer(FileDTO.class, userDTOs));
+				grid.setContainerDataSource(new BeanItemContainer(UserDTO.class, userDTOs));
 			} else {
 				UserDTO user = (UserDTO) VaadinSession.getCurrent().getAttribute(UserDTO.class.getName());
 				Collection<UserDTO> userDTos = DashboardUI.getDataProvider().FindAllUsers().stream()
 						.collect(Collectors.toList());
-				grid.setContainerDataSource(new BeanItemContainer(DocumentDTO.class, userDTos));
+				grid.setContainerDataSource(new BeanItemContainer(UserDTO.class, userDTos));
 			}
 			// grid.setDataSource(dataSource.sortingBy(Comparator.comparing(Transaction::getTime).reversed()));
 		});
