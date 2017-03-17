@@ -5,43 +5,45 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import Category;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class SubCategory {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	@JsonProperty("idSousCategorie")
-	private int idSousCategorie;
-	@JsonProperty("idCategorie")
-	private int idCategorie;
+	@GeneratedValue(generator = "hibernate-uuid")
+	@GenericGenerator(name = "hibernate-uuid", strategy = "hibernate-uuid")
+	@Column(name = "uuid", unique = true)
+	@JsonProperty("idSubCategory")
+	private UUID idSubCategory;
+
+	@JsonProperty("idCategory")
+	private Category idCategory;
+
 	@JsonProperty("name")
 	private String name;
 	
 	public SubCategory() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public SubCategory(int idCategorie,String name) {
+	public SubCategory(Category idCategory,String name) {
 		this.name = name;
-		this.idCategorie=idCategorie;
+		this.idCategory = idCategory;
 	}
 	
-	public int getIdSousCategorie() {
-		return idSousCategorie;
+	public int getIdSubCategory() {
+		return idSubCategory;
 	}
 
 
-	public int getIdCategorie() {
-		return idCategorie;
+	public int getIdCategory() {
+		return idCategory;
 	}
 
-	public void setIdCategorie(int idCategorie) {
-		this.idCategorie = idCategorie;
+	public void setIdCategory(Category idCategory) {
+		this.idCategory = idCategory;
 	}
 
 	public String getName() {
@@ -51,8 +53,4 @@ public class SubCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
-
-	
 }
