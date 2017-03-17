@@ -1,13 +1,12 @@
-package com.Kiko.repositories;
+package com.kouri.domain;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Kiko.model.SubCategory;
-
 @Repository
-public interface SubCategoryRepository extends JpaRepository<SubCategory, Integer> {
-	List<SubCategory> findByIdCategorie(int idCategorie);
+public interface SubCategoryRepository extends JpaRepository<SubCategory, UUID> {
+	List<SubCategory> findByIdCategorie(UUID idCategorie);
 }

@@ -1,10 +1,9 @@
-package com.Kiko.repositories;
+package com.kouri.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.Kiko.model.Country;
 @Repository
-public interface CountryRepository extends JpaRepository<Country, Integer> {
+public interface CountryRepository extends JpaRepository<Country, String> {
 
 }
