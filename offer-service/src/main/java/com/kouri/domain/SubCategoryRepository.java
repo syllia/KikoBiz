@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SubCategoryRepository extends JpaRepository<SubCategory, UUID> {
 	List<SubCategory> findByCategory(Category category);
+
+	List<SubCategory> findByNameWithIgnoreCase(String name);
 }

@@ -29,6 +29,12 @@ public class SubCategory {
 		this.category = category;
 	}
 
+	public SubCategory(UUID randomUUID, Category category, String name) {
+		this.idSubCategory = randomUUID;
+		this.name = name;
+		this.category = category;
+	}
+
 	public UUID getIdSubCategory() {
 		return idSubCategory;
 	}
@@ -40,4 +46,15 @@ public class SubCategory {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SubCategory) {
+			SubCategory subCategory = (SubCategory) object;
+			return (this.idSubCategory.equals(subCategory.idSubCategory) || this.name.equals(subCategory.name));
+		} else {
+			return false;
+		}
+	}
+
 }

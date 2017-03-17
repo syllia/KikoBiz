@@ -36,4 +36,14 @@ public class Category {
 	public UUID getId() {
 		return id;
 	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof Category) {
+			Category category = (Category) object;
+			return (this.id.equals(category.id) || this.name.equals(category.name));
+		} else {
+			return false;
+		}
+	}
 }
