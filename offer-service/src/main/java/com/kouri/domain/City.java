@@ -1,58 +1,40 @@
 package com.Kiko.model;
 
-import javax.persistence.Column;
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class City {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	@JsonProperty("idCity")
-	private int idCity;
-	@JsonProperty("idCountry")
-	private int idCountry;
-	@JsonProperty("name")
-	private String name;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private UUID idCity;
+	private Country country;
+	private String nameCity;
+
 	public City() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public City(int idCountry,String name) {
-		this.name = name;
-		this.idCountry=idCountry;
+	public City(Country country, String nameCity) {
+		this.nameCity = nameCity;
+		this.country = country;
 	}
 
-	public int getIdCity() {
+	public UUID getIdCity() {
 		return idCity;
 	}
 
-	public void setIdCity(int idCity) {
-		this.idCity = idCity;
+	public Country getCountry() {
+		return country;
 	}
 
-	public int getIdCountry() {
-		return idCountry;
+	public String getNameCity() {
+		return nameCity;
 	}
 
-	public void setIdCountry(int idCountry) {
-		this.idCountry = idCountry;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	
 }

@@ -3,20 +3,24 @@ package com.kouri.domain;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "Category")
 public class Category {
 
 	@Id
-	private String id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private UUID id;
 	private String name;
 
 	public Category() {
 	}
 
 	public Category(String p_name) {
-		this.id = UUID.randomUUID().toString();
 		this.name = p_name;
 	}
 
@@ -24,7 +28,7 @@ public class Category {
 		return name;
 	}
 
-	public String getId() {
+	public UUID getId() {
 		return id;
 	}
 }
