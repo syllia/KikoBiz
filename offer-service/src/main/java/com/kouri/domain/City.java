@@ -1,4 +1,4 @@
-package com.Kiko.model;
+package com.kouri.domain;
 
 import java.util.UUID;
 
