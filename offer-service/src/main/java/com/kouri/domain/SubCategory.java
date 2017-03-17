@@ -1,13 +1,14 @@
 package com.Kiko.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import Category;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -24,33 +25,24 @@ public class SubCategory {
 
 	@JsonProperty("name")
 	private String name;
-	
+
 	public SubCategory() {
 	}
 
-	public SubCategory(Category idCategory,String name) {
+	public SubCategory(Category idCategory, String name) {
 		this.name = name;
 		this.idCategory = idCategory;
 	}
-	
-	public int getIdSubCategory() {
+
+	public UUID getIdSubCategory() {
 		return idSubCategory;
 	}
 
-
-	public int getIdCategory() {
+	public Category getCategory() {
 		return idCategory;
-	}
-
-	public void setIdCategory(Category idCategory) {
-		this.idCategory = idCategory;
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }
