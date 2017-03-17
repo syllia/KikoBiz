@@ -20,6 +20,11 @@ public class Category {
 	public Category() {
 	}
 
+	public Category(UUID uuid, String p_name) {
+		this.id = uuid;
+		this.name = p_name;
+	}
+
 	public Category(String p_name) {
 		this.name = p_name;
 	}
