@@ -14,13 +14,14 @@ public class City {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID idCity;
-	private String nameCity;
+
+	private String name;
 
 	public City() {
 	}
 
 	public City(String nameCity) {
-		this.nameCity = nameCity;
+		this.name = nameCity;
 	}
 
 	public UUID getIdCity() {
@@ -28,7 +29,7 @@ public class City {
 	}
 
 	public String getNameCity() {
-		return nameCity;
+		return name;
 	}
 
 }

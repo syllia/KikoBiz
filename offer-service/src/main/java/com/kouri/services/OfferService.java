@@ -32,14 +32,14 @@ public class OfferService {
 							offerDto.description, subCategoryRepository.getOne(UUID.fromString(offerDto.subCategoryId)),
 							offerDto.contact);
 					offerRepository.save(offer);
-					postPhoto(offerDto.photos);
+					postPhoto(offerDto.photos, offer.getOfferId());
 				}
 			}
 		}
 		throw new ElementNotExistException();
 	}
 
-	private void postPhoto(List<byte[]> photos) {
+	private void postPhoto(List<byte[]> photos, UUID offer) {
 
 	}
 }
