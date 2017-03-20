@@ -21,4 +21,12 @@ public class CityService {
 		return cityRepository.findAll();
 	}
 
+	public City save(String name) throws ElementIsAlreadyAddedExecption {
+		List<City> listOfCategory = cityRepository.findByName(name);
+		if (listOfCategory.isEmpty()) {
+			return cityRepository.save(new City(name));
+		}
+		throw new ElementIsAlreadyAddedExecption();
+	}
+
 }
