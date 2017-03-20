@@ -30,4 +30,9 @@ public class CategoryService {
 		UUID uid = UUID.fromString(id);
 		return categoryRepository.getOne(uid);
 	}
+
+	public void persist(String nameCategory) {
+		Category category = new Category(nameCategory);
+		categoryRepository.save(category);
+	}
 }
