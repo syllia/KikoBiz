@@ -44,19 +44,4 @@ public class SubCategoryService {
 		throw new CategoryNotExistExecption();
 	}
 
-	public SubCategory save(String idCategory, String name)
-			throws ElementIsAlreadyAddedExecption, CategoryNotExistExecption {
-		UUID uid = UUID.fromString(idCategory);
-		if (categoryRepository.exists(uid)) {
-			Category category = categoryRepository.getOne(uid);
-			SubCategory subCategory = new SubCategory(category, name);
-			if (subCategoryRepository.findByNameWithIgnoreCase(subCategory.getName()).isEmpty()) {
-				return subCategoryRepository.save(subCategory);
-			}
-			throw new ElementIsAlreadyAddedExecption();
-		}
-		throw new CategoryNotExistExecption();
-
-	}
-
 }

@@ -30,11 +30,4 @@ public class CategoryService {
 		UUID uid = UUID.fromString(id);
 		return categoryRepository.getOne(uid);
 	}
-
-	public Category save(Category category) throws ElementIsAlreadyAddedExecption {
-		if (categoryRepository.findByNameWithIgnoreCase(category.getName()).isEmpty()) {
-			return categoryRepository.save(category);
-		}
-		throw new ElementIsAlreadyAddedExecption();
-	}
 }

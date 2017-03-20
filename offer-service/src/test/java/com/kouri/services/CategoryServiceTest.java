@@ -33,21 +33,6 @@ public class CategoryServiceTest {
 	}
 
 	@Test
-	public void newCategory_save_retrunCategory() throws ElementIsAlreadyAddedExecption {
-		Mockito.when(categoryRepository.findByNameWithIgnoreCase(category.getName())).thenReturn(categories);
-		Mockito.when(categoryRepository.save(category)).thenReturn(category);
-		assertEquals(categoryService.save(category), category);
-	}
-
-	@Test(expected = ElementIsAlreadyAddedExecption.class)
-	public void categoryIsAlreadyExist_save_throwElementIsAlreadyAddException() throws ElementIsAlreadyAddedExecption {
-		categories.add(category);
-		Mockito.when(categoryRepository.findByNameWithIgnoreCase(category.getName())).thenReturn(categories);
-		Mockito.when(categoryRepository.save(category)).thenReturn(category);
-		categoryService.save(category);
-	}
-
-	@Test
 	public void categoryService_findAll_returnAllCategories() throws ElementIsAlreadyAddedExecption {
 		categories.add(category);
 		Mockito.when(categoryRepository.findAll()).thenReturn(categories);
