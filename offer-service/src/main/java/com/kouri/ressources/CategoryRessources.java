@@ -15,6 +15,7 @@ import com.kouri.domain.Category;
 import com.kouri.domain.SubCategory;
 import com.kouri.services.CategoryNotExistExecption;
 import com.kouri.services.CategoryService;
+import com.kouri.services.ElementIsAlreadyAddedExecption;
 import com.kouri.services.SubCategoryService;
 
 @RestController
@@ -31,9 +32,15 @@ public class CategoryRessources {
 	}
 
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
-	public ResponseEntity<?> addNewcategories(@RequestBody String nameCategory) {
-		categoryService.persist(nameCategory);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> addNewcategories(@RequestBody Category nameCategory) {
+		Category category;
+		try {
+			category = categoryService.persist(nameCategory.getName());
+			return new ResponseEntity<>(category, HttpStatus.OK);
+		} catch (ElementIsAlreadyAddedExecption e) {
+			return new ResponseEntity<>("Category already exist", HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	@RequestMapping(value = "/categories/{id}/subcategories", method = RequestMethod.GET)

@@ -31,8 +31,11 @@ public class CategoryService {
 		return categoryRepository.getOne(uid);
 	}
 
-	public void persist(String nameCategory) {
-		Category category = new Category(nameCategory);
-		categoryRepository.save(category);
+	public Category persist(String nameCategory) throws ElementIsAlreadyAddedExecption {
+		List<Category> listOfCategory = categoryRepository.findByName(nameCategory);
+		if (listOfCategory.isEmpty()) {
+			return categoryRepository.save(new Category(nameCategory));
+		}
+		throw new ElementIsAlreadyAddedExecption();
 	}
 }
