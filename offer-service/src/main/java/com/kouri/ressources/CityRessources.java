@@ -8,11 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kouri.domain.City;
 import com.kouri.services.CityService;
 import com.kouri.services.ElementIsAlreadyAddedExecption;
 
+@RestController
 public class CityRessources {
 	@Autowired
 	private CityService cityService;
