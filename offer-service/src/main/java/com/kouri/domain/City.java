@@ -2,11 +2,9 @@ package com.kouri.domain;
 
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,24 +14,17 @@ public class City {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID idCity;
-	@OneToOne(cascade = CascadeType.ALL)
-	private Country country;
 	private String nameCity;
 
 	public City() {
 	}
 
-	public City(Country country, String nameCity) {
+	public City(String nameCity) {
 		this.nameCity = nameCity;
-		this.country = country;
 	}
 
 	public UUID getIdCity() {
 		return idCity;
-	}
-
-	public Country getCountry() {
-		return country;
 	}
 
 	public String getNameCity() {
