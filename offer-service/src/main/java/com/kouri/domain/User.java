@@ -1,5 +1,17 @@
 package com.kouri.domain;
 
-public class User {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class User {
+	@Id
+	private String userId;
+
+	public User() {
+	}
+
+	public User(String userId) {
+		this.userId = userId;
+	}
 }

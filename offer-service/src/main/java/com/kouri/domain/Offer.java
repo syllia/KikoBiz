@@ -1,13 +1,13 @@
 package com.kouri.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,7 +18,9 @@ public class Offer {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	private UUID id;
+	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
+	@OneToOne(cascade = CascadeType.ALL)
 	private SubCategory subCategory;
 	private String nameOffer;
 	private String contact;
@@ -27,16 +29,14 @@ public class Offer {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String description;
+	@OneToOne(cascade = CascadeType.ALL)
 	private City city;
-
-	@ElementCollection
-	private List<Photo> photos;
 
 	public Offer() {
 	}
 
 	public Offer(User user, City city, String p_name, long cost, String description, SubCategory subCategory,
-			String contact, List<Photo> photos) {
+			String contact) {
 		this.user = user;
 		this.subCategory = subCategory;
 		this.nameOffer = p_name;
@@ -49,7 +49,6 @@ public class Offer {
 
 		this.description = description;
 		this.city = city;
-		this.photos = photos;
 	}
 
 	public String getContact() {
@@ -58,10 +57,6 @@ public class Offer {
 
 	public City getCity() {
 		return city;
-	}
-
-	public List<Photo> getPhotos() {
-		return photos;
 	}
 
 	public UUID getOfferId() {
